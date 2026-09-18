@@ -16,10 +16,10 @@
             :error-messages="errorMessages"
             :success="success"
             :success-messages="successMessages"
-            :append-icon="appendIcon"
+            :append-icon="computedAppendIcon"
             :append-outer-icon="appendOuterIcon"
             :prepend-icon="prependIcon"
-            :prepend-inner-icon="computedPrependInnerIcon"
+            :prepend-inner-icon="prependInnerIcon"
             :autofocus="autofocus"
             :outlined="outlined"
             :filled="filled"
@@ -31,7 +31,7 @@
             :flat="flat"
             :dark="dark"
             @input="$emit('input', $event)"
-            @click:prepend-inner="handlePrependInnerClick"
+            @click:append="handleAppendClick"
         />
     </div>
 </template>
@@ -197,13 +197,14 @@ export default {
             return this.type
         },
 
-        computedPrependInnerIcon() {
+        computedAppendIcon() {
             if (this.type === 'password' && this.showPasswordToggle) {
                 return this.showPassword
                     ? 'mdi-eye-outline'
                     : 'mdi-eye-off-outline'
             }
-            return this.prependInnerIcon
+
+            return this.appendIcon
         },
 
         computedRules() {
@@ -212,12 +213,13 @@ export default {
     },
 
     methods: {
-        handlePrependInnerClick(event) {
+        handleAppendClick(event) {
             if (this.type === 'password' && this.showPasswordToggle) {
                 this.showPassword = !this.showPassword
             }
-            this.$emit('click:prepend-inner', event)
-        }
+
+            this.$emit('click:append', event)
+        },
     }
 }
 </script>

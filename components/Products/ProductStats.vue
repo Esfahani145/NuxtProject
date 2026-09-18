@@ -20,7 +20,8 @@ export default {
     props: {
         stats: {
             type: Array,
-            required: true
+            // required: true,
+            default: () => []
         }
     }
 }

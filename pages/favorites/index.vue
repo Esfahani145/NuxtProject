@@ -30,11 +30,11 @@
                             </p>
 
                             <BaseButton
-                                to="/products"
                                 color="#3B82F6"
                                 elevation="1"
                                 :block="false"
                                 c-class="rounded-lg px-8 font-weight-bold"
+                                @click="$goTo('/products')"
                             >
                                 <v-icon right size="20" class="ml-1">mdi-storefront-outline</v-icon>
                                 مشاهده محصولات
@@ -58,7 +58,7 @@
                             md="4"
                             class="d-flex"
                         >
-                            <ProductCard :product="item" />
+                            <ProductCard :product="item"  @product_click="$goTo(`/products/${$event}`)"/>
                         </v-col>
                     </v-row>
                 </div>
@@ -68,32 +68,29 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
 import ProductCard from '~/components/Products/ProductCard.vue'
 
 export default {
-name: 'FavoritesPage',
+    name: 'FavoritesPage',
 
     components: {
-        ProductCard,
+        ProductCard
     },
 
     computed: {
-        ...mapGetters(['favoriteItems']),
-
         isAuthenticated() {
             return this.$store.getters['auth/isAuthenticated']
+        },
+
+        favoriteItems() {
+            return this.$store.getters.favoriteItems
         }
     },
 
     mounted() {
         if (this.isAuthenticated) {
-            this.loadUserFavorites()
+            this.$store.dispatch('loadUserFavorites')
         }
-    },
-
-    methods: {
-        ...mapActions(['loadUserFavorites'])
     }
 }
 </script>

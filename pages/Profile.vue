@@ -1,4 +1,3 @@
-```vue
 <template>
     <v-container class="py-8">
         <v-row align="center" class="mb-6" no-gutters>

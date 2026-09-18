@@ -48,16 +48,16 @@
             <div class="d-flex align-center justify-space-between">
                 <div class="d-flex align-center text-caption font-weight-bold blue-grey--text text--darken-2">
                     <v-icon small color="#64748b" class="ml-1">mdi-account-circle-outline</v-icon>
-                    <span>توسط: پشتیبانی فنی</span>
+                    {{ item.auth }}
                 </div>
 
                 <BaseButton
-                    :to="`/news/${item.id}`"
                     color="#0f172a"
                     elevation="0"
                     :block="false"
                     :x-large="false"
                     c-class="white--text font-weight-bold px-4 rounded-lg"
+                    @click="$emit('news_click', item.id)"
                 >
                     ادامه مطلب
                     <v-icon small class="mr-1">mdi-arrow-left</v-icon>
@@ -73,7 +73,8 @@ export default {
     props: {
         item: {
             type: Object,
-            required: true
+            // required: true
+            default: () => ({})
         }
     }
 }
@@ -83,7 +84,6 @@ export default {
 .news-title {
     line-height: 1.5;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;

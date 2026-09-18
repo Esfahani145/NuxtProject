@@ -24,7 +24,7 @@
                     md="4"
                     class="pa-2 pa-md-3 d-flex"
                 >
-                    <ProductCard :product="product" />
+                    <ProductCard :product="product" @product_click="$goTo(`/products/${$event}`)"/>
                 </v-col>
             </v-row>
         </v-container>
@@ -46,22 +46,31 @@ export default {
     asyncData() {
         try {
             const json_data = require('~/static/data/products.json')
-            const products = json_data.products || json_data || []
+            const products = json_data.products || []
             const stats = json_data.stats || []
-            return { 
-                all_products: products, 
+
+            return {
+                all_products: products,
                 product_list: products,
                 stats
             }
         } catch (err) {
             console.error('Error loading products.json:', err)
-            return { all_products: [], product_list: [], stats: [] }
+
+            return {
+                all_products: [],
+                product_list: [],
+                stats: []
+            }
         }
     },
 
     data() {
         return {
-            search_query: ''
+            search_query: '',
+            all_products: [],
+            product_list: [],
+            stats: []
         }
     },
 

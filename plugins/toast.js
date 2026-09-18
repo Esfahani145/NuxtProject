@@ -10,9 +10,9 @@ const custom_transition = {
             {
                 props: {
                     tag: 'div',
-                    moveClass: 'Vue-Toastification__bounce-move',        // 👈 property کتابخونه
-                    enterActiveClass: 'Vue-Toastification__bounce-enter-active',  // 👈
-                    leaveActiveClass: 'Vue-Toastification__bounce-leave-active'   // 👈
+                    moveClass: 'Vue-Toastification__bounce-move',
+                    enterActiveClass: 'Vue-Toastification__bounce-enter-active', 
+                    leaveActiveClass: 'Vue-Toastification__bounce-leave-active'
                 }
             },
             context.children

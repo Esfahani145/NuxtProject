@@ -62,13 +62,13 @@
                 <div class="d-none d-md-flex align-center nav-links">
                     <BaseButton
                         text
-                        to="/news"
                         color="grey darken-3"
-                        active-class="active-link"
+                        :class="{ 'active-link': $route.path.startsWith('/news') }"
                         :block="false"
                         :x-large="false"
                         :rounded="false"
                         c-class="mx-1 rounded-lg"
+                        @click = "$goTo('/news')"
                     >
                         <v-icon right size="18" class="ml-1">mdi-bullhorn-outline</v-icon>
                         اخبار و اطلاعات
@@ -76,12 +76,12 @@
 
                     <BaseButton
                         text
-                        to="/products"
-                        active-class="active-link"
+                        :class="{ 'active-link': $route.path.startsWith('/products') }"
                         :block="false"
                         :x-large="false"
                         :rounded="false"
                         c-class="mx-1 rounded-lg"
+                        @click = "$goTo('/products')"
                     >
                         <v-icon right size="18" class="ml-1">mdi-store-outline</v-icon>
                         فروشگاه محصولات
@@ -89,12 +89,12 @@
 
                     <BaseButton
                         text
-                        to="/favorites"
-                        active-class="active-link"
+                        :class="{ 'active-link': $route.path.startsWith('/favorites') }"
                         :block="false"
                         :x-large="false"
                         :rounded="false"
                         c-class="mx-1 rounded-lg"
+                        @click="$goTo('/favorites')"    
                     >
                     <v-icon right size="18" class="ml-1">
                         mdi-heart-outline
@@ -102,19 +102,19 @@
 
                     <span>علاقه‌مندی‌ها</span>
 
-                    <v-chip v-if="isAuthenticated && favoritesCount > 0" x-small color="red" text-color="white" class="mr-2 font-weight-bold">
-                        {{ favoritesCount }}
+                    <v-chip v-if="isAuthenticated && $store.getters.favoritesCount > 0" x-small color="red" text-color="white" class="mr-2 font-weight-bold">
+                        {{ $store.getters.favoritesCount }}
                     </v-chip>
                     </BaseButton>
 
                     <BaseButton
                         text
-                        to="/cart"
-                        active-class="active-link"
+                        :class="{ 'active-link': $route.path.startsWith('/cart') }"
                         :block="false"
                         :x-large="false"
                         :rounded="false"
                         c-class="mx-1 rounded-lg"
+                        @click = "$goTo('/cart')"
                     >
                     <v-icon right size="18" class="ml-1">
                         mdi-cart-outline
@@ -122,8 +122,8 @@
 
                     <span>سبد خرید</span>
 
-                    <v-chip v-if="isAuthenticated && cartTotalCount > 0" x-small color="red" text-color="white" class="mr-2 font-weight-bold">
-                        {{ cartTotalCount }}
+                    <v-chip v-if="isAuthenticated && $store.getters.cartTotalCount > 0" x-small color="red" text-color="white" class="mr-2 font-weight-bold">
+                        {{ $store.getters.cartTotalCount }}
                     </v-chip>
                     </BaseButton>
                 </div>
@@ -135,12 +135,13 @@
                         <template v-if="isAuthenticated">
                             <BaseButton
                                 text
-                                to="/profile"
+                                :class="{ 'active-link': $route.path.startsWith('/profile') }"
                                 color="grey lighten-1"
                                 :block="false"
                                 :x-large="false"
                                 :rounded="false"
                                 c-class="mx-1 rounded-lg d-none d-md-flex"
+                                @click = "$goTo('/profile')"
                             >
                                 <v-icon right size="18" class="ml-1">mdi-account-cog-outline</v-icon>
                                 پروفایل کاربری
@@ -163,12 +164,12 @@
                         <template v-else>
                             <BaseButton
                                 color="#3B82F6"
-                                to="/login"
                                 elevation="1"
                                 :block="false"
                                 :x-large="false"
                                 :rounded="false"
                                 c-class="rounded-lg font-weight-bold px-4"
+                                @click = "$goTo('/login')"
                             >
                                 <v-icon right size="18" class="ml-1">mdi-login</v-icon>
                                 ورود به حساب
@@ -182,24 +183,21 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
     name: 'AppNavbar',
+
     data() {
         return {
             drawer: false
         }
     },
+
     computed: {
         isAuthenticated() {
             return this.$store.getters['auth/isAuthenticated']
-        },
-        ...mapGetters([
-            'cartTotalCount',
-            'favoritesCount'
-        ])
+        }
     },
+
     methods: {
         loadUserData() {
             if (!this.isAuthenticated) {
@@ -212,6 +210,7 @@ export default {
 
         async handleLogout() {
             await this.$store.dispatch('auth/logout')
+
             if (this.$route.path !== '/') {
                 this.$router.push('/')
             }
@@ -238,20 +237,37 @@ export default {
 }
 
 .nav-links ::v-deep .v-btn {
+    position: relative;
     letter-spacing: normal !important;
     font-size: 0.9rem !important;
     color: #cbd5e1 !important;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease;
+}
+
+.nav-links ::v-deep .v-btn:hover::before,
+.nav-links ::v-deep .v-btn:focus::before,
+.nav-links ::v-deep .v-btn:active::before {
+    opacity: 0 !important;
 }
 
 .nav-links ::v-deep .v-btn:hover {
     color: #ffffff !important;
-    background-color: rgba(255, 255, 255, 0.08) !important;
+    background-color: transparent !important;
 }
 
-.active-link {
+.nav-links ::v-deep .v-btn.active-link {
     color: #ffffff !important;
-    background-color: rgba(59, 130, 246, 0.2) !important;
-    border: 1px solid rgba(59, 130, 246, 0.4) !important;
+    background-color: transparent !important;
+}
+
+.nav-links ::v-deep .v-btn.active-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 18px;
+    right: 18px;
+    height: 2px;
+    background-color: #ffffff;
+    border-radius: 2px;
 }
 </style>

@@ -6,10 +6,9 @@
                     <BaseButton
                         color="primary"
                         :block="false"
-                        c-class="mb-4 font-weight-bold px-0"
-                        to="/news"
+                        @click="$goTo('/news')"
                     >
-                        <v-icon class="ml-1">mdi-arrow-right</v-icon>
+                        <v-icon>mdi-arrow-right</v-icon>
                         بازگشت به لیست اخبار
                     </BaseButton>
 
@@ -51,8 +50,8 @@
                                 <p>{{ news_item.excerpt }}</p>
                             </div>
 
-                            <div class="mt-8 pt-6 border-t d-flex align-center justify-space-between">
-                                <span class="text-body-1 text-slate">منبع: تیم فنی سامانه مدیریت</span>
+                            <div class="mt-8 pt-6 border-t d-flex">
+                                <span class="text-body-1 text-slate">منبع: {{ news_item.source }}</span>
                             </div>
                         </div>
                     </v-card>
@@ -69,7 +68,8 @@ export default {
     asyncData({ params, error }) {
         try {
             const news_data = require('~/static/data/news.json')
-            const news_item = news_data.newsList.find((item) => item.id === parseInt(params.id, 10))
+            const item_id = parseInt(params.id, 10)
+            const news_item = news_data.newsList.find((item) => item.id === item_id)
 
             if (!news_item) {
                 return error({ statusCode: 404, message: 'خبر یافت نشد' })

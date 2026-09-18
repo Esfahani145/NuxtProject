@@ -29,7 +29,8 @@ export default {
   plugins: [
     '~/plugins/validators.js',
     {src: '~/plugins/toast.js', mode: 'client'},
-    '~/plugins/helper'
+    '~/plugins/helper.js',
+    '~/plugins/navigation.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components  

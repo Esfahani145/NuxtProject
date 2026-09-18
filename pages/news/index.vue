@@ -1,4 +1,3 @@
-```vue
 <template>
     <div class="light-news-page">
         <v-container fluid class="max-width-container py-8 px-4 px-md-8">
@@ -22,7 +21,7 @@
                     md="4"
                     class="d-flex"
                 >
-                    <NewsCard :item="item" />
+                    <NewsCard :item="item" @news_click="$goTo(`/news/${$event}`)" />
                 </v-col>
             </v-row>
         </v-container>
@@ -44,6 +43,6 @@ export default {
         return {
             newsList: newsData.newsList || []
         }
-    }
+    },
 }
 </script>

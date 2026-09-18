@@ -43,12 +43,12 @@
                 </div>
 
                 <BaseButton
-                    :to="`/products/${product.id}`"
                     color="#0f172a"
                     elevation="0"
                     :block="false"
                     :x-large="false"
                     c-class="font-weight-bold px-4 rounded-lg"
+                    @click="$emit('product_click', product.id)"
                 >
                     مشاهده محصول
                     <v-icon small class="mr-1">mdi-arrow-left</v-icon>
@@ -64,7 +64,8 @@ export default {
     props: {
         product: {
             type: Object,
-            required: true
+            // required: true
+            default: () => ({})
         }
     }
 }

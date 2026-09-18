@@ -31,11 +31,11 @@
                                 </p>
 
                                 <BaseButton
-                                    to="/products"
                                     color="#3B82F6"
                                     elevation="1"
                                     :block="false"
                                     c-class="white--text rounded-lg px-8 font-weight-bold"
+                                    @click="$goTo('/products')"
                                 >
                                     <v-icon right size="20" class="ml-1">mdi-storefront-outline</v-icon>
                                     مشاهده محصولات
@@ -157,60 +157,57 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-
 export default {
     name: 'CartPage',
-    computed: {
-        ...mapGetters(['cartItems', 'cartTotalCount', 'cartTotalPrice']),
 
+    computed: {
         isAuthenticated() {
             return this.$store.getters['auth/isAuthenticated']
+        },
+
+        cartItems() {
+            return this.$store.getters.cartItems
+        },
+
+        cartTotalCount() {
+            return this.$store.getters.cartTotalCount
+        },
+
+        cartTotalPrice() {
+            return this.$store.getters.cartTotalPrice
         }
     },
 
     mounted() {
         if (this.isAuthenticated) {
-            this.loadUserCart()
+            this.$store.dispatch('loadUserCart')
         }
     },
 
     methods: {
-        ...mapActions(['removeFromCart', 'updateQuantity', 'loadUserCart']),
-
         getItemKey(item) {
             return this.$helper.getProductId(item)
         },
 
         getItemTotalPrice(item) {
-            const raw_price = item.price
-                ?? item.unitPrice
-                ?? item.unit_price
-                ?? item.totalPrice
-                ?? item.total_price
-                ?? item.amount
-                ?? item.product?.price
-                ?? item.product?.unitPrice
-                ?? item.product?.unit_price
-                ?? 0
-
-            const qty = Number(item.quantity || item.qty || 1)
-            const numeric_price = this.$helper.parseNumericPrice(raw_price)
-            return this.$helper.formatPrice(numeric_price * qty)
+            const quantity = item.quantity
+            const price = this.$helper.parseNumericPrice(item.price)
+            return this.$helper.formatPrice(price * quantity)
         },
 
         removeItem(id) {
-            this.removeFromCart(id)
+            this.$store.dispatch('removeFromCart', id)
             this.$toast.info('محصول از سبد خرید حذف شد')
         },
 
         updateQty(product_id, quantity) {
             if (quantity <= 0) {
-                this.removeFromCart(product_id)
+                this.$store.dispatch('removeFromCart', product_id)
                 this.$toast.info('محصول از سبد خرید حذف شد')
                 return
             }
-            this.updateQuantity({ product_id, quantity })
+
+            this.$store.dispatch('updateQuantity', {product_id, quantity})
         },
 
         checkout() {

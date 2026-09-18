@@ -1,15 +1,14 @@
-```vue
 <template>
     <v-container class="center-container rtl-dir py-6">
         <v-row justify="center" align="center" class="w-100 ma-0">
             <v-col cols="12" md="8">
                 <v-card class="pa-6 pa-md-8 rounded-xl elevation-2 white">
                     <BaseButton
-                        to="/products"
                         color="primary"
                         elevation="0"
                         :block="false"
-                        c-class="mb-4 font-weight-bold px-0"
+                        c-class="mb-4 font-weight-bold"
+                        @click="$goTo('/products')"
                     >
                         <v-icon right class="ml-1">mdi-arrow-right</v-icon>
                         بازگشت به فروشگاه
@@ -75,10 +74,10 @@
                                 elevation="0"
                                 :block="false"
                                 c-class="pa-0 min-w-0"
-                                @click="handleToggleFav"
+                                @click="handleToggleFavorite"
                             >
-                                <v-icon :color="isFav ? 'red' : 'grey darken-1'">
-                                    {{ isFav ? 'mdi-heart' : 'mdi-heart-outline' }}
+                                <v-icon :color="isFavoriteProduct ? 'red' : 'grey darken-1'">
+                                    {{ isFavoriteProduct ? 'mdi-heart' : 'mdi-heart-outline' }}
                                 </v-icon>
                             </BaseButton>
                         </div>
@@ -90,41 +89,33 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-
 export default {
     name: 'ProductDetailPage',
+    // asyncData({ params, error }) {
+    //     try {
+    //         const data = require('~/static/data/products.json')
+    //         const product_id = parseInt(params.id, 10)
+    //         const product = data.products.find((item) => item.id === product_id)
+
+    //         if (!product) {
+    //             return error({statusCode: 404, message: 'محصول یافت نشد'})
+    //         }
+
+    //         return { product }
+    //     } catch (e) {
+    //         return error({statusCode: 500, message: 'خطا در دریافت اطلاعات'})
+    //     }
+    // },
+
     data() {
         return {
-            product: null
-        }
-    },
-    asyncData({ params, error }) {
-        try {
-            const data = require('~/static/data/products.json')
-            const product = data.products.find((item) => item.id === parseInt(params.id, 10))
-
-            if (!product) {
-                return error({ statusCode: 404, message: 'محصول یافت نشد' })
-            }
-
-            return { product }
-        } catch (e) {
-            return error({ statusCode: 500, message: 'خطا در دریافت اطلاعات' })
+            product: {}
         }
     },
 
     computed: {
-        ...mapGetters(['isFavorite']),
-
-        isFav() {
-            if (!this.product) {
-                return false
-            }
-
-            return this.isFavorite(
-                this.$helper.getProductId(this.product)
-            )
+        isFavoriteProduct() {
+            return this.$store.getters.isFavorite(this.product.id)
         },
 
         formattedPrice() {
@@ -132,34 +123,31 @@ export default {
         }
     },
 
+    created() {
+        const products_data = require('~/static/data/products.json')
+        const product_id = parseInt(this.$route.params.id, 10)
+        this.product = products_data.products.find((item) => item.id === product_id) || {}
+    },
+
     mounted() {
-        this.loadUserFavorites()
+        this.$store.dispatch('loadUserFavorites')
     },
 
     methods: {
-        ...mapActions(['addToCart', 'toggleFavorite', 'loadUserFavorites']),
-
-        async handleAddToCart() {
-            if (!this.product) return
-
-            try {
-                await this.addToCart(this.product)
-                this.$toast.success('محصول با موفقیت به سبد خرید اضافه شد')
-            } catch (error) {
-                    this.$toast.error('خطا در افزودن محصول به سبد خرید')
-            }
+        handleAddToCart() {
+            this.$store.dispatch('addToCart', this.product)
+            this.$toast.success('محصول با موفقیت به سبد خرید اضافه شد')
         },
 
-        handleToggleFav() {
-            if (!this.product) return
+        handleToggleFavorite() {
+            const was_favorite = this.isFavoriteProduct
+            this.$store.dispatch('toggleFavorite', this.product)
 
-            const was_favorite = this.isFav
-            this.toggleFavorite(this.product)
-            const message = !was_favorite
-                ? 'محصول به علاقه‌مندی‌ها اضافه شد'
-                : 'محصول از علاقه‌مندی‌ها حذف شد'
-
-            this.$toast.info(message)
+            if (!was_favorite) {
+                this.$toast.info('محصول به علاقه‌مندی‌ها اضافه شد')
+            } else {
+                this.$toast.info('محصول از علاقه‌مندی‌ها حذف شد')
+            }
         }
     }
 }

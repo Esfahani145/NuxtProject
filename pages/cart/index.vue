@@ -13,7 +13,7 @@
                 </v-row>
 
                 <template v-else>
-                    <v-row v-if="!cartItems || cartItems.length === 0" justify="center">
+                    <v-row v-if="cartItems.length === 0" justify="center">
                         <v-col cols="12" sm="10" md="8" lg="6">
                             <v-card class="pa-8 text-center rounded-xl elevation-2 white-news-card white">
                                 <div class="mb-4">
@@ -64,10 +64,10 @@
 
                                         <div>
                                             <h3 class="text-subtitle-1 font-weight-bold grey--text text--darken-3 mb-1">
-                                                {{ item.title || item.name || (item.product && item.product.title) || 'محصول انتخاب‌شده' }}
+                                                {{ item.name }}
                                             </h3>
                                             <span class="text-caption grey--text text--darken-1 d-block">
-                                                {{ item.category || (item.product && item.product.category) || 'زیرساخت' }}
+                                                {{ item.category }}
                                             </span>
                                         </div>
                                     </div>
@@ -79,13 +79,13 @@
                                                 elevation="0"
                                                 :block="false"
                                                 c-class="pa-0 min-w-0"
-                                                @click="updateQty(getItemKey(item), (item.quantity || item.qty || 1) - 1)"
+                                                @click="updateQty(getItemKey(item), (item.quantity || 1) - 1)"
                                             >
                                                 <v-icon small color="#475569">mdi-minus</v-icon>
                                             </BaseButton>
 
                                             <span class="mx-3 font-weight-bold grey--text text--darken-3">
-                                                {{ item.quantity || item.qty || 1 }}
+                                                {{ item.quantity || 1 }}
                                             </span>
 
                                             <BaseButton
@@ -93,7 +93,7 @@
                                                 elevation="0"
                                                 :block="false"
                                                 c-class="pa-0 min-w-0"
-                                                @click="updateQty(getItemKey(item), (item.quantity || item.qty || 1) + 1)"
+                                                @click="updateQty(getItemKey(item), (item.quantity || 1) + 1)"
                                             >
                                                 <v-icon small color="#475569">mdi-plus</v-icon>
                                             </BaseButton>
@@ -190,7 +190,7 @@ export default {
         },
 
         getItemTotalPrice(item) {
-            const quantity = item.quantity
+            const quantity = item.quantity || 1
             const price = this.$helper.parseNumericPrice(item.price)
             return this.$helper.formatPrice(price * quantity)
         },

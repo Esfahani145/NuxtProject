@@ -27,13 +27,7 @@ function getProductId(product) {
         return null
     }
 
-    return (
-        product.id ||
-        product.productId ||
-        product.product_id ||
-        product._id ||
-        null
-    )
+    return (product.id)
 }
 
 

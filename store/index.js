@@ -31,7 +31,7 @@ export const getters = {
     cartTotalCount: (state) => state.cart.reduce((total, item) => total + (item.quantity || 1), 0),
     cartTotalPrice: (state) => {
         return state.cart.reduce((total, item) => {
-            const raw_price = item.price ?? item.unitPrice ?? item.unit_price ?? item.totalPrice ?? item.amount ?? item.product?.price ?? 0
+            const raw_price = item.price ?? 0
             const numeric_price = parseNumericPrice(raw_price)
             return total + numeric_price * (item.quantity || 1)
         }, 0)

@@ -1,8 +1,12 @@
 <template>
     <client-only>
         <div :dir="dir" :class="['base-date-picker', variant === 'light' ? 'light-input' : 'glass-input', { 'no-focus-style': noFocusStyle }, cClass]">
+            <v-icon class="date-picker-icon" @click="showDatePicker = true">
+                mdi-calendar-outline
+            </v-icon>
             <date-picker
                 :value="value"
+                :show="showDatePicker"
                 :format="format"
                 :display-format="displayFormat"
                 :placeholder="placeholder"
@@ -14,6 +18,7 @@
                 :editable="editable"
                 :auto-submit="true"
                 @input="$emit('input', $event)"
+                @close="showDatePicker = false"
             />
         </div>
     </client-only>
@@ -25,6 +30,12 @@ export default {
 
     components: {
         DatePicker: () => import('vue-persian-datetime-picker')
+    },
+
+    data() {
+        return {
+            showDatePicker: false
+        }
     },
 
     props: {
@@ -62,7 +73,7 @@ export default {
         },
         editable: {
             type: Boolean,
-            default: false
+            default: true
         },
         dir: {
             type: String,
@@ -81,7 +92,7 @@ export default {
             default: 'glass',
             validator: value => ['glass', 'light'].includes(value)
         }
-    }
+    },
 }
 </script>
 
@@ -104,10 +115,40 @@ export default {
     height: 48px;
     box-sizing: border-box;
     border-radius: 10px !important;
-    padding: 0 48px 0 16px !important;
+    padding: 0 16px 0 48px !important;
     font-size: 1rem !important;
     outline: none !important;
     transition: all 0.2s ease;
+}
+
+.date-picker-icon {
+    position: absolute !important;
+    left: 14px !important;
+    right: auto !important;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    font-size: 22px !important;
+}
+
+.light-input .date-picker-icon {
+    color: #64748b !important;
+}
+
+.glass-input .date-picker-icon {
+    color: #94a3b8 !important;
+}
+
+.light-input:not(.no-focus-style):focus-within .date-picker-icon {
+    color: #3b82f6 !important;
+}
+
+.glass-input:not(.no-focus-style):focus-within .date-picker-icon {
+    color: #60a5fa !important;
+}
+
+::v-deep .vpd-icon-btn {
+    display: none !important;
 }
 
 .light-input ::v-deep .base-date-input {
@@ -145,24 +186,6 @@ export default {
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25) !important;
 }
 
-.light-input ::v-deep .vpd-icon {
-    color: #64748b !important;
-    font-size: 22px !important;
-}
-
-.glass-input ::v-deep .vpd-icon {
-    color: #94a3b8 !important;
-    font-size: 22px !important;
-}
-
-.light-input:not(.no-focus-style) ::v-deep .vpd-input-group:focus-within .vpd-icon {
-    color: #3b82f6 !important;
-}
-
-.glass-input:not(.no-focus-style) ::v-deep .vpd-input-group:focus-within .vpd-icon {
-    color: #60a5fa !important;
-}
-
 [dir="rtl"] ::v-deep .base-date-input {
     direction: rtl !important;
     text-align: right !important;
@@ -171,10 +194,6 @@ export default {
 [dir="ltr"] ::v-deep .base-date-input {
     direction: ltr !important;
     text-align: left !important;
-}
-
-[dir="ltr"] ::v-deep .base-date-input {
-    padding: 0 16px 0 48px !important;
 }
 
 ::v-deep .base-date-input:disabled {

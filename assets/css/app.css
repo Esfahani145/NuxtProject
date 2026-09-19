@@ -70,3 +70,85 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
+.custom-input-field {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.custom-input-field .v-input__slot {
+    min-height: 48px !important;
+    height: 48px !important;
+    margin: 0 !important;
+    padding: 0 16px !important;
+    background: #ffffff !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    transition: all 0.2s ease;
+}
+
+.custom-input-field .v-input__slot::before,
+.custom-input-field .v-input__slot::after {
+    display: none !important;
+}
+
+.custom-input-field .v-input__control {
+    min-height: 48px !important;
+}
+
+.custom-input-field input {
+    color: #1e293b !important;
+    font-size: 1rem !important;
+}
+
+.custom-input-field input::placeholder {
+    color: #94a3b8 !important;
+    opacity: 1 !important;
+}
+
+.custom-input-field .v-select__selection {
+    color: #1e293b !important;
+}
+
+.custom-input-field .v-icon {
+    color: #64748b !important;
+}
+
+.custom-input-field.v-input--is-focused .v-input__slot {
+    border-color: #3b82f6 !important;
+    border-width: 2px !important;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important;
+}
+
+.custom-input-field .v-input__slot {
+    direction: ltr !important;
+}
+
+.custom-input-field .v-input__prepend-inner {
+    margin-left: 12px !important;
+    margin-right: 0 !important;
+}
+
+.custom-input-field .v-select__slot,
+.custom-input-field .v-autocomplete__slot {
+    direction: rtl !important;
+}
+
+.custom-input-field input {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.form-input .v-input__slot {
+    direction: ltr !important;
+}
+
+.form-input input {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.form-input input::placeholder {
+    direction: rtl !important;
+    text-align: right !important;
+}

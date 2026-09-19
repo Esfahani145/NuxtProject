@@ -7,7 +7,7 @@
     >
         <v-row dense>
             <v-col cols="12" md="6" class="mb-2">
-                <label class="text-caption font-weight-bold slate-dark--text mb-1 d-block text-right">
+                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right">
                     نام و نام خانوادگی
                 </label>
                 <BaseInput
@@ -17,11 +17,12 @@
                     rules="required"
                     :dark="false"
                     variant="light"
+                    c-class="form-input"
                 />
             </v-col>
 
             <v-col cols="12" md="6" class="mb-2">
-                <label class="text-caption font-weight-bold slate-dark--text mb-1 d-block text-right">
+                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right">
                     شماره همراه
                 </label>
                 <BaseInput
@@ -37,7 +38,7 @@
             </v-col>
 
             <v-col cols="12" md="6" class="mb-2">
-                <label class="text-caption font-weight-bold slate-dark--text mb-1 d-block text-right">
+                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right">
                     کد ملی
                 </label>
                 <BaseInput
@@ -46,7 +47,7 @@
                     type="tel"
                     dir="ltr"
                     prepend-inner-icon="mdi-card-account-details-outline"
-                    rules="national_code"
+                    rules="required,national_code"
                     maxlength="10"
                     :dark="false"
                     variant="light"
@@ -54,9 +55,9 @@
             </v-col>
 
             <v-col cols="12" md="6" class="mb-2">
-                <label class="text-caption font-weight-bold slate-dark--text mb-1 d-block text-right">
-                پست الکترونیک
-                    </label>
+                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right">
+                    پست الکترونیک
+                </label>
                 <BaseInput
                     v-model="credentials.email"
                     placeholder="example@gmail.com"
@@ -70,20 +71,19 @@
             </v-col>
 
             <v-col cols="12" md="6" class="mb-2">
-                <label class="text-caption font-weight-bold slate-dark--text mb-1 d-block text-right">
+                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right">
                     تاریخ تولد
                 </label>
-
-                <BaseDatePicker 
-                    v-model="credentials.birthDate" 
-                    placeholder="انتخاب تاریخ تولد" 
-                    prepend-inner-icon="mdi-calendar-outline" 
-                    variant="light" 
+                <BaseDatePicker
+                    v-model="credentials.birthDate"
+                    placeholder="انتخاب تاریخ تولد"
+                    variant="light"
+                    rules="birth_date"
                 />
             </v-col>
 
             <v-col cols="12" md="6" class="mb-2">
-                <label class="text-caption font-weight-bold slate-dark--text mb-1 d-block text-right">
+                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right">
                     جنسیت
                 </label>
                 <v-select
@@ -93,15 +93,16 @@
                     item-value="value"
                     placeholder="انتخاب کنید"
                     prepend-inner-icon="mdi-account-group-outline"
-                    :rules="genderRules"
-                    outlined
-                    dense
+                    :rules="$parseRules('gender')"
+                    solo
+                    flat
+                    rounded
                     class="custom-input-field"
                 />
             </v-col>
 
             <v-col cols="12" md="6" class="mb-2">
-                <label class="text-caption font-weight-bold slate-dark--text mb-1 d-block text-right">
+                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right">
                     استان
                 </label>
                 <v-autocomplete
@@ -111,16 +112,17 @@
                     item-value="id"
                     placeholder="انتخاب استان"
                     prepend-inner-icon="mdi-map-marker-outline"
-                    :rules="provinceRules"
-                    outlined
-                    dense
+                    :rules="$parseRules('province')"
+                    solo
+                    flat
+                    rounded
                     class="custom-input-field"
                     clearable
                 />
             </v-col>
 
             <v-col cols="12" md="6" class="mb-2">
-                <label class="text-caption font-weight-bold slate-dark--text mb-1 d-block text-right">
+                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right">
                     شهر
                 </label>
                 <v-autocomplete
@@ -130,17 +132,18 @@
                     item-value="id"
                     placeholder="انتخاب شهر"
                     prepend-inner-icon="mdi-city-variant-outline"
-                    :rules="cityRules"
+                    :rules="$parseRules('city')"
                     :disabled="!credentials.province"
-                    outlined
-                    dense
+                    solo
+                    flat
+                    rounded
                     class="custom-input-field"
                     clearable
                 />
             </v-col>
 
             <v-col cols="12" md="6" class="mb-2">
-                <label class="text-caption font-weight-bold slate-dark--text mb-1 d-block text-right">
+                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right">
                     رمز عبور
                 </label>
                 <BaseInput
@@ -157,7 +160,7 @@
             </v-col>
 
             <v-col cols="12" md="6" class="mb-2">
-                <label class="text-caption font-weight-bold slate-dark--text mb-1 d-block text-right">
+                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right">
                     تکرار رمز عبور
                 </label>
                 <BaseInput
@@ -166,7 +169,8 @@
                     type="password"
                     dir="ltr"
                     prepend-inner-icon="mdi-lock-check-outline"
-                    :rules="confirmPasswordRules"
+                    rules="required,confirm_password"
+                    :rule-context="credentials"
                     :dark="false"
                     :show-password-toggle="true"
                     variant="light"
@@ -174,7 +178,7 @@
             </v-col>
 
             <v-col cols="12" class="mb-2">
-                <label class="text-caption font-weight-bold slate-dark--text mb-1 d-block text-right">
+                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right">
                     آدرس محل سکونت
                 </label>
                 <BaseInput
@@ -184,6 +188,7 @@
                     rules="required"
                     :dark="false"
                     variant="light"
+                    c-class="form-input"
                 />
             </v-col>
         </v-row>
@@ -195,13 +200,13 @@
                 class="ma-0 pa-0"
                 dense
             />
-                <button
-                    type="button"
-                    class="terms-link mr-2"
-                    @click="showTerms = true"
-                >
-                    قوانین و شرایط استفاده را می‌پذیرم
-                </button>
+            <button
+                type="button"
+                class="terms-link mr-2"
+                @click="showTerms = true"
+            >
+                قوانین و شرایط استفاده را می‌پذیرم
+            </button>
         </div>
 
         <div class="mt-4">
@@ -235,7 +240,7 @@
                 <v-card-title class="font-weight-bold text-subtitle-1">
                     قوانین و شرایط استفاده
                 </v-card-title>
-                <v-card-text class="terms-content text-caption">
+                <v-card-text class="terms-content">
                     <p>استفاده از این سامانه به معنی پذیرش قوانین و شرایط استفاده از خدمات است.</p>
                     <p>اطلاعات واردشده باید صحیح و متعلق به کاربر باشد.</p>
                     <p>کاربر مسئول حفظ اطلاعات ورود و حساب کاربری خود است.</p>
@@ -256,12 +261,14 @@ import locations from '~/static/data/data.json'
 
 export default {
     name: 'SignupForm',
+
     props: {
         loading: {
-        type: Boolean,
-        default: false
+            type: Boolean,
+            default: false
         }
     },
+
     data() {
         return {
             valid: true,
@@ -288,29 +295,23 @@ export default {
             }
         }
     },
+
     computed: {
         filteredCities() {
             if (!this.credentials.province) return []
+
             return this.cities.filter(
                 city => city.provinceId === this.credentials.province
             )
-        },
-        confirmPasswordRules() {
-            return [
-                v => !!v || 'تکرار رمز عبور الزامی است',
-                v => v === this.credentials.password || 'رمز عبور و تکرار آن یکسان نیستند'
-            ]
-        },
-        genderRules() { return [v => !!v || 'انتخاب جنسیت الزامی است'] },
-        provinceRules() { return [v => !!v || 'انتخاب استان الزامی است'] },
-        cityRules() { return [v => !!v || 'انتخاب شهر الزامی است'] },
-        birthDateRules() { return [v => !!v || 'تاریخ تولد الزامی است'] }
+        }
     },
+
     watch: {
         'credentials.province'() {
             this.credentials.city = null
         }
     },
+
     methods: {
         handleSignup() {
             if (!this.credentials.acceptTerms) {
@@ -318,10 +319,7 @@ export default {
                 return
             }
 
-            if (
-                this.$refs.registerForm &&
-                !this.$refs.registerForm.validate()
-            ) {
+            if (this.$refs.registerForm && !this.$refs.registerForm.validate()) {
                 return
             }
 
@@ -330,7 +328,6 @@ export default {
             })
         }
     }
-
 }
 </script>
 
@@ -372,14 +369,5 @@ export default {
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-}
-
-.custom-input-field ::v-deep .v-input__control {
-    min-height: 44px !important;
-}
-
-.custom-input-field ::v-deep .v-input__slot {
-    min-height: 44px !important;
-    border-radius: 8px !important;
 }
 </style>

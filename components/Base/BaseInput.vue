@@ -76,6 +76,10 @@ export default {
             type: [Array, String],
             default: () => []
         },
+        ruleContext: {
+            type: Object,
+            default: () => ({})
+        },
         disabled: {
             type: Boolean,
             default: false
@@ -208,7 +212,7 @@ export default {
         },
 
         computedRules() {
-            return this.$parseRules(this.rules)
+            return this.$parseRules(this.rules, this.ruleContext)
         }
     },
 

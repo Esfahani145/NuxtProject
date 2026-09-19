@@ -31,7 +31,7 @@ export default {
     {src: '~/plugins/toast.js', mode: 'client'},
     '~/plugins/helper.js',
     '~/plugins/navigation.js'
-  ],
+    ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components  
   components: [

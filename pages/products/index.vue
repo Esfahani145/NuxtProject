@@ -45,7 +45,7 @@ export default {
 
     asyncData() {
         try {
-            const json_data = require('~/static/data/products.json')
+            const json_data = require('~/static/data/data.json')
             const products = json_data.products || []
             const stats = json_data.stats || []
 

@@ -67,7 +67,7 @@ export default {
 
     asyncData({ params, error }) {
         try {
-            const news_data = require('~/static/data/news.json')
+            const news_data = require('~/static/data/data.json')
             const item_id = parseInt(params.id, 10)
             const news_item = news_data.newsList.find((item) => item.id === item_id)
 

@@ -53,6 +53,19 @@
                 ورود به حساب
             </BaseButton>
         </div>
+        <div class="mt-5 text-center">
+            <span class="font-size-14">
+                حساب کاربری ندارید؟
+            </span>
+
+            <button
+                type="button"
+                class="signup-link"
+                @click="$emit('signup')"
+            >
+                ثبت نام کنید
+            </button>
+        </div>
     </v-form>
 </template>
 
@@ -100,5 +113,20 @@ export default {
 .corporate-btn-primary:hover {
     background-color: #1e293b !important;
     box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.3) !important;
+}
+
+.signup-link {
+    border: 0;
+    padding: 0;
+    margin-right: 4px;
+    background: transparent;
+    color: #2563eb;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.signup-link:hover {
+    color: #1d4ed8;
 }
 </style>

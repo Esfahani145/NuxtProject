@@ -30,7 +30,7 @@
 
 <script>
 import NewsCard from '~/components/News/NewsCard.vue'
-import newsData from '~/static/data/news.json'
+import newsData from '~/static/data/data.json'
 
 export default {
     name: 'NewsPage',

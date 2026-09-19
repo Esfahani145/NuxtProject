@@ -93,7 +93,7 @@ export default {
     name: 'ProductDetailPage',
     // asyncData({ params, error }) {
     //     try {
-    //         const data = require('~/static/data/products.json')
+    //         const data = require('~/static/data/data.json')
     //         const product_id = parseInt(params.id, 10)
     //         const product = data.products.find((item) => item.id === product_id)
 
@@ -124,7 +124,7 @@ export default {
     },
 
     created() {
-        const products_data = require('~/static/data/products.json')
+        const products_data = require('~/static/data/data.json')
         const product_id = parseInt(this.$route.params.id, 10)
         this.product = products_data.products.find((item) => item.id === product_id) || {}
     },

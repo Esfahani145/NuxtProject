@@ -1,17 +1,12 @@
 <template>
-    <v-form
-        ref="registerForm"
-        v-model="valid"
-        lazy-validation
-        @submit.prevent="handleSignup"
-    >
+    <v-form ref="registerForm" v-model="valid" lazy-validation @submit.prevent="handleSignup">
         <v-row dense>
             <v-col cols="12" md="6" class="mb-2">
                 <label class="font-weight-bold slate-dark--text mb-1 d-block text-right">
                     نام و نام خانوادگی
                 </label>
                 <BaseInput
-                    v-model="credentials.fullName"
+                    v-model="credentials.full_name"
                     placeholder="علی محمدی"
                     prepend-inner-icon="mdi-account-outline"
                     rules="required"
@@ -42,7 +37,7 @@
                     کد ملی
                 </label>
                 <BaseInput
-                    v-model="credentials.nationalCode"
+                    v-model="credentials.national_code"
                     placeholder="۱۲۳۴۵۶۷۸۹۰"
                     type="tel"
                     dir="ltr"
@@ -75,7 +70,7 @@
                     تاریخ تولد
                 </label>
                 <BaseDatePicker
-                    v-model="credentials.birthDate"
+                    v-model="credentials.birth_date"
                     placeholder="انتخاب تاریخ تولد"
                     variant="light"
                     rules="birth_date"
@@ -88,7 +83,7 @@
                 </label>
                 <v-select
                     v-model="credentials.gender"
-                    :items="genderItems"
+                    :items="gender_items"
                     item-text="text"
                     item-value="value"
                     placeholder="انتخاب کنید"
@@ -154,7 +149,6 @@
                     prepend-inner-icon="mdi-lock-outline"
                     rules="required,password"
                     :dark="false"
-                    :show-password-toggle="true"
                     variant="light"
                 />
             </v-col>
@@ -164,7 +158,7 @@
                     تکرار رمز عبور
                 </label>
                 <BaseInput
-                    v-model="credentials.confirmPassword"
+                    v-model="credentials.confirm_password"
                     placeholder="••••••••"
                     type="password"
                     dir="ltr"
@@ -172,7 +166,6 @@
                     rules="required,confirm_password"
                     :rule-context="credentials"
                     :dark="false"
-                    :show-password-toggle="true"
                     variant="light"
                 />
             </v-col>
@@ -181,7 +174,8 @@
                 <label class="font-weight-bold slate-dark--text mb-1 d-block text-right">
                     آدرس محل سکونت
                 </label>
-                <BaseInput
+
+                <BaseTextarea
                     v-model="credentials.address"
                     placeholder="خیابان، کوچه، پلاک"
                     prepend-inner-icon="mdi-map-marker-outline"
@@ -194,19 +188,23 @@
         </v-row>
 
         <div class="d-flex align-center my-2">
-            <v-checkbox
-                v-model="credentials.acceptTerms"
-                color="#0f172a"
-                class="ma-0 pa-0"
-                dense
-            />
-            <button
+            <v-checkbox v-model="credentials.accept_terms" color="#0f172a" class="ma-0 pa-0" dense />
+            <BaseButton
                 type="button"
-                class="terms-link mr-2"
-                @click="showTerms = true"
+                text
+                :block="false"
+                :x-large="false"
+                :rounded="false"
+                :depressed="false"
+                :white-text="false"
+                color="transparent"
+                min-width="0"
+                height="auto"
+                c-class="auth-secondary-link mr-2"
+                @click="show_terms = true"
             >
                 قوانین و شرایط استفاده را می‌پذیرم
-            </button>
+            </BaseButton>
         </div>
 
         <div class="mt-4">
@@ -222,20 +220,30 @@
             </BaseButton>
         </div>
 
-        <div class="mt-3 text-center">
-            <span class="font-size-14 grey--text text--darken-2">
+        <div class="mt-3 d-flex align-center justify-center auth-footer-row">
+            <span class="auth-footer-text">
                 قبلاً ثبت‌نام کرده‌اید؟
             </span>
-            <button
+
+            <BaseButton
                 type="button"
-                class="login-link"
+                text
+                :block="false"
+                :x-large="false"
+                :rounded="false"
+                :depressed="false"
+                :white-text="false"
+                color="transparent"
+                min-width="0"
+                height="auto"
+                c-class="auth-link mr-1"
                 @click="$emit('login')"
             >
                 ورود به حساب
-            </button>
+            </BaseButton>
         </div>
 
-        <v-dialog v-model="showTerms" max-width="600">
+        <v-dialog v-model="show_terms" max-width="600">
             <v-card class="rounded-lg">
                 <v-card-title class="font-weight-bold text-subtitle-1">
                     قوانین و شرایط استفاده
@@ -247,9 +255,9 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer />
-                    <v-btn text small color="#0f172a" @click="showTerms = false">
+                    <BaseButton color="primary" class="mr-1 px-1 text-none font-weight-bold" @click="show_terms = false">
                         بستن
-                    </v-btn>
+                    </BaseButton>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -272,26 +280,26 @@ export default {
     data() {
         return {
             valid: true,
-            showTerms: false,
+            show_terms: false,
             provinces: locations.locations.provinces || [],
             cities: locations.locations.cities || [],
-            genderItems: [
+            gender_items: [
                 { text: 'مرد', value: 'male' },
                 { text: 'زن', value: 'female' }
             ],
             credentials: {
-                fullName: '',
+                full_name: '',
                 phone: '',
                 email: '',
-                nationalCode: '',
-                birthDate: '',
+                national_code: '',
+                birth_date: '',
                 gender: '',
                 province: null,
                 city: null,
                 address: '',
                 password: '',
-                confirmPassword: '',
-                acceptTerms: false
+                confirm_password: '',
+                accept_terms: false
             }
         }
     },
@@ -299,10 +307,7 @@ export default {
     computed: {
         filteredCities() {
             if (!this.credentials.province) return []
-
-            return this.cities.filter(
-                city => city.provinceId === this.credentials.province
-            )
+            return this.cities.filter(city => city.provinceId === this.credentials.province)
         }
     },
 
@@ -314,60 +319,13 @@ export default {
 
     methods: {
         handleSignup() {
-            if (!this.credentials.acceptTerms) {
+            if (this.$refs.registerForm && !this.$refs.registerForm.validate()) { return }
+            if (!this.credentials.accept_terms) {
                 this.$toast.error('لطفاً قوانین و شرایط استفاده را بپذیرید')
                 return
             }
-
-            if (this.$refs.registerForm && !this.$refs.registerForm.validate()) {
-                return
-            }
-
-            this.$emit('submit', {
-                ...this.credentials
-            })
+            this.$emit('submit', { ...this.credentials })
         }
     }
 }
 </script>
-
-<style scoped>
-.slate-dark--text {
-    color: #334155;
-}
-
-.corporate-btn-primary {
-    height: 44px !important;
-    transition: all 0.2s ease;
-}
-
-.corporate-btn-primary:hover {
-    background-color: #1e293b !important;
-    box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.3) !important;
-}
-
-.login-link {
-    border: 0;
-    padding: 0;
-    margin-right: 4px;
-    background: transparent;
-    color: #2563eb;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.login-link:hover {
-    color: #1d4ed8;
-}
-
-.terms-link {
-    border: 0;
-    padding: 0;
-    background: transparent;
-    color: #334155;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-}
-</style>

@@ -23,7 +23,7 @@
                     رمز عبور
                 </label>
 
-                <a href="#" class="text-caption grey--text text--darken-1 text-decoration-none hover-blue" @click.prevent="$toast.info('لطفاً با پشتیبانی سیستم تماس بگیرید')">
+                <a href="#" class="text-caption auth-help-link text-decoration-none" @click.prevent="$toast.info('لطفاً با پشتیبانی سیستم تماس بگیرید')">
                     فراموشی رمز؟
                 </a>
             </div>
@@ -53,18 +53,28 @@
                 ورود به حساب
             </BaseButton>
         </div>
-        <div class="mt-5 text-center">
-            <span class="font-size-14">
+
+        <div class="mt-5 d-flex align-center justify-center auth-footer-row">
+            <span class="auth-footer-text">
                 حساب کاربری ندارید؟
             </span>
 
-            <button
+            <BaseButton
                 type="button"
-                class="signup-link"
+                text
+                :block="false"
+                :x-large="false"
+                :rounded="false"
+                :depressed="false"
+                :white-text="false"
+                color="transparent"
+                min-width="0"
+                height="auto"
+                c-class="auth-link mr-1"
                 @click="$emit('signup')"
             >
                 ثبت نام کنید
-            </button>
+            </BaseButton>
         </div>
     </v-form>
 </template>
@@ -72,12 +82,14 @@
 <script>
 export default {
     name: 'LoginForm',
+
     props: {
         loading: {
             type: Boolean,
             default: false
         }
     },
+
     data() {
         return {
             valid: true,
@@ -87,46 +99,12 @@ export default {
             }
         }
     },
+
     methods: {
         handleLogin() {
-            if ( this.$refs.loginForm && !this.$refs.loginForm.validate()) { return }
-            this.$emit('submit', {...this.credentials})
+            if (this.$refs.loginForm && !this.$refs.loginForm.validate()) { return }
+            this.$emit('submit', { ...this.credentials })
         }
     }
 }
 </script>
-
-<style scoped>
-.slate-dark--text {
-    color: #334155;
-}
-
-.hover-blue:hover {
-    color: #2563eb !important;
-}
-
-.corporate-btn-primary {
-    height: 48px !important;
-    transition: all 0.2s ease;
-}
-
-.corporate-btn-primary:hover {
-    background-color: #1e293b !important;
-    box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.3) !important;
-}
-
-.signup-link {
-    border: 0;
-    padding: 0;
-    margin-right: 4px;
-    background: transparent;
-    color: #2563eb;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.signup-link:hover {
-    color: #1d4ed8;
-}
-</style>

@@ -1,26 +1,29 @@
 <template>
     <client-only>
-        <div :dir="dir" :class="['base-date-picker', variant === 'light' ? 'light-input' : 'glass-input', { 'no-focus-style': noFocusStyle }, cClass]">
-            <v-icon class="date-picker-icon" @click="showDatePicker = true">
-                mdi-calendar-outline
-            </v-icon>
-            <date-picker
-                :value="value"
-                :show="showDatePicker"
-                :format="format"
-                :display-format="displayFormat"
-                :placeholder="placeholder"
-                input-class="base-date-input"
-                :color="color"
-                :locale="locale"
-                :clearable="clearable"
-                :disabled="disabled"
-                :editable="editable"
-                :auto-submit="true"
-                @input="$emit('input', $event)"
-                @close="showDatePicker = false"
-            />
-        </div>
+        <v-input :value="value" :rules="computedRules" :disabled="disabled" :hide-details="hideDetails" class="base-date-picker-input">
+            <div :dir="dir" :class="[ 'base-date-picker', variant === 'light' ? 'light-input' : 'glass-input', { 'no-focus-style': noFocusStyle }, cClass]">
+                <v-icon class="date-picker-icon" @click="showDatePicker = true">
+                    mdi-calendar-outline
+                </v-icon>
+
+                <date-picker
+                    :value="value"
+                    :show="showDatePicker"
+                    :format="format"
+                    :display-format="displayFormat"
+                    :placeholder="placeholder"
+                    input-class="base-date-input"
+                    :color="color"
+                    :locale="locale"
+                    :clearable="clearable"
+                    :disabled="disabled"
+                    :editable="editable"
+                    :auto-submit="true"
+                    @input="$emit('input', $event)"
+                    @close="showDatePicker = false"
+                />
+            </div>
+        </v-input>
     </client-only>
 </template>
 
@@ -42,6 +45,18 @@ export default {
         value: {
             type: String,
             default: ''
+        },
+        rules: {
+            type: [Array, String],
+            default: () => []
+        },
+        ruleContext: {
+            type: Object,
+            default: () => ({})
+        },
+        hideDetails: {
+            type: [Boolean, String],
+            default: false
         },
         format: {
             type: String,
@@ -93,12 +108,29 @@ export default {
             validator: value => ['glass', 'light'].includes(value)
         }
     },
+
+    computed: {
+        computedRules() {
+            return this.$parseRules(this.rules, this.ruleContext)
+        }
+    }
 }
 </script>
 
 <style scoped>
+.base-date-picker-input {
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.base-date-picker-input ::v-deep .v-input__control {
+    width: 100%;
+}
+
 .base-date-picker {
     width: 100%;
+    height: 48px;
     position: relative;
 }
 
@@ -113,6 +145,7 @@ export default {
 .glass-input ::v-deep .base-date-input {
     width: 100%;
     height: 48px;
+    min-height: 48px;
     box-sizing: border-box;
     border-radius: 10px !important;
     padding: 0 16px 0 48px !important;
@@ -139,14 +172,6 @@ export default {
     color: #94a3b8 !important;
 }
 
-.light-input:not(.no-focus-style):focus-within .date-picker-icon {
-    color: #3b82f6 !important;
-}
-
-.glass-input:not(.no-focus-style):focus-within .date-picker-icon {
-    color: #60a5fa !important;
-}
-
 ::v-deep .vpd-icon-btn {
     display: none !important;
 }
@@ -162,11 +187,6 @@ export default {
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
     color: #ffffff !important;
     backdrop-filter: blur(10px);
-}
-
-.light-input ::v-deep .base-date-input::placeholder {
-    color: #94a3b8 !important;
-    opacity: 1 !important;
 }
 
 .glass-input ::v-deep .base-date-input::placeholder {

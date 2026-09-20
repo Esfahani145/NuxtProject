@@ -99,6 +99,8 @@ body {
 .custom-input-field input {
     color: #1e293b !important;
     font-size: 1rem !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .custom-input-field input::placeholder {
@@ -134,11 +136,6 @@ body {
     direction: rtl !important;
 }
 
-.custom-input-field input {
-    direction: rtl !important;
-    text-align: right !important;
-}
-
 .form-input .v-input__slot {
     direction: ltr !important;
 }
@@ -151,4 +148,89 @@ body {
 .form-input input::placeholder {
     direction: rtl !important;
     text-align: right !important;
+}
+
+.slate-dark--text {
+    color: #334155 !important;
+}
+
+.auth-footer-row {
+    min-height: 32px;
+}
+
+.auth-footer-text {
+    color: #64748b !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    white-space: nowrap;
+}
+
+.auth-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+    width: auto !important;
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #2563eb !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    line-height: 1.5 !important;
+}
+
+.auth-link .v-btn__content {
+    color: #2563eb !important;
+}
+
+.auth-link:hover,
+.auth-link:hover .v-btn__content {
+    color: #1d4ed8 !important;
+}
+
+.auth-secondary-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    min-width: 0 !important;
+    width: auto !important;
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #334155 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    line-height: 1.5 !important;
+}
+
+.auth-secondary-link .v-btn__content {
+    color: #334155 !important;
+}
+
+.corporate-btn-primary {
+    height: 48px !important;
+    transition: all 0.2s ease;
+}
+
+.corporate-btn-primary:hover {
+    background-color: #1e293b !important;
+    box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.3) !important;
+}
+
+.auth-help-link {
+    color: #64748b !important;
+    transition: color 0.2s ease;
+}
+
+.auth-help-link:hover {
+    color: #2563eb !important;
 }

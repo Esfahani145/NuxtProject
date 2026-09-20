@@ -1,9 +1,8 @@
 <template>
-    <div :dir="dir" :class="[variant === 'light' ? 'light-input' : 'glass-input', { 'no-focus-style': noFocusStyle }, cClass]">
-        <v-text-field
+    <div :dir="dir" :class="[ variant === 'light' ? 'light-input' : 'glass-input', { 'no-focus-style': noFocusStyle }, cClass]">
+        <v-textarea
             :hide-details="hideDetails"
             :value="value"
-            :type="computedType"
             :label="label"
             :placeholder="placeholder"
             :disabled="disabled"
@@ -16,7 +15,7 @@
             :error-messages="errorMessages"
             :success="success"
             :success-messages="successMessages"
-            :append-icon="computedAppendIcon"
+            :append-icon="appendIcon"
             :append-outer-icon="appendOuterIcon"
             :prepend-icon="prependIcon"
             :prepend-inner-icon="prependInnerIcon"
@@ -30,15 +29,17 @@
             :rounded="rounded"
             :flat="flat"
             :dark="dark"
+            :rows="rows"
+            :auto-grow="autoGrow"
             @input="$emit('input', $event)"
-            @click:append="handleAppendClick"
         />
     </div>
 </template>
 
 <script>
 export default {
-    name: 'BaseInput',
+    name: 'BaseTextarea',
+
     props: {
         dir: {
             type: String,
@@ -53,16 +54,8 @@ export default {
             default: false
         },
         value: {
-            type: [String, Number],
-            default: ''
-        },
-        type: {
             type: String,
-            default: 'text'
-        },
-        showPasswordToggle: {
-            type: Boolean,
-            default: true
+            default: ''
         },
         label: {
             type: String,
@@ -172,6 +165,14 @@ export default {
             type: Boolean,
             default: false
         },
+        rows: {
+            type: [Number, String],
+            default: 3
+        },
+        autoGrow: {
+            type: Boolean,
+            default: false
+        },
         cClass: {
             type: [String, Array, Object],
             default: ''
@@ -179,47 +180,14 @@ export default {
         variant: {
             type: String,
             default: 'glass',
-            validator: (v) => ['glass', 'light'].includes(v)
-        }
-    },
-
-    data() {
-        return {
-            showPassword: false
+            validator: value => ['glass', 'light'].includes(value)
         }
     },
 
     computed: {
-        computedType() {
-            if (this.type === 'password' && this.showPasswordToggle) {
-                return this.showPassword ? 'text' : 'password'
-            }
-            return this.type
-        },
-
-        computedAppendIcon() {
-            if (this.type === 'password' && this.showPasswordToggle) {
-                return this.showPassword
-                    ? 'mdi-eye-outline'
-                    : 'mdi-eye-off-outline'
-            }
-
-            return this.appendIcon
-        },
-
         computedRules() {
             return this.$parseRules(this.rules, this.ruleContext)
         }
-    },
-
-    methods: {
-        handleAppendClick(event) {
-            if (this.type === 'password' && this.showPasswordToggle) {
-                this.showPassword = !this.showPassword
-            }
-
-            this.$emit('click:append', event)
-        },
     }
 }
 </script>
@@ -235,26 +203,20 @@ export default {
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
     backdrop-filter: blur(10px);
     border-radius: 10px !important;
-    min-height: 48px !important;
-    height: 48px !important;
-    padding: 0 16px !important;
+    min-height: 96px !important;
+    padding: 12px 16px !important;
     transition: all 0.2s ease;
 }
 
-.glass-input ::v-deep input {
+.glass-input ::v-deep textarea {
     color: #ffffff !important;
     font-size: 1rem !important;
     font-weight: 500 !important;
     padding: 0 !important;
-    height: 100% !important;
 }
 
-.glass-input ::v-deep input::placeholder {
+.glass-input ::v-deep textarea::placeholder {
     color: #64748b !important;
-}
-
-.glass-input ::v-deep .v-label {
-    color: #94a3b8 !important;
 }
 
 .glass-input ::v-deep .v-icon {
@@ -270,25 +232,20 @@ export default {
     background: #ffffff !important;
     border: 1.5px solid #cbd5e1 !important;
     border-radius: 10px !important;
-    min-height: 48px !important;
-    height: 48px !important;
-    padding: 0 16px !important;
+    min-height: 96px !important;
+    padding: 12px 16px !important;
     transition: all 0.2s ease;
 }
 
-.light-input ::v-deep input {
+.light-input ::v-deep textarea {
     color: #1e293b !important;
+    font-size: 1rem !important;
     padding: 0 !important;
-    height: 100% !important;
 }
 
-.light-input ::v-deep input::placeholder {
+.light-input ::v-deep textarea::placeholder {
     color: #94a3b8 !important;
     opacity: 1 !important;
-}
-
-.light-input ::v-deep .v-label {
-    color: #64748b !important;
 }
 
 .light-input ::v-deep .v-icon {
@@ -302,14 +259,6 @@ export default {
     background: rgba(30, 41, 59, 0.95) !important;
 }
 
-.glass-input:not(.no-focus-style).v-input--is-focused ::v-deep .v-icon {
-    color: #60a5fa !important;
-}
-
-.glass-input:not(.no-focus-style).v-input--is-focused ::v-deep .v-label {
-    color: #60a5fa !important;
-}
-
 .light-input:not(.no-focus-style) ::v-deep .v-input--is-focused .v-input__slot {
     border-color: #3b82f6 !important;
     border-width: 2px !important;
@@ -317,22 +266,18 @@ export default {
     background: #ffffff !important;
 }
 
-.light-input:not(.no-focus-style).v-input--is-focused ::v-deep .v-label {
+.light-input:not(.no-focus-style) ::v-deep .v-input--is-focused .v-icon {
     color: #3b82f6 !important;
 }
 
-.light-input:not(.no-focus-style).v-input--is-focused ::v-deep .v-icon {
-    color: #3b82f6 !important;
-}
-
-[dir="rtl"] ::v-deep input,
-[dir="rtl"] ::v-deep input::placeholder {
+[dir="rtl"] ::v-deep textarea,
+[dir="rtl"] ::v-deep textarea::placeholder {
     direction: rtl !important;
     text-align: right !important;
 }
 
-[dir="ltr"] ::v-deep input,
-[dir="ltr"] ::v-deep input::placeholder {
+[dir="ltr"] ::v-deep textarea,
+[dir="ltr"] ::v-deep textarea::placeholder {
     direction: ltr !important;
     text-align: left !important;
 }

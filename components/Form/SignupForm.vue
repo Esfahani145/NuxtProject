@@ -211,7 +211,6 @@
             <BaseButton
                 type="submit"
                 color="#0f172a"
-                :loading="loading"
                 :disabled="!valid"
                 :block="true"
                 c-class="corporate-btn-primary"
@@ -269,13 +268,6 @@ import locations from '~/static/data/data.json'
 
 export default {
     name: 'SignupForm',
-
-    props: {
-        loading: {
-            type: Boolean,
-            default: false
-        }
-    },
 
     data() {
         return {

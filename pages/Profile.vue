@@ -28,7 +28,7 @@
 
                         <div>
                             <h2 class="text-h5 font-weight-bold mb-2">
-                                {{ user ? user.fullName : 'کاربر سیستم' }}
+                                {{ user ? user.full_name : 'کاربر سیستم' }}
                             </h2>
 
                             <div class="d-flex align-center flex-wrap">
@@ -191,6 +191,7 @@
                 </div>
 
                 <v-list flat class="pa-0">
+
                     <v-list-item class="px-0">
                         <v-list-item-content>
                             <v-list-item-title class="grey--text text--darken-1 font-weight-medium">
@@ -200,7 +201,7 @@
 
                         <v-list-item-action>
                             <span class="font-weight-bold grey--text text--darken-3">
-                                {{ user ? user.fullName : 'نامشخص' }}
+                                {{ user ? user.full_name : 'ثبت نشده' }}
                             </span>
                         </v-list-item-action>
                     </v-list-item>
@@ -224,7 +225,118 @@
                     <v-divider></v-divider>
 
                     <v-list-item class="px-0">
+                        <v-list-item-content>
+                            <v-list-item-title class="grey--text text--darken-1 font-weight-medium">
+                                ایمیل
+                            </v-list-item-title>
+                        </v-list-item-content>
 
+                        <v-list-item-action>
+                            <span class="font-weight-bold grey--text text--darken-3">
+                                {{ user ? user.email || 'ثبت نشده' : 'ثبت نشده' }}
+                            </span>
+                        </v-list-item-action>
+                    </v-list-item>
+
+                    <v-divider></v-divider>
+
+                    <v-list-item class="px-0">
+                        <v-list-item-content>
+                            <v-list-item-title class="grey--text text--darken-1 font-weight-medium">
+                                کد ملی
+                            </v-list-item-title>
+                        </v-list-item-content>
+
+                        <v-list-item-action>
+                            <span class="font-weight-bold grey--text text--darken-3">
+                                {{ user ? user.national_code || 'ثبت نشده' : 'ثبت نشده' }}
+                            </span>
+                        </v-list-item-action>
+                    </v-list-item>
+
+                    <v-divider></v-divider>
+
+                    <v-list-item class="px-0">
+                        <v-list-item-content>
+                            <v-list-item-title class="grey--text text--darken-1 font-weight-medium">
+                                تاریخ تولد
+                            </v-list-item-title>
+                        </v-list-item-content>
+
+                        <v-list-item-action>
+                            <span class="font-weight-bold grey--text text--darken-3">
+                                {{ user ? user.birth_date || 'ثبت نشده' : 'ثبت نشده' }}
+                            </span>
+                        </v-list-item-action>
+                    </v-list-item>
+
+                    <v-divider></v-divider>
+
+                    <v-list-item class="px-0">
+                        <v-list-item-content>
+                            <v-list-item-title class="grey--text text--darken-1 font-weight-medium">
+                                جنسیت
+                            </v-list-item-title>
+                        </v-list-item-content>
+
+                        <v-list-item-action>
+                            <span class="font-weight-bold grey--text text--darken-3">
+                                {{ gender_name }}
+                            </span>
+                        </v-list-item-action>
+                    </v-list-item>
+
+                    <v-divider></v-divider>
+
+                    <v-list-item class="px-0">
+                        <v-list-item-content>
+                            <v-list-item-title class="grey--text text--darken-1 font-weight-medium">
+                                استان
+                            </v-list-item-title>
+                        </v-list-item-content>
+
+                        <v-list-item-action>
+                            <span class="font-weight-bold grey--text text--darken-3">
+                                {{ province_name }}
+                            </span>
+                        </v-list-item-action>
+                    </v-list-item>
+
+                    <v-divider></v-divider>
+
+                    <v-list-item class="px-0">
+                        <v-list-item-content>
+                            <v-list-item-title class="grey--text text--darken-1 font-weight-medium">
+                                شهر
+                            </v-list-item-title>
+                        </v-list-item-content>
+
+                        <v-list-item-action>
+                            <span class="font-weight-bold grey--text text--darken-3">
+                                {{ city_name }}
+                            </span>
+                        </v-list-item-action>
+                    </v-list-item>
+
+                    <v-divider></v-divider>
+
+                    <v-list-item class="px-0">
+                        <v-list-item-content>
+                            <v-list-item-title class="grey--text text--darken-1 font-weight-medium">
+                                آدرس
+                            </v-list-item-title>
+                        </v-list-item-content>
+
+                        <v-list-item-action>
+                            <span class="font-weight-bold grey--text text--darken-3 text-left">
+                                {{ user ? user.address || 'ثبت نشده' : 'ثبت نشده' }}
+                            </span>
+                        </v-list-item-action>
+                    </v-list-item>
+
+                    <v-divider></v-divider>
+
+                    <v-list-item class="px-0">
                         <v-list-item-content>
                             <v-list-item-title class="grey--text text--darken-1 font-weight-medium">
                                 سطح دسترسی
@@ -232,7 +344,12 @@
                         </v-list-item-content>
 
                         <v-list-item-action>
-                            <v-chip color="blue-grey darken-4" small text-color="white" class="font-weight-bold">
+                            <v-chip
+                                color="blue-grey darken-4"
+                                small
+                                text-color="white"
+                                class="font-weight-bold"
+                            >
                                 {{ user ? user.role : 'کاربر عادی' }}
                             </v-chip>
                         </v-list-item-action>
@@ -248,7 +365,12 @@
                         </v-list-item-content>
 
                         <v-list-item-action>
-                            <v-chip color="success" small text-color="white" class="font-weight-bold">
+                            <v-chip
+                                color="success"
+                                small
+                                text-color="white"
+                                class="font-weight-bold"
+                            >
                                 <v-icon x-small class="ml-1">
                                     mdi-check
                                 </v-icon>
@@ -256,6 +378,7 @@
                             </v-chip>
                         </v-list-item-action>
                     </v-list-item>
+
                 </v-list>
             </v-card-text>
 
@@ -282,6 +405,8 @@
 </template>
 
 <script>
+import locations from '~/static/data/data.json'
+
 export default {
     name: 'ProfilePage',
     layout: "profileLayout",
@@ -289,6 +414,24 @@ export default {
     computed: {
         user() {
             return this.$store.getters['auth/currentUser']
+        },
+
+        provinceName() {
+            if (!this.user) return 'ثبت نشده'
+            const province = locations.locations.province.find( item => item.id === this.user.province)
+            return province ? province.name : 'ثبت نشده'
+        },
+
+        cityName() {
+            if (!this.user) return 'ثبت نشده'
+            const city = locations.locations.cities.find( item => item.id === this.user.city)
+            return city ? city.name : 'ثبت نشده'   
+        },
+        genderName() {
+            if (!this.user) return 'ثبت نشده'
+            return this.user.gender === 'male' ? 'مرد'
+                    :this.user.gender === 'female' ? 'زن'
+                    : 'ثبت نشده'
         }
     },
 

@@ -38,53 +38,69 @@ export const actions = {
             const input_phone = credentials.phone.trim()
             const input_password = String(credentials.password).trim()
 
-            const is_valid_phone = input_phone === '09111111111'
+            if (process.client) {
+                const saved_user = localStorage.getItem('user_info')
 
-            const is_valid_password = input_password === '12345678'
-
-            if (is_valid_phone && is_valid_password) {
-                const token = 'mock-token-123456'
-                const user_info = { full_name: 'مدیر سیستم', phone: input_phone, role: 'کاربر آنلاین'}
-
-                commit('SET_TOKEN', token)
-                commit('SET_USER', user_info)
-
-                if (process.client) {
-                    localStorage.setItem( 'user_token', token)
-                    localStorage.setItem( 'user_info', JSON.stringify(user_info))
+                if (!saved_user) {
+                    reject(
+                        new Error('حساب کاربری پیدا نشد. ابتدا ثبت‌نام کنید.')
+                    )
+                    return
                 }
-                resolve({ success: true })
-            } else {
-                reject(
-                    new Error('شماره موبایل یا رمز عبور اشتباه است.')
-                )
+
+                const user_info = JSON.parse(saved_user)
+
+                const is_valid_phone = user_info.phone === input_phone
+                const is_valid_password = user_info.password === input_password
+
+                if (is_valid_phone && is_valid_password) {
+                    const token = 'mock-token-123456'
+
+                    commit('SET_TOKEN', token)
+                    commit('SET_USER', user_info)
+
+                    localStorage.setItem('user_token', token)
+
+                    resolve({ success: true })
+                    return
+                }
             }
+
+            reject(
+                new Error('شماره موبایل یا رمز عبور اشتباه است.')
+            )
         })
     },
 
     signup({ commit }, credentials) {
         return new Promise((resolve) => {
+            const token = 'mock-token-123456'
+
             const user_info = {
-                full_name: credentials.fullName,
+                full_name: credentials.full_name,
                 phone: credentials.phone,
                 email: credentials.email,
-                national_code: credentials.nationalCode,
-                birth_date: credentials.birthDate,
+                national_code: credentials.national_code,
+                birth_date: credentials.birth_date,
                 gender: credentials.gender,
                 province: credentials.province,
                 city: credentials.city,
                 address: credentials.address,
+                password: credentials.password,
                 role: 'کاربر عادی'
             }
 
+            commit('SET_TOKEN', token)
             commit('SET_USER', user_info)
 
             if (process.client) {
+                localStorage.setItem('user_token', token)
                 localStorage.setItem(
                     'user_info',
                     JSON.stringify(user_info)
                 )
             }
+
             resolve({ success: true })
         })
     },

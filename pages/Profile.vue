@@ -86,7 +86,7 @@
                                         مشاهده فروشگاه
                                     </div>
 
-                                    <div class="text-caption grey--text text--darken-1 mt-1">
+                                    <div class="grey--text text--darken-1 mt-1">
                                         مشاهده خدمات و محصولات سامانه
                                     </div>
                                 </div>
@@ -112,8 +112,8 @@
                                         سبد خرید
                                     </div>
 
-                                    <div class="text-caption grey--text text--darken-1 mt-1">
-                                        {{ this.$store.getters.cartTotalCount }} کالا در سبد خرید
+                                    <div class=" grey--text text--darken-1 mt-1">
+                                        {{ $store.getters.cartTotalCount }} کالا در سبد خرید
                                     </div>
                                 </div>
 
@@ -138,8 +138,8 @@
                                         علاقه‌مندی‌ها
                                     </div>
 
-                                    <div class="text-caption grey--text text--darken-1 mt-1">
-                                        {{ this.$store.getters.favoritesCount }} محصول ذخیره‌شده
+                                    <div class=" grey--text text--darken-1 mt-1">
+                                        {{ $store.getters.favoritesCount }} محصول ذخیره‌شده
                                     </div>
                                 </div>
 
@@ -165,7 +165,7 @@
                                         اخبار و اطلاعیه‌ها
                                     </div>
 
-                                    <div class="text-caption grey--text text--darken-1 mt-1">
+                                    <div class="grey--text text--darken-1 mt-1">
                                         آخرین اخبار و اطلاعیه‌های سامانه
                                     </div>
                                 </div>
@@ -281,7 +281,7 @@
 
                         <v-list-item-action>
                             <span class="font-weight-bold grey--text text--darken-3">
-                                {{ gender_name }}
+                                {{ gender }}
                             </span>
                         </v-list-item-action>
                     </v-list-item>
@@ -297,7 +297,7 @@
 
                         <v-list-item-action>
                             <span class="font-weight-bold grey--text text--darken-3">
-                                {{ province_name }}
+                                {{ province }}
                             </span>
                         </v-list-item-action>
                     </v-list-item>
@@ -313,7 +313,7 @@
 
                         <v-list-item-action>
                             <span class="font-weight-bold grey--text text--darken-3">
-                                {{ city_name }}
+                                {{ city }}
                             </span>
                         </v-list-item-action>
                     </v-list-item>
@@ -416,21 +416,33 @@ export default {
             return this.$store.getters['auth/currentUser']
         },
 
-        provinceName() {
+        province() {
             if (!this.user) return 'ثبت نشده'
-            const province = locations.locations.province.find( item => item.id === this.user.province)
+
+            const province = locations.locations.provinces.find(
+                (item) => item.id === this.user.province
+            )
+
             return province ? province.name : 'ثبت نشده'
         },
 
-        cityName() {
+        city() {
             if (!this.user) return 'ثبت نشده'
-            const city = locations.locations.cities.find( item => item.id === this.user.city)
-            return city ? city.name : 'ثبت نشده'   
+
+            const city = locations.locations.cities.find(
+                (item) => item.id === this.user.city
+            )
+
+            return city ? city.name : 'ثبت نشده'
         },
-        genderName() {
+
+        gender() {
             if (!this.user) return 'ثبت نشده'
-            return this.user.gender === 'male' ? 'مرد'
-                    :this.user.gender === 'female' ? 'زن'
+
+            return this.user.gender === 'male'
+                ? 'مرد'
+                : this.user.gender === 'female'
+                    ? 'زن'
                     : 'ثبت نشده'
         }
     },

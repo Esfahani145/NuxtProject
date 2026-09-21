@@ -66,7 +66,7 @@
                                             <h3 class="text-subtitle-1 font-weight-bold grey--text text--darken-3 mb-1">
                                                 {{ item.name }}
                                             </h3>
-                                            <span class="text-caption grey--text text--darken-1 d-block">
+                                            <span class=" grey--text text--darken-1 d-block">
                                                 {{ item.category }}
                                             </span>
                                         </div>

@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            <p class="card-desc mb-6 font-weight-regular text-body-1 overflow-hidden flex-grow-1 blue-grey--text text--darken-4">
+            <p class="card-desc mb-6 font-weight-regular text-body-1 flex-grow-1 blue-grey--text text--darken-4 line-clamp-3">
                 {{ product.description }}
             </p>
 
@@ -38,7 +38,7 @@
             <v-divider class="mb-4"></v-divider>
             <div class="d-flex align-center justify-space-between">
                 <div>
-                    <span class="d-block font-weight-bold text-caption blue-grey--text text--lighten-1">تعرفه سرویس</span>
+                    <span class="d-block font-weight-bold blue-grey--text text--lighten-1">تعرفه سرویس</span>
                     <span class="font-weight-black text-subtitle-1 blue-grey--text text--darken-4">{{ product.price || 'تماس بگیرید' }}</span>
                 </div>
 
@@ -78,8 +78,6 @@ export default {
 
 .card-desc {
     line-height: 1.6;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
     min-height: 4.8em;
 }
 

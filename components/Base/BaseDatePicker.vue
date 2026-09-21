@@ -1,7 +1,7 @@
 <template>
     <client-only>
-        <v-input :value="value" :rules="computedRules" :disabled="disabled" :hide-details="hideDetails" class="base-date-picker-input">
-            <div :dir="dir" :class="[ 'base-date-picker', variant === 'light' ? 'light-input' : 'glass-input', { 'no-focus-style': noFocusStyle }, cClass]">
+        <v-input :value="value" :rules="computedRules" :disabled="disabled" :hide-details="hideDetails" class="base-date-picker-input w-100 ma-0 pa-0">
+            <div :dir="dir" :class="['base-date-picker w-100', variant === 'light' ? 'light-input' : 'glass-input', {'no-focus-style': noFocusStyle}, cClass]">
                 <v-icon class="date-picker-icon" @click="showDatePicker = true">
                     mdi-calendar-outline
                 </v-icon>
@@ -118,18 +118,11 @@ export default {
 </script>
 
 <style scoped>
-.base-date-picker-input {
-    width: 100%;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
 .base-date-picker-input ::v-deep .v-input__control {
     width: 100%;
 }
 
 .base-date-picker {
-    width: 100%;
     height: 48px;
     position: relative;
 }

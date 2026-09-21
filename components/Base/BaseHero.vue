@@ -130,19 +130,8 @@ export default {
 </script>
 
 <style scoped>
-.dark-gradient-banner {
-    background: linear-gradient(
-        135deg,
-        #0f172a 0%,
-        #1e293b 100%
-    ) !important;
-}
-
 .hero-image-container {
-    width: 100%;
     height: 320px;
-    position: relative;
-    overflow: hidden;
 }
 
 .badge-chip {
@@ -184,13 +173,7 @@ export default {
     max-width: 520px;
 }
 
-.max-w-600 {
-    max-width: 600px;
-}
-
 .search-row {
-    display: flex;
-    align-items: center;
     gap: 8px;
     direction: ltr;
 }
@@ -199,7 +182,6 @@ export default {
     border-radius: 12px !important;
     height: 48px !important;
     min-width: 48px !important;
-    margin: 0 !important;
     flex-shrink: 0;
     align-self: center;
 }
@@ -216,5 +198,9 @@ export default {
 
 .search-box-container ::v-deep .search-input .v-text-field__details {
     display: none !important;
+}
+
+.max-w-600 {
+    max-width: 600px;
 }
 </style>

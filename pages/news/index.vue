@@ -9,7 +9,7 @@
                     <h2 class="text-h5 font-weight-bold grey--text text--darken-4">آخرین اطلاعیه‌ها</h2>
                 </div>
 
-                <span class="text-caption grey--text text--darken-1">تعداد اخبار: {{ newsList.length }}</span>
+                <span class="grey--text text--darken-1">تعداد اخبار: {{ newsList.length }}</span>
             </div>
 
             <v-row align="stretch">

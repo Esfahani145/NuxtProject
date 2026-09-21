@@ -11,14 +11,13 @@
                         <v-icon>mdi-arrow-right</v-icon>
                         بازگشت به لیست اخبار
                     </BaseButton>
-
+                    
                     <v-card v-if="news_item" class="white-detail-card rounded-2xl overflow-hidden elevation-2">
                         <v-img
                             :src="news_item.image || 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop'"
-                            height="300"
-                            cover
-                            alt="تصویر خبر"
+                            height="300" cover alt="تصویر خبر"
                         >
+
                             <template v-slot:placeholder>
                                 <v-row class="fill-height ma-0" align="center" justify="center">
                                     <v-progress-circular indeterminate color="primary"></v-progress-circular>
@@ -70,11 +69,10 @@ export default {
             const news_data = require('~/static/data/data.json')
             const item_id = parseInt(params.id, 10)
             const news_item = news_data.newsList.find((item) => item.id === item_id)
-
+            
             if (!news_item) {
                 return error({ statusCode: 404, message: 'خبر یافت نشد' })
             }
-
             return { news_item }
         } catch (e) {
             return error({ statusCode: 500, message: 'خطا در دریافت اطلاعات' })

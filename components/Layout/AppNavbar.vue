@@ -4,9 +4,14 @@
             <v-navigation-drawer v-model="drawer" right app temporary class="pa-4">
                 <div class="d-flex align-center justify-space-between mb-4">
                     <div class="d-flex align-center">
-                        <v-icon color="#3B82F6" class="ml-2" size="28">mdi-shield-check</v-icon>
-                        <span class="text-h6 font-weight-bold">فروش محصول و خدمات</span>
+                        <v-icon color="#3B82F6" class="ml-2" size="28">
+                            mdi-shield-check
+                        </v-icon>
+                        <span class="text-h6 font-weight-bold">
+                            فروش محصول و خدمات
+                        </span>
                     </div>
+
                     <v-btn icon @click="drawer = false">
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
@@ -16,30 +21,61 @@
 
                 <v-list nav dense>
                     <v-list-item to="/news" exact active-class="blue lighten-5 blue--text text--darken-2">
-                        <v-list-item-icon><v-icon>mdi-bullhorn-outline</v-icon></v-list-item-icon>
-                        <v-list-item-title class="font-weight-bold">اخبار و اطلاعات</v-list-item-title>
+                        <v-list-item-icon>
+                            <v-icon>mdi-bullhorn-outline</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title class="font-weight-bold">
+                            اخبار و اطلاعات
+                        </v-list-item-title>
                     </v-list-item>
 
                     <v-list-item to="/products" exact active-class="blue lighten-5 blue--text text--darken-2">
-                        <v-list-item-icon><v-icon>mdi-store-outline</v-icon></v-list-item-icon>
-                        <v-list-item-title class="font-weight-bold">فروشگاه محصولات</v-list-item-title>
+                        <v-list-item-icon>
+                            <v-icon>mdi-store-outline</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title class="font-weight-bold">
+                            فروشگاه محصولات
+                        </v-list-item-title>
+                    </v-list-item>
+
+                    <v-list-item @click="$goTo('/products/table'); drawer = false" :class="$route.path.startsWith('/products/table') ? 'blue lighten-5 blue--text text--darken-2' : ''">
+                        <v-list-item-icon>
+                            <v-icon>mdi-table</v-icon>
+                        </v-list-item-icon>
+
+                        <v-list-item-title class="font-weight-bold">
+                            جدول محصولات
+                        </v-list-item-title>
                     </v-list-item>
 
                     <v-list-item to="/favorites" exact active-class="blue lighten-5 blue--text text--darken-2">
-                        <v-list-item-icon><v-icon>mdi-heart-outline</v-icon></v-list-item-icon>
-                        <v-list-item-title class="font-weight-bold">علاقه‌مندی‌ها</v-list-item-title>
+                        <v-list-item-icon>
+                            <v-icon>mdi-heart-outline</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title class="font-weight-bold">
+                            علاقه‌مندی‌ها
+                        </v-list-item-title>
                     </v-list-item>
 
                     <v-list-item to="/cart" exact active-class="blue lighten-5 blue--text text--darken-2">
-                        <v-list-item-icon><v-icon>mdi-cart-outline</v-icon></v-list-item-icon>
-                        <v-list-item-title class="font-weight-bold">سبد خرید</v-list-item-title>
+                        <v-list-item-icon>
+                            <v-icon>mdi-cart-outline</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title class="font-weight-bold">
+                            سبد خرید
+                        </v-list-item-title>
                     </v-list-item>
 
                     <template v-if="isAuthenticated">
                         <v-divider class="my-2"></v-divider>
+
                         <v-list-item to="/profile" exact active-class="blue lighten-5 blue--text text--darken-2">
-                            <v-list-item-icon><v-icon>mdi-account-cog-outline</v-icon></v-list-item-icon>
-                            <v-list-item-title class="font-weight-bold">پروفایل کاربری</v-list-item-title>
+                            <v-list-item-icon>
+                                <v-icon>mdi-account-cog-outline</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title class="font-weight-bold">
+                                پروفایل کاربری
+                            </v-list-item-title>
                         </v-list-item>
                     </template>
                 </v-list>
@@ -53,78 +89,110 @@
                 </v-btn>
 
                 <NuxtLink to="/" class="d-flex align-center text-decoration-none white--text">
-                    <v-icon color="#3B82F6" class="ml-2" size="28">mdi-shield-check</v-icon>
-                    <span class="text-h6 font-weight-bold">پنل فروش محصول و خدمات</span>
+                    <v-icon color="#3B82F6" class="ml-2" size="28">
+                        mdi-shield-check
+                    </v-icon>
+
+                    <span class="text-h6 font-weight-bold">
+                        پنل فروش محصول و خدمات
+                    </span>
                 </NuxtLink>
 
                 <v-spacer />
 
                 <div class="d-none d-md-flex align-center nav-links">
-                    <BaseButton
-                        text
-                        color="grey darken-3"
-                        :class="{ 'active-link': $route.path.startsWith('/news') }"
+                    <BaseButton text color="grey darken-3" 
+                        :class="{'active-link': $route.path.startsWith('/news')}"
                         :block="false"
                         :x-large="false"
                         :rounded="false"
                         c-class="mx-1 rounded-lg"
-                        @click = "$goTo('/news')"
+                        @click="$goTo('/news')"
                     >
-                        <v-icon right size="18" class="ml-1">mdi-bullhorn-outline</v-icon>
+                        <v-icon right size="18" class="ml-1">
+                            mdi-bullhorn-outline
+                        </v-icon>
                         اخبار و اطلاعات
                     </BaseButton>
 
                     <BaseButton
                         text
-                        :class="{ 'active-link': $route.path.startsWith('/products') }"
+                        :class="{'active-link': $route.path.startsWith('/products')}"
                         :block="false"
                         :x-large="false"
                         :rounded="false"
                         c-class="mx-1 rounded-lg"
-                        @click = "$goTo('/products')"
+                        @click="$goTo('/products')"
                     >
-                        <v-icon right size="18" class="ml-1">mdi-store-outline</v-icon>
+                        <v-icon right size="18" class="ml-1">
+                            mdi-store-outline
+                        </v-icon>
                         فروشگاه محصولات
                     </BaseButton>
 
                     <BaseButton
                         text
-                        :class="{ 'active-link': $route.path.startsWith('/favorites') }"
+                        :class="{ 'active-link': $route.path.startsWith('/products/table') }"
                         :block="false"
                         :x-large="false"
                         :rounded="false"
                         c-class="mx-1 rounded-lg"
-                        @click="$goTo('/favorites')"    
+                        @click="$goTo('/products/table')"
                     >
-                    <v-icon right size="18" class="ml-1">
-                        mdi-heart-outline
-                    </v-icon>
-
-                    <span>علاقه‌مندی‌ها</span>
-
-                    <v-chip v-if="isAuthenticated && $store.getters.favoritesCount > 0" x-small color="red" text-color="white" class="mr-2 font-weight-bold">
-                        {{ $store.getters.favoritesCount }}
-                    </v-chip>
+                        <v-icon right size="18" class="ml-1">
+                            mdi-table
+                        </v-icon>
+                        جدول محصولات
                     </BaseButton>
 
                     <BaseButton
                         text
-                        :class="{ 'active-link': $route.path.startsWith('/cart') }"
+                        :class="{'active-link': $route.path.startsWith('/favorites')}"
                         :block="false"
                         :x-large="false"
                         :rounded="false"
                         c-class="mx-1 rounded-lg"
-                        @click = "$goTo('/cart')"
+                        @click="$goTo('/favorites')"
                     >
-                    <v-icon right size="18" class="ml-1">
-                        mdi-cart-outline
-                    </v-icon>
+                        <v-icon right size="18" class="ml-1">
+                            mdi-heart-outline
+                        </v-icon>
 
-                    <span>سبد خرید</span>
+                        <span>علاقه‌مندی‌ها</span>
 
-                    <v-chip v-if="isAuthenticated && $store.getters.cartTotalCount > 0" x-small color="red" text-color="white" class="mr-2 font-weight-bold">
-                        {{ $store.getters.cartTotalCount }}
-                    </v-chip>
+                        <v-chip v-if=" isAuthenticated && $store.getters.favoritesCount > 0"
+                            x-small
+                            color="red"
+                            text-color="white"
+                            class="mr-2 font-weight-bold"
+                        >
+                            {{ $store.getters.favoritesCount }}
+                        </v-chip>
+                    </BaseButton>
+
+                    <BaseButton
+                        text
+                        :class="{'active-link': $route.path.startsWith('/cart')}"
+                        :block="false"
+                        :x-large="false"
+                        :rounded="false"
+                        c-class="mx-1 rounded-lg"
+                        @click="$goTo('/cart')"
+                    >
+                        <v-icon right size="18" class="ml-1">
+                            mdi-cart-outline
+                        </v-icon>
+
+                        <span>سبد خرید</span>
+
+                        <v-chip v-if="isAuthenticated && $store.getters.cartTotalCount > 0"
+                            x-small
+                            color="red"
+                            text-color="white"
+                            class="mr-2 font-weight-bold"
+                        >
+                            {{ $store.getters.cartTotalCount }}
+                        </v-chip>
                     </BaseButton>
                 </div>
 
@@ -135,15 +203,17 @@
                         <template v-if="isAuthenticated">
                             <BaseButton
                                 text
-                                :class="{ 'active-link': $route.path.startsWith('/profile') }"
+                                :class="{'active-link': $route.path.startsWith('/profile')}"
                                 color="grey lighten-1"
                                 :block="false"
                                 :x-large="false"
                                 :rounded="false"
                                 c-class="mx-1 rounded-lg d-none d-md-flex"
-                                @click = "$goTo('/profile')"
+                                @click="$goTo('/profile')"
                             >
-                                <v-icon right size="18" class="ml-1">mdi-account-cog-outline</v-icon>
+                                <v-icon right size="18" class="ml-1">
+                                    mdi-account-cog-outline
+                                </v-icon>
                                 پروفایل کاربری
                             </BaseButton>
 
@@ -156,11 +226,13 @@
                                 c-class="mx-1 rounded-lg"
                                 @click="handleLogout"
                             >
-                                <v-icon right size="18" class="ml-1">mdi-logout</v-icon>
+                                <v-icon right size="18" class="ml-1">
+                                    mdi-logout
+                                </v-icon>
                                 خروج
                             </BaseButton>
                         </template>
-    
+
                         <template v-else>
                             <BaseButton
                                 color="#3B82F6"
@@ -169,9 +241,11 @@
                                 :x-large="false"
                                 :rounded="false"
                                 c-class="rounded-lg font-weight-bold px-4"
-                                @click = "$goTo('/login')"
+                                @click="$goTo('/login')"
                             >
-                                <v-icon right size="18" class="ml-1">mdi-login</v-icon>
+                                <v-icon right size="18" class="ml-1">
+                                    mdi-login
+                                </v-icon>
                                 ورود به حساب
                             </BaseButton>
                         </template>

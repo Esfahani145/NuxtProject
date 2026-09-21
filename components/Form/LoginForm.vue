@@ -1,7 +1,7 @@
 <template>
     <v-form ref="loginForm" v-model="valid" lazy-validation @submit.prevent="handleLogin">
-        <div class="mb-5 text-right">
-            <label class="text-caption font-weight-bold slate-dark--text mb-2 d-block">
+        <div class="mb-3 text-right">
+            <label class="font-weight-bold slate-dark--text mb-2 d-block">
                 شماره همراه
             </label>
 
@@ -19,11 +19,11 @@
 
         <div class="mb-2 text-right">
             <div class="d-flex justify-space-between align-center mb-2">
-                <label class="text-caption font-weight-bold slate-dark--text mb-0">
+                <label class="font-weight-bold slate-dark--text mb-0">
                     رمز عبور
                 </label>
 
-                <a href="#" class="text-caption auth-help-link text-decoration-none" @click.prevent="$toast.info('لطفاً با پشتیبانی سیستم تماس بگیرید')">
+                <a href="#" class="auth-help-link text-decoration-none" @click.prevent="$toast.info('لطفاً با پشتیبانی سیستم تماس بگیرید')">
                     فراموشی رمز؟
                 </a>
             </div>
@@ -41,7 +41,7 @@
             />
         </div>
 
-        <div class="mt-8">
+        <div class="mt-3">
             <BaseButton
                 type="submit"
                 color="#0f172a"
@@ -54,7 +54,7 @@
             </BaseButton>
         </div>
 
-        <div class="mt-5 d-flex align-center justify-center auth-footer-row">
+        <div class="mt-1 d-flex align-center justify-center auth-footer-row">
             <span class="auth-footer-text">
                 حساب کاربری ندارید؟
             </span>

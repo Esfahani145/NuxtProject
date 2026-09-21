@@ -7,7 +7,7 @@
                 </v-avatar>
                 <div>
                     <div class="text-h6 font-weight-black slate-title-text">{{ stat.value }}</div>
-                    <div class="text-caption font-weight-bold slate-sub-text">{{ stat.title }}</div>
+                    <div class="font-weight-bold slate-sub-text">{{ stat.title }}</div>
                 </div>
             </v-card>
         </v-col>

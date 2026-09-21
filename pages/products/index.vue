@@ -10,7 +10,7 @@
                     <div class="blue-accent-line ml-3"></div>
                     <h2 class="text-h5 font-weight-bold grey--text text--darken-4">لیست خدمات و محصولات</h2>
                 </div>
-                <span class="text-caption font-weight-bold grey--text text--darken-2">
+                <span class="font-weight-bold grey--text text--darken-2">
                     تعداد موارد: {{ product_list.length }}
                 </span>
             </div>

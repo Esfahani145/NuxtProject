@@ -94,7 +94,7 @@
                     </v-icon>
 
                     <span class="text-h6 font-weight-bold">
-                        پنل فروش محصول و خدمات
+                        پنل فروش محصول
                     </span>
                 </NuxtLink>
 

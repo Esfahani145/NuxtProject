@@ -3,6 +3,10 @@ body {
     font-family: 'Vazirmatn', sans-serif;
 }
 
+.v-application {
+    font-family: 'Vazirmatn', sans-serif !important;
+}
+
 .v-application .text-h1,
 .v-application .text-h2,
 .v-application .text-h3,

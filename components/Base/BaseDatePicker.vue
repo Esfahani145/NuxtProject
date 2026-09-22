@@ -170,7 +170,7 @@ export default {
 }
 
 .light-input ::v-deep .base-date-input {
-    background: #ffffff !important;
+    background: #fff !important;
     border: 1.5px solid #cbd5e1 !important;
     color: #1e293b !important;
 }
@@ -178,7 +178,7 @@ export default {
 .glass-input ::v-deep .base-date-input {
     background: rgba(30, 41, 59, 0.7) !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    color: #ffffff !important;
+    color: #fff !important;
     backdrop-filter: blur(10px);
 }
 

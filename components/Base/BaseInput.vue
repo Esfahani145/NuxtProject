@@ -242,7 +242,7 @@ export default {
 }
 
 .glass-input ::v-deep input {
-    color: #ffffff !important;
+    color: #fff !important;
     font-size: 1rem !important;
     font-weight: 500 !important;
     padding: 0 !important;
@@ -267,7 +267,7 @@ export default {
 }
 
 .light-input ::v-deep .v-input__slot {
-    background: #ffffff !important;
+    background: #fff !important;
     border: 1.5px solid #cbd5e1 !important;
     border-radius: 10px !important;
     min-height: 48px !important;
@@ -314,7 +314,7 @@ export default {
     border-color: #3b82f6 !important;
     border-width: 2px !important;
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important;
-    background: #ffffff !important;
+    background: #fff !important;
 }
 
 .light-input:not(.no-focus-style).v-input--is-focused ::v-deep .v-label {

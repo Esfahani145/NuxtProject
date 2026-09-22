@@ -13,7 +13,7 @@
                                         </v-icon>
                                     </v-sheet>
 
-                                    <span class="font-weight-black blue-grey--text text--darken-4">
+                                    <span class="font-weight-black blue-grey--text text--darken-4 font-size-12">
                                         سامانه مدیریت سازمانی
                                     </span>
                                 </div>
@@ -23,7 +23,7 @@
                                         {{ signup ? 'ایجاد حساب کاربری' : 'خوش آمدید' }}
                                     </h1>
 
-                                    <p class="grey--text text--darken-2 font-weight-medium mb-0">
+                                    <p class="grey--text text--darken-2 font-weight-medium mb-0" font-size-12>
                                         {{ signup ? 'اطلاعات خود را برای ثبت‌نام وارد کنید.' : 'اطلاعات حساب کاربری خود را وارد کنید.' }}
                                     </p>
                                 </div>
@@ -43,7 +43,7 @@
                                     />
                                 </div>
 
-                                <div class="mt-2 text-center pt-2 border-top-light">
+                                <div class="mt-1 text-center pt-2 border-top-light">
                                     <p class="grey--text text--darken-2 mb-1">
                                         نیاز به راهنمایی دارید؟
                                     </p>

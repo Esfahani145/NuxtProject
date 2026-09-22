@@ -33,6 +33,11 @@ body {
     color: #64748b;
 }
 
+.font-size-12 {
+    font-size: 12px;
+    color: #64748b;
+}
+
 .blue-accent-line {
     width: 4px !important;
     height: 24px !important;
@@ -46,7 +51,7 @@ body {
 .white-product-card,
 .white-detail-card,
 .border-card {
-    background-color: #ffffff !important;
+    background-color: #fff !important;
     border: 1px solid #e2e8f0 !important;
 }
 
@@ -84,7 +89,7 @@ body {
     height: 48px !important;
     margin: 0 !important;
     padding: 0 16px !important;
-    background: #ffffff !important;
+    background: #fff !important;
     border: 1.5px solid #cbd5e1 !important;
     border-radius: 10px !important;
     box-shadow: none !important;

@@ -21,11 +21,11 @@
                                 </v-avatar>
                             </div>
 
-                            <h2 class="text-h5 font-weight-bold grey--text text--darken-3 mb-3">
+                            <h2 class="font-weight-bold grey--text text--darken-3 mb-3">
                                 لیست علاقه‌مندی‌های شما خالی است
                             </h2>
 
-                            <p class="grey--text text--darken-1 text-body-2 mb-6">
+                            <p class="grey--text text--darken-1 mb-6">
                                 شما هنوز هیچ محصول یا خدماتی را به لیست علاقه‌مندی‌های خود اضافه نکرده‌اید.
                             </p>
 
@@ -46,7 +46,7 @@
                 <div v-else>
                     <div class="d-flex align-center mb-6">
                         <v-icon color="#EF4444" x-large class="ml-3">mdi-heart</v-icon>
-                        <h1 class="text-h4 font-weight-bold grey--text text--darken-3">لیست علاقه‌مندی‌ها</h1>
+                        <h1 class="font-weight-bold grey--text text--darken-3">لیست علاقه‌مندی‌ها</h1>
                     </div>
 
                     <v-row align="stretch">

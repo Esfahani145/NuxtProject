@@ -9,13 +9,13 @@
                 </template>
             </v-img>
             <div class="d-flex justify-end mt-2">
-                <span class="news-category-badge rounded-pill font-weight-bold text-body-2 white--text px-3 py-1">
+                <span class="news-category-badge rounded-pill font-weight-bold white--text px-3 py-1">
                     {{ item.category || 'اطلاعیه' }}
                 </span>
             </div>
         </div>
         <div class="d-flex flex-column flex-grow-1">
-            <div class="d-flex align-center mb-4 text-body-2 font-weight-medium blue-grey--text text--darken-2">
+            <div class="d-flex align-center mb-4 font-weight-medium blue-grey--text text--darken-2">
                 <div class="d-flex align-center ml-4">
                     <v-icon small color="#64748b" class="ml-1">mdi-calendar-month-outline</v-icon>
                     <span>{{ item.date || '۱۵ شهریور ۱۴۰۳' }}</span>
@@ -25,10 +25,10 @@
                     <span>{{ item.readTime || '۲ دقیقه مطالعه' }}</span>
                 </div>
             </div>
-            <h3 class="font-weight-bold text-subtitle-1 mb-3 overflow-hidden blue-grey--text text--darken-4 news-title">
+            <h3 class="font-weight-bold mb-3 overflow-hidden blue-grey--text text--darken-4 news-title">
                 {{ item.title }}
             </h3>
-            <p class="font-weight-regular text-body-1 mb-6 blue-grey--text text--darken-3 line-clamp-3 news-excerpt">
+            <p class="font-weight-regular mb-6 blue-grey--text text--darken-3 line-clamp-3 news-excerpt">
                 {{ item.excerpt || item.description }}
             </p>
         </div>

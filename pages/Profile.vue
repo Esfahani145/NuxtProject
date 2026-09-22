@@ -6,11 +6,11 @@
             </v-icon>
 
             <div>
-                <h1 class="text-h4 font-weight-bold grey--text text--darken-3 mb-1">
+                <h1 class="font-weight-bold grey--text text--darken-3 mb-1">
                     پروفایل کاربری
                 </h1>
 
-                <p class="text-body-2 grey--text text--darken-1 mb-0">
+                <p class="grey--text text--darken-1 mb-0">
                     مدیریت حساب کاربری و دسترسی‌های شما
                 </p>
             </div>
@@ -27,12 +27,12 @@
                         </v-avatar>
 
                         <div>
-                            <h2 class="text-h5 font-weight-bold mb-2">
+                            <h2 class="font-weight-bold mb-2">
                                 {{ user ? user.full_name : 'کاربر سیستم' }}
                             </h2>
 
                             <div class="d-flex align-center flex-wrap">
-                                <span class="text-body-2 ml-3">
+                                <span class="ml-3">
                                     {{ user ? user.phone : '۰۹۱۱۱۱۱۱۱۱۱' }}
                                 </span>
 
@@ -65,7 +65,7 @@
                         mdi-lightning-bolt-outline
                     </v-icon>
 
-                    <h2 class="text-h6 font-weight-bold grey--text text--darken-3 mb-0">
+                    <h2 class="font-weight-bold grey--text text--darken-3 mb-0">
                         دسترسی سریع
                     </h2>
                 </div>
@@ -185,7 +185,7 @@
                         mdi-account-details-outline
                     </v-icon>
 
-                    <h2 class="text-h6 font-weight-bold grey--text text--darken-3 mb-0">
+                    <h2 class="font-weight-bold grey--text text--darken-3 mb-0">
                         اطلاعات حساب
                     </h2>
                 </div>

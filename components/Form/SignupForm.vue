@@ -244,7 +244,7 @@
 
         <v-dialog v-model="show_terms" max-width="600">
             <v-card class="rounded-lg">
-                <v-card-title class="font-weight-bold text-subtitle-1">
+                <v-card-title class="font-weight-bold">
                     قوانین و شرایط استفاده
                 </v-card-title>
                 <v-card-text class="terms-content">

@@ -7,8 +7,8 @@
                         <v-icon color="#3B82F6" class="ml-2" size="28">
                             mdi-shield-check
                         </v-icon>
-                        <span class="text-h6 font-weight-bold">
-                            فروش محصول و خدمات
+                        <span class="font-weight-bold">
+                            فروش محصول
                         </span>
                     </div>
 
@@ -93,7 +93,7 @@
                         mdi-shield-check
                     </v-icon>
 
-                    <span class="text-h6 font-weight-bold">
+                    <span class="font-weight-bold">
                         پنل فروش محصول
                     </span>
                 </NuxtLink>
@@ -325,12 +325,12 @@ export default {
 }
 
 .nav-links ::v-deep .v-btn:hover {
-    color: #ffffff !important;
+    color: #fff !important;
     background-color: transparent !important;
 }
 
 .nav-links ::v-deep .v-btn.active-link {
-    color: #ffffff !important;
+    color: #fff !important;
     background-color: transparent !important;
 }
 
@@ -341,7 +341,7 @@ export default {
     left: 18px;
     right: 18px;
     height: 2px;
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 2px;
 }
 </style>

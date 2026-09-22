@@ -12,7 +12,7 @@
             {{ title }}
         </h2>
 
-        <p class="grey--text text--lighten-2 text-body-2 mb-6">
+        <p class="grey--text text--lighten-2 mb-6">
             {{ description }}
         </p>
 

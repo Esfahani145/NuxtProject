@@ -13,13 +13,13 @@
                                         </v-icon>
                                     </v-sheet>
 
-                                    <span class="text-subtitle-2 font-weight-black blue-grey--text text--darken-4">
+                                    <span class="font-weight-black blue-grey--text text--darken-4">
                                         سامانه مدیریت سازمانی
                                     </span>
                                 </div>
 
                                 <div class="mb-2 text-right">
-                                    <h1 class="text-h6 font-weight-black blue-grey--text text--darken-4 mb-1">
+                                    <h1 class="font-weight-black blue-grey--text text--darken-4 mb-1">
                                         {{ signup ? 'ایجاد حساب کاربری' : 'خوش آمدید' }}
                                     </h1>
 
@@ -67,7 +67,7 @@
                                         mdi-cube-outline
                                     </v-icon>
                                 </v-sheet>
-                                <h3 class="white--text font-weight-black text-subtitle-1 mb-1">
+                                <h3 class="white--text font-weight-black mb-1">
                                     سامانه مدیریت سازمانی
                                 </h3>
                                 <p class="grey--text text--lighten-2 mb-0">
@@ -76,7 +76,7 @@
                             </div>
 
                             <div class="relative z-10 text-center brand-content">
-                                <h2 class="white--text text-h6 font-weight-black mb-2 text-shadow-md line-height-tight">
+                                <h2 class="white--text font-weight-black mb-2 text-shadow-md line-height-tight">
                                     امنیت، سرعت و یکپارچگی
                                     <br>
                                     در فرآیندها

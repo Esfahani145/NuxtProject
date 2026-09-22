@@ -22,7 +22,7 @@
                         </v-avatar>
 
                         <div >
-                            <h1 class="text-h4 font-weight-bold grey--text text--darken-3 mb-1">
+                            <h1 class="font-weight-bold grey--text text--darken-3 mb-1">
                                 {{ product.name || product.title }}
                             </h1>
 
@@ -35,11 +35,11 @@
                     <v-divider class="mb-6" />
 
                     <div class="mb-6">
-                        <h3 class="text-h6 font-weight-bold grey--text text--darken-3 mb-2">
+                        <h3 class="font-weight-bold grey--text text--darken-3 mb-2">
                             توضیحات محصول
                         </h3>
 
-                        <p class="grey--text text--darken-2 text-body-1 text-justify line-height-lg">
+                        <p class="grey--text text--darken-2 text-justify line-height-lg">
                             {{ product.description }}
                         </p>
                     </div>
@@ -50,7 +50,7 @@
                         <div class="d-flex align-center">
                             <span class="grey--text text--darken-1 body-1 font-weight-medium ml-2">قیمت:</span>
 
-                            <span class="text-h4 font-weight-bold success--text ml-2">
+                            <span class="font-weight-bold success--text ml-2">
                                 {{ formattedPrice }}
                             </span>
 

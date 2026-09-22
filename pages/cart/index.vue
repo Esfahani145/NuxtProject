@@ -22,11 +22,11 @@
                                     </v-avatar>
                                 </div>
 
-                                <h2 class="text-h5 font-weight-bold grey--text text--darken-3 mb-3">
+                                <h2 class="font-weight-bold grey--text text--darken-3 mb-3">
                                     سبد خرید شما خالی است
                                 </h2>
 
-                                <p class="grey--text text--darken-1 text-body-2 mb-6">
+                                <p class="grey--text text--darken-1 mb-6">
                                     برای مشاهده و انتخاب خدمات و محصولات، به صفحه فروشگاه مراجعه کنید.
                                 </p>
 
@@ -47,7 +47,7 @@
                     <div v-else>
                         <div class="d-flex align-center mb-6">
                             <v-icon color="#3B82F6" x-large class="ml-3">mdi-cart-outline</v-icon>
-                            <h1 class="text-h4 font-weight-bold grey--text text--darken-3">سبد خرید شما</h1>
+                            <h1 class="font-weight-bold grey--text text--darken-3">سبد خرید شما</h1>
                         </div>
 
                         <v-row>
@@ -63,7 +63,7 @@
                                         </v-avatar>
 
                                         <div>
-                                            <h3 class="text-subtitle-1 font-weight-bold grey--text text--darken-3 mb-1">
+                                            <h3 class="font-weight-bold grey--text text--darken-3 mb-1">
                                                 {{ item.name }}
                                             </h3>
                                             <span class=" grey--text text--darken-1 d-block">
@@ -99,7 +99,7 @@
                                             </BaseButton>
                                         </div>
 
-                                        <span class="text-subtitle-1 font-weight-bold success--text ml-4">
+                                        <span class="font-weight-bold success--text ml-4">
                                             {{ getItemTotalPrice(item) }} تومان
                                         </span>
 
@@ -118,7 +118,7 @@
 
                             <v-col cols="12" md="4">
                                 <v-card class="pa-6 rounded-xl elevation-2 white-news-card white">
-                                    <h3 class="text-h6 font-weight-bold grey--text text--darken-3 mb-4">
+                                    <h3 class="font-weight-bold grey--text text--darken-3 mb-4">
                                         خلاصه سفارش
                                     </h3>
 
@@ -131,7 +131,7 @@
 
                                     <div class="d-flex justify-space-between py-4 light-divider">
                                         <span class="grey--text text--darken-1 font-weight-medium">جمع کل:</span>
-                                        <span class="font-weight-bold text-h6 success--text">
+                                        <span class="font-weight-bold success--text">
                                             {{ $helper.formatPrice(cartTotalPrice) }}
                                             تومان
                                         </span>
@@ -141,7 +141,7 @@
                                         color="#10B981"
                                         elevation="2"
                                         :block="true"
-                                        c-class="mt-6 rounded-lg font-weight-bold py-6 text-body-1"
+                                        c-class="mt-6 rounded-lg font-weight-bold py-6"
                                         @click="checkout"
                                     >
                                         تکمیل خرید و پرداخت

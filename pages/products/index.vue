@@ -8,7 +8,7 @@
             <div class="d-flex align-center justify-space-between mb-6">
                 <div class="d-flex align-center">
                     <div class="blue-accent-line ml-3"></div>
-                    <h2 class="text-h5 font-weight-bold grey--text text--darken-4">لیست خدمات و محصولات</h2>
+                    <h2 class="font-weight-bold grey--text text--darken-4">لیست خدمات و محصولات</h2>
                 </div>
                 <span class="font-weight-bold grey--text text--darken-2">
                     تعداد موارد: {{ product_list.length }}

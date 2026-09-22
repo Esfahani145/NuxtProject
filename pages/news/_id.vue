@@ -31,7 +31,7 @@
                                     {{ news_item.category || 'اطلاعیه' }}
                                 </v-chip>
 
-                                <div class="d-flex align-center text-slate text-body-1">
+                                <div class="d-flex align-center text-slate">
                                     <v-icon small color="#64748b" class="ml-1">mdi-calendar-month-outline</v-icon>
                                     <span class="ml-4">{{ news_item.date || '۱۵ شهریور ۱۴۰۳' }}</span>
                                     <v-icon small color="#64748b" class="ml-1">mdi-clock-outline</v-icon>
@@ -39,18 +39,18 @@
                                 </div>
                             </div>
 
-                            <h1 class="news-title font-weight-black text-h5 text-md-h4 mb-6">
+                            <h1 class="news-title font-weight-black text-md-h4 mb-6">
                                 {{ news_item.title }}
                             </h1>
 
                             <v-divider class="mb-6" />
 
-                            <div class="news-content text-body-1 text-justify">
+                            <div class="news-content text-justify">
                                 <p>{{ news_item.excerpt }}</p>
                             </div>
 
                             <div class="mt-8 pt-6 border-t d-flex">
-                                <span class="text-body-1 text-slate">منبع: {{ news_item.source }}</span>
+                                <span class="text-slate">منبع: {{ news_item.source }}</span>
                             </div>
                         </div>
                     </v-card>

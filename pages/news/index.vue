@@ -6,7 +6,7 @@
             <div class="d-flex align-center justify-space-between mb-6">
                 <div class="d-flex align-center">
                     <div class="blue-accent-line ml-3"></div>
-                    <h2 class="text-h5 font-weight-bold grey--text text--darken-4">آخرین اطلاعیه‌ها</h2>
+                    <h2 class="font-weight-bold grey--text text--darken-4">آخرین اطلاعیه‌ها</h2>
                 </div>
 
                 <span class="grey--text text--darken-1">تعداد اخبار: {{ newsList.length }}</span>

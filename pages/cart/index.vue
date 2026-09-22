@@ -157,8 +157,14 @@
 </template>
 
 <script>
+import BaseRequireLogin from '~/components/Common/BaseRequireLogin'
+
 export default {
     name: 'CartPage',
+
+    components: {
+        BaseRequireLogin
+    },
 
     computed: {
         isAuthenticated() {

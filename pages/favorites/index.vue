@@ -68,13 +68,15 @@
 </template>
 
 <script>
+import BaseRequireLogin from '~/components/Common/BaseRequireLogin'
 import ProductCard from '~/components/Products/ProductCard.vue'
 
 export default {
     name: 'FavoritesPage',
 
     components: {
-        ProductCard
+        ProductCard,
+        BaseRequireLogin
     },
 
     computed: {

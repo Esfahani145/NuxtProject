@@ -1,10 +1,16 @@
 <template>
-    <div :dir="dir" :class="[ variant === 'light' ? 'light-input' : 'glass-input', { 'no-focus-style': noFocusStyle }, cClass]">
+    <div
+        :dir="dir"
+        :class="[ variant === 'light' ? 'light-input' : 'glass-input', { 'no-focus-style': noFocusStyle }, cClass]">
+        <label v-if="label" class="form-label">
+            {{ label }}
+        </label>
+
         <v-textarea
-            :hide-details="hideDetails"
             :value="value"
-            :label="label"
             :placeholder="placeholder"
+            :rules="computedRules"
+            :hide-details="hideDetails"
             :disabled="disabled"
             :readonly="readonly"
             :clearable="clearable"
@@ -25,12 +31,12 @@
             :dense="dense"
             :shaped="shaped"
             :solo="solo"
-            :rules="computedRules"
             :rounded="rounded"
             :flat="flat"
             :dark="dark"
             :rows="rows"
             :auto-grow="autoGrow"
+            :color="color"
             @input="$emit('input', $event)"
         />
     </div>
@@ -41,18 +47,6 @@ export default {
     name: 'BaseTextarea',
 
     props: {
-        dir: {
-            type: String,
-            default: 'rtl'
-        },
-        noFocusStyle: {
-            type: Boolean,
-            default: false
-        },
-        hideDetails: {
-            type: Boolean,
-            default: false
-        },
         value: {
             type: String,
             default: ''
@@ -63,7 +57,7 @@ export default {
         },
         placeholder: {
             type: String,
-            default: undefined
+            default: ''
         },
         rules: {
             type: [Array, String],
@@ -72,6 +66,14 @@ export default {
         ruleContext: {
             type: Object,
             default: () => ({})
+        },
+        dir: {
+            type: String,
+            default: 'rtl'
+        },
+        hideDetails: {
+            type: [Boolean, String],
+            default: false
         },
         disabled: {
             type: Boolean,
@@ -129,27 +131,15 @@ export default {
             type: String,
             default: undefined
         },
-        solo: {
+        autofocus: {
+            type: Boolean,
+            default: false
+        },
+        outlined: {
             type: Boolean,
             default: true
         },
         rounded: {
-            type: Boolean,
-            default: true
-        },
-        flat: {
-            type: Boolean,
-            default: true
-        },
-        dark: {
-            type: Boolean,
-            default: true
-        },
-        outlined: {
-            type: Boolean,
-            default: false
-        },
-        filled: {
             type: Boolean,
             default: false
         },
@@ -157,19 +147,39 @@ export default {
             type: Boolean,
             default: false
         },
+        filled: {
+            type: Boolean,
+            default: false
+        },
         shaped: {
             type: Boolean,
             default: false
         },
-        autofocus: {
+        solo: {
             type: Boolean,
             default: false
+        },
+        flat: {
+            type: Boolean,
+            default: false
+        },
+        dark: {
+            type: Boolean,
+            default: false
+        },
+        color: {
+            type: String,
+            default: 'accent'
         },
         rows: {
             type: [Number, String],
             default: 3
         },
         autoGrow: {
+            type: Boolean,
+            default: false
+        },
+        noFocusStyle: {
             type: Boolean,
             default: false
         },
@@ -193,54 +203,9 @@ export default {
 </script>
 
 <style scoped>
-.glass-input ::v-deep .v-input {
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-.glass-input ::v-deep .v-input__slot {
-    background: rgba(30, 41, 59, 0.7) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    backdrop-filter: blur(10px);
-    border-radius: 10px !important;
-    min-height: 96px !important;
-    padding: 12px 16px !important;
-    transition: all 0.2s ease;
-}
-
-.glass-input ::v-deep textarea {
-    color: #fff !important;
-    font-size: 1rem !important;
-    font-weight: 500 !important;
-    padding: 0 !important;
-}
-
-.glass-input ::v-deep textarea::placeholder {
-    color: #64748b !important;
-}
-
-.glass-input ::v-deep .v-icon {
-    color: #94a3b8 !important;
-}
-
-.light-input ::v-deep .v-input {
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-.light-input ::v-deep .v-input__slot {
-    background: #fff !important;
-    border: 1.5px solid #cbd5e1 !important;
-    border-radius: 10px !important;
-    min-height: 96px !important;
-    padding: 12px 16px !important;
-    transition: all 0.2s ease;
-}
-
 .light-input ::v-deep textarea {
     color: #1e293b !important;
     font-size: 1rem !important;
-    padding: 0 !important;
 }
 
 .light-input ::v-deep textarea::placeholder {
@@ -250,24 +215,6 @@ export default {
 
 .light-input ::v-deep .v-icon {
     color: #64748b !important;
-}
-
-.glass-input:not(.no-focus-style) ::v-deep .v-input--is-focused .v-input__slot {
-    border-color: #3b82f6 !important;
-    border-width: 2px !important;
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25) !important;
-    background: rgba(30, 41, 59, 0.95) !important;
-}
-
-.light-input:not(.no-focus-style) ::v-deep .v-input--is-focused .v-input__slot {
-    border-color: #3b82f6 !important;
-    border-width: 2px !important;
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important;
-    background: #fff !important;
-}
-
-.light-input:not(.no-focus-style) ::v-deep .v-input--is-focused .v-icon {
-    color: #3b82f6 !important;
 }
 
 [dir="rtl"] ::v-deep textarea,

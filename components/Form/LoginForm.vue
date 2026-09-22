@@ -1,7 +1,7 @@
 <template>
     <v-form ref="loginForm" v-model="valid" lazy-validation @submit.prevent="handleLogin">
-        <div class="mb-3 text-right">
-            <label class="font-weight-bold slate-dark--text mb-2 d-block font-size-14">
+        <div class="mb-2 text-right">
+            <label class="font-weight-bold slate-dark--text mb-1 d-block font-size-14">
                 شماره همراه
             </label>
 
@@ -17,8 +17,8 @@
             />
         </div>
 
-        <div class="mb-2 text-right">
-            <div class="d-flex justify-space-between align-center mb-2 font-size-14">
+        <div class="mb12 text-right">
+            <div class="d-flex justify-space-between align-center mb-1 font-size-14">
                 <label class="font-weight-bold slate-dark--text mb-0">
                     رمز عبور
                 </label>

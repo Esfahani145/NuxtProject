@@ -1,75 +1,61 @@
 <template>
     <v-form ref="registerForm" v-model="valid" lazy-validation @submit.prevent="handleSignup">
         <v-row dense>
-            <v-col cols="12" md="6" class="mb-2">
-                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right font-size-14">
-                    نام و نام خانوادگی
-                </label>
+            <v-col cols="12" md="6" class="mb-1">
                 <BaseInput
                     v-model="credentials.full_name"
                     placeholder="علی محمدی"
+                    label="نام و نام خانوادگی"
                     prepend-inner-icon="mdi-account-outline"
                     rules="required"
-                    :dark="false"
                     variant="light"
                     c-class="form-input"
                 />
             </v-col>
 
-            <v-col cols="12" md="6" class="mb-2">
-                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right">
-                    شماره همراه
-                </label>
+            <v-col cols="12" md="6" class="mb-1">
                 <BaseInput
                     v-model="credentials.phone"
                     placeholder="۰۹۱۲۳۴۵۶۷۸۹"
                     type="tel"
+                    label="شماره همراه"
                     dir="ltr"
                     prepend-inner-icon="mdi-cellphone"
                     rules="required,phone"
-                    :dark="false"
                     variant="light"
                 />
             </v-col>
 
-            <v-col cols="12" md="6" class="mb-2">
-                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right font-size-14">
-                    کد ملی
-                </label>
+            <v-col cols="12" md="6" class="mb-1">
                 <BaseInput
                     v-model="credentials.national_code"
                     placeholder="۱۲۳۴۵۶۷۸۹۰"
+                    label="کد ملی"
                     type="tel"
                     dir="ltr"
                     prepend-inner-icon="mdi-card-account-details-outline"
                     rules="required,national_code"
                     maxlength="10"
-                    :dark="false"
                     variant="light"
                 />
             </v-col>
 
-            <v-col cols="12" md="6" class="mb-2">
-                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right font-size-14">
-                    پست الکترونیک
-                </label>
+            <v-col cols="12" md="6" class="mb-1">
                 <BaseInput
+                    label="پست الکترونیک"
                     v-model="credentials.email"
                     placeholder="example@gmail.com"
                     type="email"
                     dir="ltr"
                     prepend-inner-icon="mdi-email-outline"
                     rules="email"
-                    :dark="false"
                     variant="light"
                 />
             </v-col>
 
-            <v-col cols="12" md="6" class="mb-2">
-                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right font-size-14">
-                    تاریخ تولد
-                </label>
+            <v-col cols="12" md="6" class="mb-1">
                 <BaseDatePicker
+                    label="تاریخ تولد"
                     v-model="credentials.birth_date"
                     placeholder="انتخاب تاریخ تولد"
                     variant="light"
@@ -77,110 +63,82 @@
                 />
             </v-col>
 
-            <v-col cols="12" md="6" class="mb-2">
-                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right font-size-14">
-                    جنسیت
-                </label>
-                <v-select
+            <v-col cols="12" md="6" class="mb-1">
+                <BaseSelect
                     v-model="credentials.gender"
+                    label=جنسیت
                     :items="gender_items"
                     item-text="text"
                     item-value="value"
                     placeholder="انتخاب کنید"
                     prepend-inner-icon="mdi-account-group-outline"
                     :rules="$parseRules('required')"
-                    solo
-                    flat
-                    rounded
-                    class="custom-input-field"
                 />
             </v-col>
 
-            <v-col cols="12" md="6" class="mb-2">
-                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right font-size-14">
-                    استان
-                </label>
-                <v-autocomplete
+            <v-col cols="12" md="6" class="mb-1">
+                <BaseAutocomplete
                     v-model="credentials.province"
+                    label="استان"
                     :items="provinces"
                     item-text="name"
                     item-value="id"
                     placeholder="انتخاب استان"
                     prepend-inner-icon="mdi-map-marker-outline"
-                    :rules="$parseRules('required')"
-                    solo
-                    flat
-                    rounded
-                    class="custom-input-field"
+                    rules="required"
                     clearable
                 />
             </v-col>
 
-            <v-col cols="12" md="6" class="mb-2">
-                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right font-size-14">
-                    شهر
-                </label>
-                <v-autocomplete
+            <v-col cols="12" md="6" class="mb-1">
+                <BaseAutocomplete
                     v-model="credentials.city"
                     :items="filteredCities"
                     item-text="name"
+                    label="شهر"
                     item-value="id"
                     placeholder="انتخاب شهر"
                     prepend-inner-icon="mdi-city-variant-outline"
                     :rules="$parseRules('required')"
                     :disabled="!credentials.province"
-                    solo
-                    flat
-                    rounded
-                    class="custom-input-field"
                     clearable
                 />
             </v-col>
 
-            <v-col cols="12" md="6" class="mb-2">
-                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right font-size-14">
-                    رمز عبور
-                </label>
+            <v-col cols="12" md="6" class="mb-1">
                 <BaseInput
                     v-model="credentials.password"
                     placeholder="••••••••"
                     type="password"
+                    label="رمز عبور"
                     dir="ltr"
                     prepend-inner-icon="mdi-lock-outline"
                     rules="required,password"
-                    :dark="false"
                     variant="light"
                 />
             </v-col>
 
-            <v-col cols="12" md="6" class="mb-2">
-                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right font-size-14">
-                    تکرار رمز عبور
-                </label>
+            <v-col cols="12" md="6" class="mb-1">
                 <BaseInput
                     v-model="credentials.confirm_password"
                     placeholder="••••••••"
                     type="password"
+                    label="تکرار رمز عبور"
                     dir="ltr"
                     prepend-inner-icon="mdi-lock-check-outline"
                     rules="required,confirm_password"
                     :rule-context="credentials"
-                    :dark="false"
                     variant="light"
                 />
             </v-col>
 
-            <v-col cols="12" class="mb-2">
-                <label class="font-weight-bold slate-dark--text mb-1 d-block text-right font-size-14">
-                    آدرس محل سکونت
-                </label>
-
+            <v-col cols="12" class="mb-1">
                 <BaseTextarea
                     v-model="credentials.address"
                     placeholder="خیابان، کوچه، پلاک"
                     prepend-inner-icon="mdi-map-marker-outline"
+                    label="آدرس محل سکونت"
                     rules="required"
-                    :dark="false"
                     variant="light"
                     c-class="form-input"
                 />

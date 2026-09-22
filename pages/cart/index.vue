@@ -63,10 +63,10 @@
                                         </v-avatar>
 
                                         <div>
-                                            <h3 class="font-weight-bold grey--text text--darken-3 mb-1">
+                                            <h3 class="font-weight-bold grey--text text--darken-3 mb-1 font-size-16">
                                                 {{ item.name }}
                                             </h3>
-                                            <span class=" grey--text text--darken-1 d-block">
+                                            <span class=" grey--text text--darken-1 d-block font-size-14">
                                                 {{ item.category }}
                                             </span>
                                         </div>

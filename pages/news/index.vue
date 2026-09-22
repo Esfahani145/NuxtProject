@@ -30,13 +30,15 @@
 
 <script>
 import NewsCard from '~/components/News/NewsCard.vue'
+import BaseHero from '~/components/Hero/BaseHero.vue'
 import newsData from '~/static/data/data.json'
 
 export default {
     name: 'NewsPage',
 
     components: {
-        NewsCard
+        NewsCard,
+        BaseHero
     },
 
     data() {

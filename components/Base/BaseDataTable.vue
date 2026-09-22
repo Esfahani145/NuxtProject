@@ -1,25 +1,30 @@
 <template>
-    <v-data-table
-        :value="value"
-        :headers="headers"
-        :items="items"
-        :search="search"
-        :items-per-page="itemsPerPage"
-        :loading="loading"
-        :item-key="itemKey"
-        :show-select="showSelect"
-        :show-expand="showExpand"
-        :multi-sort="multiSort"
-        :class="tableClass"
-        :no-data-text="noDataText"
-        :no-results-text="noResultsText"
-        :footer-props="footerProps"
-        @input="$emit('input', $event)"
-    >
-        <template v-for="(_, name) in $scopedSlots" :slot="name" slot-scope="slot_data">
-            <slot :name="name" v-bind="slot_data" />
-        </template>
-    </v-data-table>
+    <div>
+        <label v-if="label" class="form-label">
+            {{ label }}
+        </label>
+        <v-data-table
+            :value="value"
+            :headers="headers"
+            :items="items"
+            :search="search"
+            :items-per-page="itemsPerPage"
+            :loading="loading"
+            :item-key="itemKey"
+            :show-select="showSelect"
+            :show-expand="showExpand"
+            :multi-sort="multiSort"
+            :class="cClass"
+            :no-data-text="noDataText"
+            :no-results-text="noResultsText"
+            :footer-props="footerProps"
+            @input="$emit('input', $event)"
+        >
+            <template v-for="(_, name) in $scopedSlots" :slot="name" slot-scope="slot_data">
+                <slot :name="name" v-bind="slot_data" />
+            </template>
+        </v-data-table>
+    </div>
 </template>
 
 <script>
@@ -67,9 +72,9 @@ export default {
             type: Boolean,
             default: false
         },
-        tableClass: {
+        label: {
             type: String,
-            default: 'elevation-0'
+            default: ''
         },
         noDataText: {
             type: String,
@@ -85,6 +90,10 @@ export default {
                 'items-per-page-text': 'تعداد در صفحه',
                 'items-per-page-options': [ 5, 10, 15, -1]
             })
+        },
+        cClass: { 
+            type: [String, Array, Object], 
+            default: '' 
         }
     }
 }

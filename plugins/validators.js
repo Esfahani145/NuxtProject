@@ -1,5 +1,4 @@
 const rules_map = {
-
     required: (value) => !!value || 'این فیلد الزامی است',
     phone: (value) => !value || /^09\d{9}$/.test(String(value)) || 'شماره موبایل معتبر نیست',
     email: (value) => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value)) || 'ایمیل معتبر نیست',

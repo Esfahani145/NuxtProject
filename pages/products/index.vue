@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import BaseHero from '~/components/Hero/BaseHero.vue'
 import ProductStats from '~/components/Products/ProductStats.vue'
 import ProductCard from '~/components/Products/ProductCard.vue'
 
@@ -40,7 +41,8 @@ export default {
 
     components: {
         ProductStats,
-        ProductCard
+        ProductCard,
+        BaseHero
     },
 
     asyncData() {

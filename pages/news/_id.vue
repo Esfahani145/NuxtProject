@@ -14,7 +14,7 @@
                     
                     <v-card v-if="news_item" class="white-detail-card rounded-2xl overflow-hidden elevation-2">
                         <v-img
-                            :src="news_item.image || 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop'"
+                            :src="news_item.image"
                             height="300" cover alt="تصویر خبر"
                         >
 
@@ -31,15 +31,15 @@
                                     {{ news_item.category || 'اطلاعیه' }}
                                 </v-chip>
 
-                                <div class="d-flex align-center text-slate">
+                                <div class="d-flex align-center text-slate font-size-12">
                                     <v-icon small color="#64748b" class="ml-1">mdi-calendar-month-outline</v-icon>
-                                    <span class="ml-4">{{ news_item.date || '۱۵ شهریور ۱۴۰۳' }}</span>
+                                    <span class="ml-4">{{ news_item.date }}</span>
                                     <v-icon small color="#64748b" class="ml-1">mdi-clock-outline</v-icon>
-                                    <span>{{ news_item.readTime || '۲ دقیقه مطالعه' }}</span>
+                                    <span>{{ news_item.readTime }}</span>
                                 </div>
                             </div>
 
-                            <h1 class="news-title font-weight-black text-md-h4 mb-6">
+                            <h1 class="news-title font-weight-black text-md mb-6">
                                 {{ news_item.title }}
                             </h1>
 
@@ -49,7 +49,7 @@
                                 <p>{{ news_item.excerpt }}</p>
                             </div>
 
-                            <div class="mt-8 pt-6 border-t d-flex">
+                            <div class="mt-8 pt-6 border-t d-flex font-size-12">
                                 <span class="text-slate">منبع: {{ news_item.source }}</span>
                             </div>
                         </div>

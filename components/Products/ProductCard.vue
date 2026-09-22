@@ -2,7 +2,7 @@
     <v-card class="d-flex flex-column justify-space-between w-100 pa-6 rounded-2xl elevation-2 position-relative h-100">
         <div
             v-if="product.badge"
-            class="compact-badge position-absolute rounded-pill font-weight-bold grey lighten-3 blue-grey--text text--darken-4 px-3 py-1"
+            class="compact-badge position-absolute rounded-pill font-weight-bold grey lighten-3 blue-grey--text text--darken-4 px-3 py-1 font-size-12"
         >
             {{ product.badge }}
         </div>
@@ -13,10 +13,10 @@
                     <v-icon color="blue darken-1" size="26">{{ product.icon || 'mdi-cube-outline' }}</v-icon>
                 </v-avatar>
                 <div class="overflow-hidden">
-                    <h3 class="font-weight-bold mb-1 text-truncate blue-grey--text text--darken-4">
-                        {{ product.name || product.title }}
+                    <h3 class="font-weight-bold mb-1 text-truncate blue-grey--text text--darken-4 ">
+                        {{ product.name }}
                     </h3>
-                    <span class="font-weight-bold d-block text-truncate blue--text text--darken-1">
+                    <span class="font-weight-bold d-block text-truncate blue--text text--darken-1 font-size-14">
                         {{ product.category || 'سرویس سازمانی' }}
                     </span>
                 </div>
@@ -39,7 +39,7 @@
             <div class="d-flex align-center justify-space-between">
                 <div>
                     <span class="d-block font-weight-bold blue-grey--text text--lighten-1">تعرفه سرویس</span>
-                    <span class="font-weight-black blue-grey--text text--darken-4">{{ product.price || 'تماس بگیرید' }}</span>
+                    <span class="font-weight-black blue-grey--text text--darken-4">{{ product.price ? $helper.formatPrice(product.price) : 'تماس بگیرید' }}</span>
                 </div>
 
                 <BaseButton

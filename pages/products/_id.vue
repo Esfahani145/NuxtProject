@@ -2,18 +2,16 @@
     <v-container class="center-container rtl-dir py-6">
         <v-row justify="center" align="center" class="w-100 ma-0">
             <v-col cols="12" md="8">
-                <v-card class="pa-6 pa-md-8 rounded-xl elevation-2 white">
-                    <BaseButton
-                        color="primary"
-                        elevation="0"
-                        :block="false"
-                        c-class="mb-4 font-weight-bold"
-                        @click="$goTo('/products')"
-                    >
-                        <v-icon right class="ml-1">mdi-arrow-right</v-icon>
-                        بازگشت به فروشگاه
-                    </BaseButton>
-
+                <BaseButton
+                    color="primary"
+                    :block="false"
+                    @click="$goTo('/products')"
+                >
+                    <v-icon>mdi-arrow-right</v-icon>
+                    بازگشت به فروشگاه
+                </BaseButton>
+        
+                <v-card class="pa-6 pa-md-8 rounded-xl mt-1 elevation-2 white">
                     <div class="d-flex align-center mb-6">
                         <v-avatar color="#E0F2FE" size="64" class="ml-4">
                             <v-icon color="#0284C7" size="36">
@@ -23,7 +21,7 @@
 
                         <div >
                             <h1 class="font-weight-bold grey--text text--darken-3 mb-1">
-                                {{ product.name || product.title }}
+                                {{ product.name }}
                             </h1>
 
                             <v-chip color="#0284C7" label small dark class="font-weight-bold">
@@ -91,25 +89,19 @@
 <script>
 export default {
     name: 'ProductDetailPage',
-    // asyncData({ params, error }) {
-    //     try {
-    //         const data = require('~/static/data/data.json')
-    //         const product_id = parseInt(params.id, 10)
-    //         const product = data.products.find((item) => item.id === product_id)
+    asyncData({ params, error }) {
+        try {
+            const data = require('~/static/data/data.json')
+            const product_id = parseInt(params.id, 10)
+            const product = data.products.find((item) => item.id === product_id)
 
-    //         if (!product) {
-    //             return error({statusCode: 404, message: 'محصول یافت نشد'})
-    //         }
+            if (!product) {
+                return error({statusCode: 404, message: 'محصول یافت نشد'})
+            }
 
-    //         return { product }
-    //     } catch (e) {
-    //         return error({statusCode: 500, message: 'خطا در دریافت اطلاعات'})
-    //     }
-    // },
-
-    data() {
-        return {
-            product: {}
+            return { product }
+        } catch (e) {
+            return error({statusCode: 500, message: 'خطا در دریافت اطلاعات'})
         }
     },
 
@@ -121,12 +113,6 @@ export default {
         formattedPrice() {
             return this.$helper.formatPrice(this.product.price)
         }
-    },
-
-    created() {
-        const products_data = require('~/static/data/data.json')
-        const product_id = parseInt(this.$route.params.id, 10)
-        this.product = products_data.products.find((item) => item.id === product_id) || {}
     },
 
     mounted() {

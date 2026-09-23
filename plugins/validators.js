@@ -5,13 +5,16 @@ const rules_map = {
     min8: (value) => !value || String(value).length >= 8 || 'حداقل باید ۸ کاراکتر باشد',
     max50: (value) => !value || String(value).length <= 50 || 'حداکثر باید ۵۰ کاراکتر باشد',
     national_code: (value) => !value || /^\d{10}$/.test(String(value)) || 'کد ملی باید ۱۰ رقم باشد',
-    password: (value) => !value || /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/.test(value) || 'رمز عبور باید حداقل ۸ کاراکتر و شامل حروف بزرگ، حروف کوچک، عدد و کاراکتر ویژه باشد',
+    persian: (value) => !value || /^[\u0600-\u06FF\s‌]+$/.test(String(value)) || 'فقط حروف فارسی مجاز است',
+    persian_address: (value) => !value || /^[\u0600-\u06FF0-9۰-۹\s‌،,./-]+$/.test(String(value)) || 'آدرس فقط می‌تواند شامل حروف فارسی باشد',
+    password: (value) => !value || /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/.test(String(value)) || 'رمز عبور باید حداقل ۸ کاراکتر و شامل حروف بزرگ، حروف کوچک، عدد و کاراکتر ویژه باشد',
     confirm_password: (value, rule_context) => !value || value === rule_context.password || 'تکرار رمز عبور صحیح نیست'
 }
 
 export default (context, inject) => {
     const parse_rules = (rules_input, rule_context = {}) => {
         if (!rules_input) return []
+
         if (Array.isArray(rules_input)) {
             return rules_input
         }
@@ -21,9 +24,9 @@ export default (context, inject) => {
             .map(rule_name => {
                 const rule = rules_map[rule_name.trim()]
                 if (!rule) return null
-                return value => rule(value, rule_context)})
+                return value => rule(value, rule_context)
+            })
             .filter(Boolean)
     }
-
     inject('parseRules', parse_rules)
 }

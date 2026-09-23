@@ -383,12 +383,11 @@
             </v-card-text>
 
             <v-card-actions class="pa-6 pt-0">
-
                 <BaseButton
                     color="error"
                     :block="true"
                     c-class="rounded-lg font-weight-bold"
-                    @click="handleLogout"
+                    @click="show_delete_dialog = true"
                 >
                     <v-icon left>
                         mdi-logout
@@ -396,11 +395,49 @@
 
                     خروج از حساب کاربری
                 </BaseButton>
-
             </v-card-actions>
+            <v-dialog v-model="show_delete_dialog" max-width="450">
+                <v-card class="rounded-xl">
+                    <v-card-title class="font-weight-bold">
+                        <v-icon color="error" class="ml-2">
+                            mdi-alert-circle-outline
+                        </v-icon>
+                        حذف حساب کاربری
+                    </v-card-title>
 
+                    <v-card-text class="font-size-12">
+                        آیا مطمئن هستید که می‌خواهید حساب کاربری خود را حذف کنید؟
+                        <br>
+                        با این کار تمام اطلاعات حساب شما حذف می‌شود.
+                    </v-card-text>
+
+                    <v-card-actions class="pa-4">
+                        <v-spacer></v-spacer>
+
+                        <BaseButton
+                            text
+                            color="grey darken-1"
+                            small
+                            :block="false"
+                            :x-large="false"
+                            @click="show_delete_dialog = false"
+                        >
+                            انصراف
+                        </BaseButton>
+
+                        <BaseButton
+                            color="error"
+                            small
+                            :block="false"
+                            :x-large="false"
+                            @click="handleDeleteAccount"     
+                        >
+                            حذف حساب
+                        </BaseButton>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
         </v-card>
-
     </v-container>
 </template>
 
@@ -411,6 +448,12 @@ export default {
     name: 'ProfilePage',
     layout: "profileLayout",
 
+    data() {
+        return{
+            show_delete_dialog: false
+        }
+    },
+
     computed: {
         user() {
             return this.$store.getters['auth/currentUser']
@@ -418,32 +461,21 @@ export default {
 
         province() {
             if (!this.user) return 'ثبت نشده'
-
-            const province = locations.locations.provinces.find(
-                (item) => item.id === this.user.province
-            )
-
+            const province = locations.locations.provinces.find((item) => item.id === this.user.province)
             return province ? province.name : 'ثبت نشده'
         },
 
         city() {
             if (!this.user) return 'ثبت نشده'
-
-            const city = locations.locations.cities.find(
-                (item) => item.id === this.user.city
-            )
-
+            const city = locations.locations.cities.find((item) => item.id === this.user.city)
             return city ? city.name : 'ثبت نشده'
         },
 
         gender() {
             if (!this.user) return 'ثبت نشده'
-
-            return this.user.gender === 'male'
-                ? 'مرد'
-                : this.user.gender === 'female'
-                    ? 'زن'
-                    : 'ثبت نشده'
+            return this.user.gender === 'male' ? 'مرد'
+                : this.user.gender === 'female' ? 'زن'
+                : 'ثبت نشده'
         }
     },
 
@@ -461,9 +493,10 @@ export default {
             }
         },
 
-        async handleLogout() {
-            await this.$store.dispatch('auth/logout')
-            this.$toast.info('از حساب کاربری خارج شدید')
+        async handleDeleteAccount() {
+            this.show_delete_dialog = false
+            await this.$store.dispatch('auth/deleteAccount')
+            this.$toast.info('حساب کاربری شما حذف شد')
             this.$router.push('/login')
         }
     }

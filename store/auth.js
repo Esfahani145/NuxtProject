@@ -15,108 +15,111 @@ export const mutations = {
     LOGOUT(state) {
         state.token = null
         state.user = null
+    },
+
+    DELETE_ACCOUNT(state) {
+        state.token = null
+        state.user = null
     }
 }
 
 export const actions = {
     initAuth({ commit }) {
-        if (process.client) {
-            const token = localStorage.getItem('user_token')
-            const user_info = localStorage.getItem('user_info')
+        if (!process.client) return
+        const token = localStorage.getItem('user_token')
+        const user_info = localStorage.getItem('user_info')
 
-            if (token && user_info) {
-                const user = JSON.parse(user_info)
+        if (token && user_info) {
+            const user = JSON.parse(user_info)
 
-                commit('SET_TOKEN', token)
-                commit('SET_USER', user)
-            }
+            commit('SET_TOKEN', token)
+            commit('SET_USER', user)
         }
     },
 
     login({ commit }, credentials) {
-        return new Promise((resolve, reject) => {
-            const input_phone = credentials.phone.trim()
-            const input_password = String(credentials.password).trim()
+        if (!process.client) return
+        const saved_users = localStorage.getItem('users')
+        const users = saved_users ? JSON.parse(saved_users) : []
+        const input_phone = String(credentials.phone).trim()
+        const input_password = String(credentials.password).trim()
+        const user_info = users.find(user => user.phone === input_phone && user.password === input_password)
 
-            if (process.client) {
-                const saved_user = localStorage.getItem('user_info')
+        if (!user_info) {
+            throw new Error('شماره موبایل یا رمز عبور اشتباه است.')
+        }
 
-                if (!saved_user) {
-                    reject(
-                        new Error('حساب کاربری پیدا نشد. ابتدا ثبت‌نام کنید.')
-                    )
-                    return
-                }
+        const token = 'mock-token-123456'
 
-                const user_info = JSON.parse(saved_user)
+        commit('SET_TOKEN', token)
+        commit('SET_USER', user_info)
 
-                const is_valid_phone = user_info.phone === input_phone
-                const is_valid_password = user_info.password === input_password
-
-                if (is_valid_phone && is_valid_password) {
-                    const token = 'mock-token-123456'
-
-                    commit('SET_TOKEN', token)
-                    commit('SET_USER', user_info)
-
-                    localStorage.setItem('user_token', token)
-
-                    resolve({ success: true })
-                    return
-                }
-            }
-
-            reject(
-                new Error('شماره موبایل یا رمز عبور اشتباه است.')
-            )
-        })
+        localStorage.setItem('user_token', token)
+        localStorage.setItem('user_info', JSON.stringify(user_info))
     },
 
-    signup({ commit }, credentials) {
-        return new Promise((resolve) => {
-            const token = 'mock-token-123456'
+    signup(_, credentials) {
+        if (!process.client) return
+        const saved_users = localStorage.getItem('users')
+        const users = saved_users ? JSON.parse(saved_users) : []
+        const input_phone = String(credentials.phone).trim()
+        const input_email = String(credentials.email).trim().toLowerCase()
+        const input_national_code = String(credentials.national_code).trim()
+        const existing_user = users.find(user => user.national_code === input_national_code || user.phone === input_phone)
 
-            const user_info = {
-                full_name: credentials.full_name,
-                phone: credentials.phone,
-                email: credentials.email,
-                national_code: credentials.national_code,
-                birth_date: credentials.birth_date,
-                gender: credentials.gender,
-                province: credentials.province,
-                city: credentials.city,
-                address: credentials.address,
-                password: credentials.password,
-                role: 'کاربر عادی'
+        if (existing_user) {
+            if (existing_user.national_code === input_national_code) {
+                throw new Error('کاربری با این کد ملی وجود دارد')
             }
 
-            commit('SET_TOKEN', token)
-            commit('SET_USER', user_info)
-
-            if (process.client) {
-                localStorage.setItem('user_token', token)
-                localStorage.setItem(
-                    'user_info',
-                    JSON.stringify(user_info)
-                )
+            if (existing_user.phone === input_phone) {
+                throw new Error('کاربری با این شماره تلفن وجود دارد')
             }
+        }
 
-            resolve({ success: true })
-        })
+        const user_info = {
+            full_name: credentials.full_name,
+            phone: input_phone,
+            email: input_email,
+            national_code: input_national_code,
+            birth_date: credentials.birth_date,
+            gender: credentials.gender,
+            province: credentials.province,
+            city: credentials.city,
+            address: credentials.address,
+            password: credentials.password,
+            role: 'کاربر عادی'
+        }
+        users.push(user_info)
+        localStorage.setItem('users', JSON.stringify(users))
     },
 
     logout({ commit }) {
-        commit('LOGOUT')
-
         if (process.client) {
             localStorage.removeItem('user_token')
             localStorage.removeItem('user_info')
         }
+        commit('LOGOUT')
+    },
+
+    deleteAccount({ commit, state }) {
+        if (process.client) {
+            const saved_users = localStorage.getItem('users')
+            const users = saved_users ? JSON.parse(saved_users) : []
+            const current_user = state.user
+
+            if (current_user) {
+                const updated_users = users.filter(user => user.national_code !== current_user.national_code)
+                localStorage.setItem('users', JSON.stringify(updated_users))
+            }
+            localStorage.removeItem('user_token')
+            localStorage.removeItem('user_info')
+        }
+        commit('DELETE_ACCOUNT')
     }
 }
 
 export const getters = {
-    isAuthenticated: (state) => !!state.token || !!state.user,
-
+    isAuthenticated: (state) => !!state.token,
     currentUser: (state) => state.user
 }

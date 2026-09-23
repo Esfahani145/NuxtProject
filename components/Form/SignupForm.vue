@@ -7,7 +7,7 @@
                     placeholder="علی محمدی"
                     label="نام و نام خانوادگی"
                     prepend-inner-icon="mdi-account-outline"
-                    rules="required"
+                    rules="required, persian"
                     variant="light"
                     c-class="form-input"
                 />
@@ -138,7 +138,7 @@
                     placeholder="خیابان، کوچه، پلاک"
                     prepend-inner-icon="mdi-map-marker-outline"
                     label="آدرس محل سکونت"
-                    rules="required"
+                    rules="required,persian_address"
                     variant="light"
                     c-class="form-input"
                 />

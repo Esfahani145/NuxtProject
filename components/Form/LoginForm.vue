@@ -1,29 +1,25 @@
 <template>
     <v-form ref="loginForm" v-model="valid" lazy-validation @submit.prevent="handleLogin">
         <div class="mb-2 text-right">
-            <label class="font-weight-bold slate-dark--text mb-1 d-block font-size-14">
-                شماره همراه
-            </label>
-
             <BaseInput
                 v-model="credentials.phone"
                 placeholder="۰۹۱۲۳۴۵۶۷۸۹"
                 type="tel"
+                label="شماره همراه"
                 dir="ltr"
                 prepend-inner-icon="mdi-cellphone"
                 rules="required,phone"
-                :dark="false"
                 variant="light"
             />
         </div>
 
-        <div class="mb12 text-right">
-            <div class="d-flex justify-space-between align-center mb-1 font-size-14">
-                <label class="font-weight-bold slate-dark--text mb-0">
+        <div class="text-right">
+            <div class="d-flex align-center justify-space-between">
+                <label class="form-label">
                     رمز عبور
                 </label>
 
-                <a href="#" class="auth-help-link text-decoration-none font-size-12" @click.prevent="$toast.info('لطفاً با پشتیبانی سیستم تماس بگیرید')">
+                <a href="#" class="auth-help-link font-size-12" @click.prevent="$toast.info('لطفاً با پشتیبانی سیستم تماس بگیرید')">
                     فراموشی رمز؟
                 </a>
             </div>
@@ -34,9 +30,7 @@
                 type="password"
                 dir="ltr"
                 prepend-inner-icon="mdi-lock-outline"
-                rules="required"
-                :dark="false"
-                :show-password-toggle="true"
+                rules="required,password"
                 variant="light"
             />
         </div>

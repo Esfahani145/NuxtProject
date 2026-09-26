@@ -15,11 +15,6 @@ export const mutations = {
     LOGOUT(state) {
         state.token = null
         state.user = null
-    },
-
-    DELETE_ACCOUNT(state) {
-        state.token = null
-        state.user = null
     }
 }
 
@@ -39,14 +34,29 @@ export const actions = {
 
     login({ commit }, credentials) {
         if (!process.client) return
-        const saved_users = localStorage.getItem('users')
-        const users = saved_users ? JSON.parse(saved_users) : []
+
         const input_phone = String(credentials.phone).trim()
         const input_password = String(credentials.password).trim()
+        const static_user = {phone: '09111111111', password: '12345678', full_name: 'کاربر', email: 'user@example.com', national_code: '0000000000', role: 'کاربر عادی'}
+
+        if (input_phone === static_user.phone && input_password === static_user.password) {
+            const token = 'static-user-token'
+
+            commit('SET_TOKEN', token)
+            commit('SET_USER', static_user)
+
+            localStorage.setItem('user_token', token)
+            localStorage.setItem('user_info', JSON.stringify(static_user))
+
+            return
+        }
+
+        const saved_users = localStorage.getItem('users')
+        const users = saved_users ? JSON.parse(saved_users) : []
         const user_info = users.find(user => user.phone === input_phone && user.password === input_password)
 
         if (!user_info) {
-            throw new Error('شماره موبایل یا رمز عبور اشتباه است.')
+            throw new Error('شماره موبایل یا رمز عبور اشتباه است')
         }
 
         const token = 'mock-token-123456'
@@ -94,15 +104,7 @@ export const actions = {
         localStorage.setItem('users', JSON.stringify(users))
     },
 
-    logout({ commit }) {
-        if (process.client) {
-            localStorage.removeItem('user_token')
-            localStorage.removeItem('user_info')
-        }
-        commit('LOGOUT')
-    },
-
-    deleteAccount({ commit, state }) {
+    logout({ commit, state }) {
         if (process.client) {
             const saved_users = localStorage.getItem('users')
             const users = saved_users ? JSON.parse(saved_users) : []
@@ -115,7 +117,7 @@ export const actions = {
             localStorage.removeItem('user_token')
             localStorage.removeItem('user_info')
         }
-        commit('DELETE_ACCOUNT')
+        commit('LOGOUT')
     }
 }
 

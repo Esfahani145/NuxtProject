@@ -2,7 +2,7 @@
     <v-card class="dark-gradient-banner pa-8 pa-md-10 text-center rounded-xl elevation-6 white--text border-card">
         <div class="mb-4 d-flex justify-center">
             <v-avatar color="rgba(255, 255, 255, 0.08)" size="80">
-                <v-icon size="44" color="#60A5FA">
+                <v-icon size="44" color="hero">
                     {{ icon }}
                 </v-icon>
             </v-avatar>
@@ -18,7 +18,7 @@
 
         <BaseButton
             to="/login"
-            color="#2563EB"
+            color="accent"
             :block="false"
             elevation="2"
             c-class="white--text rounded-lg px-8 font-weight-bold"

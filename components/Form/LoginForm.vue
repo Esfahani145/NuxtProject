@@ -30,7 +30,7 @@
                 type="password"
                 dir="ltr"
                 prepend-inner-icon="mdi-lock-outline"
-                rules="required,password"
+                rules="required"
                 variant="light"
             />
         </div>
@@ -38,7 +38,7 @@
         <div class="mt-1">
             <BaseButton
                 type="submit"
-                color="#0f172a"
+                color="primary"
                 :loading="loading"
                 :disabled="!valid"
                 :block="true"

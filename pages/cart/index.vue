@@ -17,8 +17,8 @@
                         <v-col cols="12" sm="10" md="8" lg="6">
                             <v-card class="pa-8 text-center rounded-xl elevation-2 white-news-card white">
                                 <div class="mb-4">
-                                    <v-avatar color="#E0F2FE" size="80">
-                                        <v-icon size="48" color="#3B82F6">mdi-cart-off</v-icon>
+                                    <v-avatar color="avatar" size="80">
+                                        <v-icon size="48" color="icon">mdi-cart-off</v-icon>
                                     </v-avatar>
                                 </div>
 
@@ -31,7 +31,7 @@
                                 </p>
 
                                 <BaseButton
-                                    color="#3B82F6"
+                                    color="info"
                                     elevation="1"
                                     :block="false"
                                     c-class="white--text rounded-lg px-8 font-weight-bold"
@@ -46,7 +46,7 @@
 
                     <div v-else>
                         <div class="d-flex align-center mb-6">
-                            <v-icon color="#3B82F6" x-large class="ml-3">mdi-cart-outline</v-icon>
+                            <v-icon color="info" x-large class="ml-3">mdi-cart-outline</v-icon>
                             <h1 class="font-weight-bold grey--text text--darken-3">سبد خرید شما</h1>
                         </div>
 
@@ -58,8 +58,8 @@
                                     class="mb-4 pa-4 rounded-xl elevation-1 white-news-card d-flex align-center justify-space-between flex-wrap white"
                                 >
                                     <div class="d-flex align-center">
-                                        <v-avatar color="#E0F2FE" rounded size="56" class="ml-4">
-                                            <v-icon color="#0284C7">mdi-shield-check-outline</v-icon>
+                                        <v-avatar color="avatar" rounded size="56" class="ml-4">
+                                            <v-icon color="info">mdi-shield-check-outline</v-icon>
                                         </v-avatar>
 
                                         <div>
@@ -81,7 +81,7 @@
                                                 c-class="pa-0 min-w-0"
                                                 @click="updateQty(getItemKey(item), (item.quantity || 1) - 1)"
                                             >
-                                                <v-icon small color="#475569">mdi-minus</v-icon>
+                                                <v-icon small color="secondary">mdi-minus</v-icon>
                                             </BaseButton>
 
                                             <span class="mx-3 font-weight-bold grey--text text--darken-3">
@@ -95,7 +95,7 @@
                                                 c-class="pa-0 min-w-0"
                                                 @click="updateQty(getItemKey(item), (item.quantity || 1) + 1)"
                                             >
-                                                <v-icon small color="#475569">mdi-plus</v-icon>
+                                                <v-icon small color="secondary">mdi-plus</v-icon>
                                             </BaseButton>
                                         </div>
 
@@ -110,7 +110,7 @@
                                             c-class="pa-0 min-w-0"
                                             @click="removeItem(getItemKey(item))"
                                         >
-                                            <v-icon small color="#EF4444">mdi-trash-can-outline</v-icon>
+                                            <v-icon small color="error">mdi-trash-can-outline</v-icon>
                                         </BaseButton>
                                     </div>
                                 </v-card>
@@ -138,7 +138,7 @@
                                     </div>
 
                                     <BaseButton
-                                        color="#10B981"
+                                        color="success"
                                         elevation="2"
                                         :block="true"
                                         c-class="mt-6 rounded-lg font-weight-bold py-6"
@@ -167,10 +167,6 @@ export default {
     },
 
     computed: {
-        isAuthenticated() {
-            return this.$store.getters['auth/isAuthenticated']
-        },
-
         cartItems() {
             return this.$store.getters.cartItems
         },
@@ -181,12 +177,6 @@ export default {
 
         cartTotalPrice() {
             return this.$store.getters.cartTotalPrice
-        }
-    },
-
-    mounted() {
-        if (this.isAuthenticated) {
-            this.$store.dispatch('loadUserCart')
         }
     },
 

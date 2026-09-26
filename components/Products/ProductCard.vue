@@ -43,7 +43,20 @@
                 </div>
 
                 <BaseButton
-                    color="#0f172a"
+                    v-if="showRemoveFavorite"
+                    icon
+                    color="error"
+                    elevation="0"
+                    c-class="ml-2 rounded-lg"
+                    @click="$emit('remove-favorite', product)"
+                    :x-large="false"
+                    :block="false"
+                >
+                    <v-icon>mdi-heart-remove-outline</v-icon>
+                </BaseButton>
+
+                <BaseButton
+                    color="primary"
                     elevation="0"
                     :block="false"
                     :x-large="false"
@@ -66,6 +79,10 @@ export default {
             type: Object,
             // required: true
             default: () => ({})
+        },
+        showRemoveFavorite: {
+            type: Boolean,
+            default: false
         }
     }
 }

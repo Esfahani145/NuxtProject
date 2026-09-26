@@ -21,14 +21,25 @@ import AppFooter from '~/components/Layout/AppFooter.vue'
 
 export default {
   name: 'DefaultLayout',
+
   components: {
     AppBackground,
     AppNavbar,
     AppFooter
   },
+
   created() {
     if (process.client) {
       this.$store.dispatch('auth/initAuth')
+    }
+  },
+
+  watch: {
+    isAuthenticated(value) {
+      if (value) {
+        this.$store.dispatch('loadUserCart')
+        this.$store.dispatch('loadUserFavorites')
+      }
     }
   }
 }

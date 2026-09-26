@@ -13,8 +13,8 @@
         
                 <v-card class="pa-6 pa-md-8 rounded-xl mt-1 elevation-2 white">
                     <div class="d-flex align-center mb-6">
-                        <v-avatar color="#E0F2FE" size="64" class="ml-4">
-                            <v-icon color="#0284C7" size="36">
+                        <v-avatar color="avatar" size="64" class="ml-4">
+                            <v-icon color="info" size="36">
                                 {{ product.icon || 'mdi-cube-outline' }}
                             </v-icon>
                         </v-avatar>
@@ -24,7 +24,7 @@
                                 {{ product.name }}
                             </h1>
 
-                            <v-chip color="#0284C7" label small dark class="font-weight-bold">
+                            <v-chip color="info" label small dark class="font-weight-bold">
                                 {{ product.category || 'عمومی' }}
                             </v-chip>
                         </div>
@@ -57,7 +57,7 @@
 
                         <div class="d-flex align-center mt-3 mt-sm-0">
                             <BaseButton
-                                color="#10B981"
+                                color="success"
                                 elevation="2"
                                 :block="false"
                                 c-class="rounded-lg font-weight-bold px-6 ml-3"
@@ -120,21 +120,30 @@ export default {
     },
 
     methods: {
-        handleAddToCart() {
-            this.$store.dispatch('addToCart', this.product)
-            this.$toast.success('محصول با موفقیت به سبد خرید اضافه شد')
+        async handleAddToCart() {
+            try {
+                await this.$store.dispatch('addToCart', this.product)
+
+                this.$toast.success('محصول با موفقیت به سبد خرید اضافه شد')
+            } catch (error) {
+                this.$toast.error(error.message)
+            }
         },
 
-        handleToggleFavorite() {
-            const was_favorite = this.isFavoriteProduct
-            this.$store.dispatch('toggleFavorite', this.product)
+        async handleToggleFavorite() {
+            try {
+                const was_favorite = this.isFavoriteProduct
+                await this.$store.dispatch('toggleFavorite', this.product)
 
-            if (!was_favorite) {
-                this.$toast.info('محصول به علاقه‌مندی‌ها اضافه شد')
-            } else {
-                this.$toast.info('محصول از علاقه‌مندی‌ها حذف شد')
+                if (!was_favorite) {
+                    this.$toast.info('محصول به علاقه‌مندی‌ها اضافه شد')
+                } else {
+                    this.$toast.info('محصول از علاقه‌مندی‌ها حذف شد')
+                }
+            } catch (error) {
+                this.$toast.error(error.message)
             }
-        }
+        },
     }
 }
 </script>

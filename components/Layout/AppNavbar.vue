@@ -4,7 +4,7 @@
             <v-navigation-drawer v-model="drawer" right app temporary class="pa-4">
                 <div class="d-flex align-center justify-space-between mb-4">
                     <div class="d-flex align-center">
-                        <v-icon color="#3B82F6" class="ml-2" size="28">
+                        <v-icon color="info" class="ml-2" size="28">
                             mdi-shield-check
                         </v-icon>
                         <span class="font-weight-bold">
@@ -82,14 +82,14 @@
             </v-navigation-drawer>
         </client-only>
 
-        <v-app-bar app color="#1E293B" dark height="70" flat class="px-md-4">
+        <v-app-bar app color="primary" dark height="70" flat class="px-md-4">
             <v-container class="pa-0 d-flex align-center max-width-xl">
                 <v-btn icon class="d-md-none ml-2" @click="drawer = !drawer">
                     <v-icon>mdi-menu</v-icon>
                 </v-btn>
 
                 <NuxtLink to="/" class="d-flex align-center text-decoration-none white--text">
-                    <v-icon color="#3B82F6" class="ml-2" size="28">
+                    <v-icon color="info" class="ml-2" size="28">
                         mdi-shield-check
                     </v-icon>
 
@@ -117,7 +117,7 @@
 
                     <BaseButton
                         text
-                        :class="{'active-link': $route.path.startsWith('/products')}"
+                        :class="{'active-link': $route.path === '/products'}"
                         :block="false"
                         :x-large="false"
                         :rounded="false"
@@ -160,13 +160,13 @@
 
                         <span>علاقه‌مندی‌ها</span>
 
-                        <v-chip v-if=" isAuthenticated && $store.getters.favoritesCount > 0"
+                        <v-chip v-if="isAuthenticated && $store.getters.favoritesCount > 0"
                             x-small
                             color="red"
                             text-color="white"
                             class="mr-2 font-weight-bold"
                         >
-                            {{ $store.getters.favoritesCount }}
+                            {{ favoritesCount }}
                         </v-chip>
                     </BaseButton>
 
@@ -191,7 +191,7 @@
                             text-color="white"
                             class="mr-2 font-weight-bold"
                         >
-                            {{ $store.getters.cartTotalCount }}
+                            {{ cartTotalCount }}
                         </v-chip>
                     </BaseButton>
                 </div>
@@ -235,7 +235,7 @@
 
                         <template v-else>
                             <BaseButton
-                                color="#3B82F6"
+                                color="info"
                                 elevation="1"
                                 :block="false"
                                 :x-large="false"
@@ -268,40 +268,24 @@ export default {
 
     computed: {
         isAuthenticated() {
-            return this.$store.getters['auth/isAuthenticated']
+            return this.$auth?.isAuthenticated || false
+        },
+        favoritesCount() {
+            return this.$store?.getters?.favoritesCount || 0
+        },
+        cartTotalCount() {
+            return this.$store?.getters?.cartTotalCount || 0
         }
     },
 
     methods: {
-        loadUserData() {
-            if (!this.isAuthenticated) {
-                return
-            }
-
-            this.$store.dispatch('loadUserCart')
-            this.$store.dispatch('loadUserFavorites')
-        },
-
         async handleLogout() {
             await this.$store.dispatch('auth/logout')
-
             if (this.$route.path !== '/') {
                 this.$router.push('/')
             }
         }
     },
-
-    mounted() {
-        this.loadUserData()
-    },
-
-    watch: {
-        isAuthenticated(value) {
-            if (value) {
-                this.loadUserData()
-            }
-        }
-    }
 }
 </script>
 

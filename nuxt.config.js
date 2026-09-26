@@ -1,5 +1,3 @@
-import colors from 'vuetify/es5/util/colors'
-
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -30,7 +28,8 @@ export default {
     '~/plugins/validators.js',
     {src: '~/plugins/toast.js', mode: 'client'},
     '~/plugins/helper.js',
-    '~/plugins/navigation.js'
+    '~/plugins/navigation.js',
+    '~/plugins/auth.js'
     ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components  
@@ -85,12 +84,16 @@ export default {
       themes: {
         light: {
           primary: '#0f172a',
+          background: '#1E293B',
           accent: '#2563eb',
-          secondary: '#475569',
           info: '#0284c7',
+          hero: '#60a5fa',
+          secondary: '#475569',
+          span: '#64748b',
           warning: '#d97706',
           error: '#dc2626',
-          success: '#16a34a'
+          success: '#16a34a',
+          avatar: '#eff6ff',
         }
       }
     }
@@ -99,7 +102,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     extend(config) {
-            config.resolve.alias['vue$'] = 'vue/dist/vue.runtime.esm.js'
+            config.resolve.alias.vue$ = 'vue/dist/vue.runtime.esm.js'
         }
   },
 

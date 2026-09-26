@@ -18,7 +18,7 @@
 
             <v-col v-else cols="12" md="4" class="d-flex justify-center pa-6 pa-md-8">
                 <v-avatar color="rgba(255, 255, 255, 0.05)" size="120" class="hero-icon-avatar">
-                    <v-icon size="64" color="#60a5fa">
+                    <v-icon size="64" color="hero">
                         mdi-bullhorn-outline
                     </v-icon>
                 </v-avatar>
@@ -26,7 +26,7 @@
 
             <v-col cols="12" :md="type === 'products' ? 7 : 8" class="pa-6 pa-md-10">
                 <div class="d-inline-flex align-center badge-chip px-3 py-1 rounded-pill mb-4">
-                    <v-icon small color="#60a5fa" class="ml-2">
+                    <v-icon small color="hero" class="ml-2">
                         {{
                             type === 'products'
                                 ? 'mdi-shield-check'
@@ -71,7 +71,7 @@
                 <div v-if="type === 'products'" class="search-box-container position-relative">
                     <div class="d-flex align-center search-row">
                         <BaseButton
-                            color="#3b82f6"
+                            color="info"
                             :x-large="false"
                             :block="false"
                             :depressed="false"

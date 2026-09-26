@@ -17,7 +17,7 @@
         </v-row>
 
         <v-card max-width="1000" class="mx-auto rounded-xl" elevation="3">
-            <v-sheet color="#1E293B" class="pa-6 pa-md-8 white--text">
+            <v-sheet color="primary" class="pa-6 pa-md-8 white--text">
                 <div class="d-flex align-center justify-space-between flex-wrap">
                     <div class="d-flex align-center">
                         <v-avatar size="90" color="white" class="elevation-4 ml-5">
@@ -430,7 +430,7 @@
                             small
                             :block="false"
                             :x-large="false"
-                            @click="handleDeleteAccount"     
+                            @click="handleLogout"     
                         >
                             حذف حساب
                         </BaseButton>
@@ -493,9 +493,9 @@ export default {
             }
         },
 
-        async handleDeleteAccount() {
+        async handleLogout() {
             this.show_delete_dialog = false
-            await this.$store.dispatch('auth/deleteAccount')
+            await this.$store.dispatch('auth/logout')
             this.$toast.info('حساب کاربری شما حذف شد')
             this.$router.push('/login')
         }

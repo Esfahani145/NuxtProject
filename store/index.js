@@ -91,9 +91,23 @@ export const mutations = {
 
 export const actions = {
     addToCart({ commit, state, rootState }, product) {
+        if (!rootState.auth.token) {
+            throw new Error('برای افزودن محصول به سبد خرید ابتدا وارد حساب کاربری شوید')
+        }
+
         commit('ADD_TO_CART', product)
         saveCartToLocalStorage(state, rootState)
+
         return true
+    },
+
+    toggleFavorite({ commit, state, rootState }, product) {
+        if (!rootState.auth.token) {
+            throw new Error('برای افزودن محصول به علاقه‌مندی‌ها ابتدا وارد حساب کاربری شوید')
+        }
+
+        commit('TOGGLE_FAVORITE', product)
+        saveFavoritesToLocalStorage(state, rootState)
     },
 
     removeFromCart({ commit, state, rootState }, product_id) {
@@ -121,11 +135,6 @@ export const actions = {
                 commit('SET_CART', [])
             }
         }
-    },
-
-    toggleFavorite({ commit, state, rootState }, product) {
-        commit('TOGGLE_FAVORITE', product)
-        saveFavoritesToLocalStorage(state, rootState)
     },
 
     removeFromFavorites({ commit, state, rootState }, product_id) {

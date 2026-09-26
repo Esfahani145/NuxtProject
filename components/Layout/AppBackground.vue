@@ -6,15 +6,15 @@
         <div class="circuit-ring ring-2"></div>
 
         <div class="dark-shape shape-left">
-            <v-icon size="240" color="#1E293B">mdi-cloud-lock-outline</v-icon>
+            <v-icon size="240" color="background">mdi-cloud-lock-outline</v-icon>
         </div>
 
         <div class="dark-shape shape-right">
-            <v-icon size="260" color="#1E293B">mdi-database-network-outline</v-icon>
+            <v-icon size="260" color="background">mdi-database-network-outline</v-icon>
         </div>
 
         <div class="dark-shape shape-top-right">
-            <v-icon size="180" color="#1E293B">mdi-shield-check-outline</v-icon>
+            <v-icon size="180" color="background">mdi-shield-check-outline</v-icon>
         </div>
 
         <div class="content-relative">

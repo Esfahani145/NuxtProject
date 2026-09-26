@@ -198,3 +198,7 @@ body {
 .light-input .v-input__slot {
     background: #fff !important;
 }
+
+.light-input .v-input__prepend-inner {
+    margin-inline-end: 10px !important;
+}

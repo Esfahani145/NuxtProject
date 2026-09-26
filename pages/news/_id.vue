@@ -27,14 +27,14 @@
 
                         <div class="pa-6 pa-md-8">
                             <div class="d-flex align-center justify-space-between mb-4 flex-wrap">
-                                <v-chip color="#eff6ff" text-color="#2563eb" label small class="font-weight-bold px-3">
+                                <v-chip color="avatar" text-color="accent" label small class="font-weight-bold px-3">
                                     {{ news_item.category || 'اطلاعیه' }}
                                 </v-chip>
 
                                 <div class="d-flex align-center text-slate font-size-12">
-                                    <v-icon small color="#64748b" class="ml-1">mdi-calendar-month-outline</v-icon>
+                                    <v-icon small color="span" class="ml-1">mdi-calendar-month-outline</v-icon>
                                     <span class="ml-4">{{ news_item.date }}</span>
-                                    <v-icon small color="#64748b" class="ml-1">mdi-clock-outline</v-icon>
+                                    <v-icon small color="span" class="ml-1">mdi-clock-outline</v-icon>
                                     <span>{{ news_item.readTime }}</span>
                                 </div>
                             </div>

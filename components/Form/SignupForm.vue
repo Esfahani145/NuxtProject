@@ -146,7 +146,7 @@
         </v-row>
 
         <div class="d-flex align-center my-2">
-            <v-checkbox v-model="credentials.accept_terms" color="#0f172a" class="ma-0 pa-0" dense />
+            <v-checkbox v-model="credentials.accept_terms" color="primary" class="ma-0 pa-0" dense />
             <BaseButton
                 type="button"
                 text
@@ -168,7 +168,7 @@
         <div class="mt-4">
             <BaseButton
                 type="submit"
-                color="#0f172a"
+                color="primary"
                 :disabled="!valid"
                 :block="true"
                 c-class="corporate-btn-primary"

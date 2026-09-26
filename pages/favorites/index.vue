@@ -16,8 +16,8 @@
                     <v-col cols="12" sm="10" md="8" lg="6">
                         <v-card class="pa-8 text-center rounded-xl elevation-2 white-news-card white">
                             <div class="mb-4">
-                                <v-avatar color="#FEF3C7" size="80">
-                                <v-icon size="48" color="#F59E0B">mdi-heart-off-outline</v-icon>
+                                <v-avatar color="avatar" size="80">
+                                <v-icon size="48" color="warning">mdi-heart-off-outline</v-icon>
                                 </v-avatar>
                             </div>
 
@@ -30,7 +30,7 @@
                             </p>
 
                             <BaseButton
-                                color="#3B82F6"
+                                color="info"
                                 elevation="1"
                                 :block="false"
                                 c-class="rounded-lg px-8 font-weight-bold"
@@ -45,7 +45,7 @@
 
                 <div v-else>
                     <div class="d-flex align-center mb-6">
-                        <v-icon color="#EF4444" x-large class="ml-3">mdi-heart</v-icon>
+                        <v-icon color="error" x-large class="ml-3">mdi-heart</v-icon>
                         <h1 class="font-weight-bold grey--text text--darken-3">لیست علاقه‌مندی‌ها</h1>
                     </div>
 
@@ -58,7 +58,7 @@
                             md="4"
                             class="d-flex"
                         >
-                            <ProductCard :product="item"  @product_click="$goTo(`/products/${$event}`)"/>
+                            <ProductCard :product="item" :show-remove-favorite="true" @product_click="$goTo(`/products/${$event}`)" @remove-favorite="removeFavorite"/>
                         </v-col>
                     </v-row>
                 </div>
@@ -80,18 +80,15 @@ export default {
     },
 
     computed: {
-        isAuthenticated() {
-            return this.$store.getters['auth/isAuthenticated']
-        },
-
         favoriteItems() {
             return this.$store.getters.favoriteItems
         }
     },
 
-    mounted() {
-        if (this.isAuthenticated) {
-            this.$store.dispatch('loadUserFavorites')
+    methods: {
+        removeFavorite(product) {
+            const product_id = this.$helper.getProductId(product)
+            this.$store.dispatch('removeFromFavorites', product_id)
         }
     }
 }

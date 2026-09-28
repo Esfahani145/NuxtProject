@@ -202,3 +202,12 @@ body {
 .light-input .v-input__prepend-inner {
     margin-inline-end: 10px !important;
 }
+
+.column-filter {
+    max-width: 60px;
+    width: 60px;
+}
+
+::v-deep .v-data-table-header th.sortable .v-data-table-header__icon {
+    opacity: 1;
+}

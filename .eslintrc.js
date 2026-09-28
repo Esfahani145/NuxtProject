@@ -18,6 +18,10 @@ module.exports = {
   // add your custom rules here
   rules: {
     "camelcase": "off",
-    'require-await': 'warn'
+    'require-await': 'warn',
+    'vue/no-use-v-if-with-v-for': 'warn',
+    'vue/no-v-for-template-key': 'warn',
+    'vue/v-slot-style': 'warn',
+    'vue/require-v-for-key': 'warn'
   }
 }

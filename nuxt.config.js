@@ -94,6 +94,7 @@ export default {
           error: '#dc2626',
           success: '#16a34a',
           avatar: '#eff6ff',
+          test: '#334155'
         }
       }
     }

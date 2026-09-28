@@ -20,8 +20,8 @@ module.exports = {
     "camelcase": "off",
     'require-await': 'warn',
     'vue/no-use-v-if-with-v-for': 'warn',
-    'vue/no-v-for-template-key': 'warn',
-    'vue/v-slot-style': 'warn',
+    'vue/no-v-for-template-key': 'off',
+    'vue/v-slot-style': 'off',
     'vue/require-v-for-key': 'warn'
   }
 }

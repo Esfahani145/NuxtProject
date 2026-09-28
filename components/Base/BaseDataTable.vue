@@ -1,7 +1,7 @@
 <template>
     <v-data-table
         v-bind="$attrs"
-        :headers="columns"
+        :headers="tableColumns"
         :items="items"
         :search="tableSearch"
         :custom-filter="columnFilter"
@@ -46,155 +46,78 @@
         v-on="$listeners"
     >
         <template v-for="column in filterableColumns" :slot="`header.${column.value}`" slot-scope="{ header }">
-            <div :key="column.value" class="d-flex align-center justify-center pa-0">
-                <span class="font-weight-medium text-no-wrap">
-                    {{ header.text }}
-                </span>
-
-                <BaseInput
-                    v-model="columnFilterValues[column.value]"
-                    class="mr-3 column-filter"
-                    dense
-                    hide-details
-                    single-line
-                    :outlined="false"
-                    @click.stop
-                />
-            </div>
+            <BaseDataTableHeader
+                :key="column.value"
+                :column="column"
+                :header="header"
+                :value="columnFilterValues[column.value]"
+                @input="updateColumnFilter(column.value, $event)"
+            />
         </template>
 
         <template v-for="column in rendererColumns" :slot="`item.${column.value}`" slot-scope="{ item }">
-            <span v-if="column.renderer === 'text'" :key="column.value">
-                {{ item[column.value] }}
-            </span>
-
-            <span v-else-if="column.renderer === 'bold-text'" :key="column.value" class="font-weight-bold slate-dark--text">
-                {{ item[column.value] }}
-            </span>
-
-            <div v-else-if="column.renderer === 'product'" :key="column.value">
-                <div class="font-weight-bold slate-dark--text">
-                    {{ item[column.value] }}
-                </div>
-
-                <div class="slate-gray--text">
-                    {{ item.category }}
-                </div>
-            </div>
-
-            <span v-else-if="column.renderer === 'price'" :key="column.value">
-                <span class="font-weight-bold">
-                    {{ $helper.formatPrice(item[column.value]) }}
-                </span>
-
-                <span> تومان </span>
-            </span>
-
-            <v-chip v-else-if="column.renderer === 'chip'" :key="column.value" small color="primary" text-color="white">
-                {{ item[column.value] }}
-            </v-chip>
-
-            <v-icon v-else-if="column.renderer === 'boolean'" :key="column.value" :color="item[column.value] ? 'success' : 'error'">
-                {{ item[column.value] ? 'mdi-check-circle' : 'mdi-close-circle' }}
-            </v-icon>
-
-            <div v-else-if="column.renderer === 'actions'" :key="column.value" class="d-flex align-center justify-center">
-                <BaseButton
-                    v-if="column.showView"
-                    text
-                    small
-                    :block="false"
-                    :x-large="false"
-                    :white-text="false"
-                    color="primary"
-                    @click="$emit('view', item)"
-                >
-                    <v-icon>
-                        mdi-eye
-                    </v-icon>
-                </BaseButton>
-
-                <BaseButton
-                    v-if="column.showDelete"
-                    text
-                    small
-                    :block="false"
-                    :x-large="false"
-                    :white-text="false"
-                    color="error"
-                    @click="$emit('delete', item)"
-                >
-                    <v-icon>
-                        mdi-delete
-                    </v-icon>
-                </BaseButton>
-            </div>
+            <BaseDataTableItem
+                :key="column.value"
+                :item="item"
+                :column="column"
+                @view="$emit('view', $event)"
+                @delete="$emit('delete', $event)"
+            />
         </template>
 
-        <template v-if="showExpand" slot="expanded-item" slot-scope="{ headers, item }">
-            <td :colspan="headers.length">
-                <div v-if="expandedConfig.description" class="font-size-14 pa-4">
-                    <div class="font-weight-bold mb-2">
-                        توضیحات
-                    </div>
-
-                    <div class="mb-4">
-                        {{ item.description }}
-                    </div>
-
-                    <template v-if="expandedConfig.features">
-                        <div class="font-weight-bold mb-2">
-                            امکانات
-                        </div>
-
-                        <v-chip v-for="feature in item.features" :key="feature" small outlined class="ml-2 mb-2">
-                            {{ feature }}
-                        </v-chip>
-                    </template>
-                </div>
-            </td>
-        </template>
-
-        <template v-for="slotName in customScopedSlotNames" :slot="slotName" slot-scope="slotProps">
-            <slot :name="slotName" v-bind="slotProps"/>
+        <template slot="footer" slot-scope="slotProps">
+            <BaseDataTableFooter
+                v-bind="footerProps"
+                :options="slotProps.props.options"
+                :pagination="slotProps.props.pagination"
+                v-on="slotProps.on"
+            />
         </template>
     </v-data-table>
 </template>
 
 <script>
+import BaseDataTableHeader from '~/components/Table/BaseDataTableHeader.vue'
+import BaseDataTableItem from '~/components/Table/BaseDataTableItem.vue'
+import BaseDataTableFooter from '~/components/Table/BaseDataTableFooter.vue'
+
 export default {
     name: 'BaseDataTable',
 
+    components: {
+        BaseDataTableHeader,
+        BaseDataTableItem,
+        BaseDataTableFooter
+    },
     inheritAttrs: false,
-
     props: {
-        value: { 
-            type: Array, 
-            default: () => [] 
+        value: {
+            type: Array,
+            default: () => []
         },
-        items: { 
-            type: Array, 
-            default: () => [] 
+        items: {
+            type: Array,
+            default: () => []
         },
-        columns: { 
-            type: Array, 
-            default: () => [] 
+        columns: {
+            type: Array,
+            default: () => []
         },
-        disableFiltering: { 
-            type: Boolean, 
-            default: false 
+        disableFiltering: {
+            type: Boolean,
+            default: false
         },
-        disablePagination: { 
-            type: Boolean, 
-            default: false 
+        disablePagination: {
+            type: Boolean,
+            default: false
         },
-        disableSort: { 
-            type: Boolean, 
-            default: false 
+        disableSort: {
+            type: Boolean,
+            default: false
         },
-        loading: { 
-            type: Boolean, 
-            default: false 
+        loading: {
+            type: Boolean,
+            default: false
         },
         loadingText: {
             type: String,
@@ -208,96 +131,93 @@ export default {
             type: String,
             default: '$vuetify.dataIterator.noResultsText'
         },
-        itemsPerPage: { 
-            type: Number, 
-            default: 10 
+        itemsPerPage: {
+            type: Number,
+            default: 10
         },
-        page: { 
-            type: Number, 
-            default: 1 
+        page: {
+            type: Number,
+            default: 1
         },
-        sortBy: { 
-            type: [String, Array], 
-            default: undefined 
+        sortBy: {
+            type: [String, Array],
+            default: undefined
         },
-        sortDesc: { 
-            type: [Boolean, Array], 
-            default: undefined 
+        sortDesc: {
+            type: [Boolean, Array],
+            default: undefined
         },
-        multiSort: { 
-            type: Boolean, 
-            default: false 
+        multiSort: {
+            type: Boolean,
+            default: false
         },
         mustSort: {
-            type: Boolean, 
-            default: false 
+            type: Boolean,
+            default: false
         },
-        groupBy: { 
-            type: [String, Array], 
-            default: undefined 
+        groupBy: {
+            type: [String, Array],
+            default: undefined
         },
-        groupDesc: { 
-            type: [Boolean, Array], 
-            default: undefined 
+        groupDesc: {
+            type: [Boolean, Array],
+            default: undefined
         },
-        showSelect: { 
-            type: Boolean, 
-            default: false 
+        showSelect: {
+            type: Boolean,
+            default: false
         },
-        singleSelect: { 
-            type: Boolean, 
-            default: false 
+        singleSelect: {
+            type: Boolean,
+            default: false
         },
-        showExpand: { 
-            type: Boolean, 
-            default: false 
+        showExpand: {
+            type: Boolean,
+            default: false
         },
-        singleExpand: { 
-            type: Boolean, 
-            default: false 
+        singleExpand: {
+            type: Boolean,
+            default: false
         },
-        expanded: { 
-            type: Array, 
-            default: () => [] 
+        expanded: {
+            type: Array,
+            default: () => []
         },
         expandedConfig: {
             type: Object,
-            default: () => ({
-                description: true,
-                features: true
-            })
+            default: () => ({ description: true,  features: true})
         },
-        dense: { 
-            type: Boolean, 
-            default: false 
+        dense: {
+            type: Boolean,
+            default: false
         },
-        fixedHeader: { 
-            type: Boolean, 
-            default: false 
+        fixedHeader: {
+            type: Boolean,
+            default: false
         },
-        height: { 
-            type: [String, Number], 
-            default: undefined 
+        height: {
+            type: [String, Number],
+            default: undefined
         },
-        hideDefaultFooter: { 
-            type: Boolean, 
-            default: false 
+        hideDefaultFooter: {
+            type: Boolean,
+            default: true
         },
-        hideDefaultHeader: { 
-            type: Boolean, 
-            default: false 
+        hideDefaultHeader: {
+            type: Boolean,
+            default: false
         },
-        mobileBreakpoint: { 
-            type: [String, Number], 
-            default: 600 
+        mobileBreakpoint: {
+            type: [String, Number],
+            default: 600
         },
-        itemKey: { 
-            type: String, 
-            default: 'id' 
+        itemKey: {
+            type: String,
+            default: 'id'
         },
-        serverItemsLength: { 
+        serverItemsLength: {
             type: Number,
-            default: -1 
+            default: -1
         },
         footerProps: {
             type: Object,
@@ -323,13 +243,13 @@ export default {
             type: String,
             default: undefined
         },
-        dark: { 
-            type: Boolean, 
-            default: false 
+        dark: {
+            type: Boolean,
+            default: false
         },
-        light: { 
-            type: Boolean, 
-            default: false 
+        light: {
+            type: Boolean,
+            default: false
         },
         calculateWidths: {
             type: Boolean,
@@ -349,17 +269,12 @@ export default {
         },
 
         rendererColumns() {
-            return this.columns.filter(column => column.renderer)
+            return this.columns.filter(column => column.type)
         },
 
         customScopedSlotNames() {
-            const rendererSlotNames = this.rendererColumns.map(
-                column => `item.${column.value}`
-            )
-
-            const filterSlotNames = this.filterableColumns.map(
-                column => `header.${column.value}`
-            )
+            const rendererSlotNames = this.rendererColumns.map(column => `item.${column.value}`)
+            const filterSlotNames = this.filterableColumns.map(column => `header.${column.value}`)
 
             return Object.keys(this.$scopedSlots).filter(slotName => {
                 return (!rendererSlotNames.includes(slotName) && !filterSlotNames.includes(slotName))
@@ -367,8 +282,12 @@ export default {
         },
 
         tableSearch() {
-            const hasColumnFilter = Object.values(this.columnFilterValues).some(value => value && String(value).trim() !== '')
+            const hasColumnFilter = Object.values(this.columnFilterValues).some(value => {return value && String(value).trim() !== ''})
             return hasColumnFilter ? '__COLUMN_FILTER__' : ''
+        },
+
+        tableColumns() {
+            return this.columns.map(column => ({ ...column, sortable: column.disableSort ? false : column.sortable !== false}))
         }
     },
 
@@ -378,12 +297,9 @@ export default {
             deep: true,
 
             handler(columns) {
-                columns
-                    .filter(column => column.filterable)
-                    .forEach(column => {
-                        if (this.columnFilterValues[column.value] === undefined)
-                        {
-                            this.$set(this.columnFilterValues,column.value,'')
+                columns.filter(column => column.filterable).forEach(column => {
+                        if (this.columnFilterValues[column.value] === undefined) {
+                            this.$set( this.columnFilterValues, column.value, '')
                         }
                     })
             }
@@ -391,35 +307,41 @@ export default {
     },
 
     methods: {
+        updateColumnFilter(columnValue, value) {
+            this.$set(this.columnFilterValues, columnValue, value)
+        },
+        getColumnValue(item, column) {
+            if (typeof column.value === 'function') {
+                return column.value(item)
+            }
+
+            return item[column.value]
+        },
         columnFilter(value, search, item) {
             if (search !== '__COLUMN_FILTER__') {
                 return true
             }
 
             return this.filterableColumns.every(column => {
-                const filterText =
-                    this.columnFilterValues[column.value]
-
-                if (!filterText || String(filterText).trim() === '') 
-                {
+                const filterText = this.columnFilterValues[column.value]
+                if (!filterText || String(filterText).trim() === '') {
                     return true
                 }
 
                 const columnValue = item ? item[column.value] : undefined
-
-                if (columnValue === undefined || columnValue === null
-                ) 
-                {
+                if (columnValue === undefined || columnValue === null) {
                     return false
                 }
 
-                return String(columnValue)
-                    .toLocaleLowerCase()
-                    .includes(
-                        String(filterText).toLocaleLowerCase()
-                    )
+                return String(columnValue).toLocaleLowerCase().includes(String(filterText).toLocaleLowerCase())
             })
         }
     }
 }
 </script>
+
+<style scoped>
+::v-deep .v-data-table-header__icon {
+    opacity: 1 !important;
+}
+</style>

@@ -38,7 +38,7 @@
                         </v-list-item-title>
                     </v-list-item>
 
-                    <v-list-item @click="$goTo('/products/table'); drawer = false" :class="$route.path.startsWith('/products/table') ? 'blue lighten-5 blue--text text--darken-2' : ''">
+                    <v-list-item @click="$goTo('/products/tablePage'); drawer = false" :class="$route.path.startsWith('/products/tablePage') ? 'blue lighten-5 blue--text text--darken-2' : ''">
                         <v-list-item-icon>
                             <v-icon>mdi-table</v-icon>
                         </v-list-item-icon>
@@ -132,12 +132,12 @@
 
                     <BaseButton
                         text
-                        :class="{ 'active-link': $route.path.startsWith('/products/table') }"
+                        :class="{ 'active-link': $route.path.startsWith('/products/tablePage') }"
                         :block="false"
                         :x-large="false"
                         :rounded="false"
                         c-class="mx-1 rounded-lg"
-                        @click="$goTo('/products/table')"
+                        @click="$goTo('/products/tablePage')"
                     >
                         <v-icon right size="18" class="ml-1">
                             mdi-table

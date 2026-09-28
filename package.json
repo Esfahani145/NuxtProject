@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
+    "dev": "set NODE_OPTIONS=--max-old-space-size=4096 && nuxt",
+    "build": "set NODE_OPTIONS=--max-old-space-size=4096 && nuxt build",
+    "start": "set NODE_OPTIONS=--max-old-space-size=4096 && nuxt start",
     "generate": "nuxt generate",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint:style": "stylelint \"**/*.{vue,css}\" --ignore-path .gitignore",

@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "es2018",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "ignoreDeprecations": "6.0",
+        "baseUrl": "."
+    },
+    "exclude": [
+        "node_modules",
+        ".nuxt",
+        "dist"
+    ]
+}

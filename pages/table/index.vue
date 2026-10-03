@@ -259,12 +259,13 @@ export default {
         user_columns() {
             return [
                 {
-                    text: 'نام و نام خانوادگی',
+                    text: 'نام',
                     value: 'full_name',
                     type: 'text',
                     filterType: 'text',
                     filterable: true,
                     disableSort: false,
+                    sortable: false,
                     align: 'right'
                 },
                 {
@@ -383,7 +384,6 @@ export default {
             this.user_loading = true
             try {
                 const saved_users = localStorage.getItem('users')
-
                 this.users = saved_users ? JSON.parse(saved_users) : []
             } finally {
                 this.user_loading = false

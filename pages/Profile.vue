@@ -525,32 +525,21 @@ export default {
 
         province() {
             if (!this.user) return 'ثبت نشده'
-
-            const province = locations.locations.provinces.find(
-                item => item.id === this.user.province
-            )
-
+            const province = locations.locations.provinces.find(item => item.id === this.user.province)
             return province ? province.name : 'ثبت نشده'
         },
 
         city() {
             if (!this.user) return 'ثبت نشده'
-
-            const city = locations.locations.cities.find(
-                item => item.id === this.user.city
-            )
-
+            const city = locations.locations.cities.find(item => item.id === this.user.city)
             return city ? city.name : 'ثبت نشده'
         },
 
         gender() {
             if (!this.user) return 'ثبت نشده'
-
-            return this.user.gender === 'male'
-                ? 'مرد'
-                : this.user.gender === 'female'
-                    ? 'زن'
-                    : 'ثبت نشده'
+            return this.user.gender === 'male' ? 'مرد'
+                : this.user.gender === 'female' ? 'زن'
+                : 'ثبت نشده'
         }
     },
 
@@ -564,7 +553,7 @@ export default {
 
             if (!is_logged_in) {
                 this.$toast.error('برای مشاهده پروفایل ابتدا باید وارد شوید')
-                this.$router.push('/login?redirect=/profile')
+                this.$router.push('/login')
             }
         },
 
@@ -575,9 +564,7 @@ export default {
         async handleUpdateProfile(credentials) {
             try {
                 await this.$store.dispatch('auth/updateProfile', credentials)
-
                 this.is_editing = false
-
                 this.$toast.success('اطلاعات حساب با موفقیت به‌روزرسانی شد')
             } catch (error) {
                 this.$toast.error(error.message || 'به‌روزرسانی اطلاعات انجام نشد')
@@ -586,9 +573,7 @@ export default {
 
         async handleLogout() {
             this.show_delete_dialog = false
-
             await this.$store.dispatch('auth/logout')
-
             this.$toast.info('حساب کاربری شما حذف شد')
             this.$router.push('/login')
         }

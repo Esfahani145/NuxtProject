@@ -118,9 +118,7 @@ export default {
     },
 
     mounted() {
-        this.$nextTick(() => {
-            this.initDatePicker()
-        })
+        this.$nextTick(() => { this.initDatePicker() })
     },
 
     beforeDestroy() {
@@ -147,10 +145,7 @@ export default {
         },
 
         openDatePicker() {
-            if (this.disabled || !this.datePicker) {
-                return
-            }
-
+            if (this.disabled || !this.datePicker) { return }
             this.datePicker.focus()
         }
     }

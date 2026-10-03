@@ -1,9 +1,5 @@
 <template>
     <div class="d-flex align-center">
-        <!-- <span class="font-weight-medium text-no-wrap">
-            {{ header.text }}
-        </span> -->
-
         <BaseInput
             v-if="column.filterable !== false && column.filterType !== 'date'"
             c-class="mr-3 column-filter font-size-14"

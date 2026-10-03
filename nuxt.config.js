@@ -20,7 +20,8 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/assets/css/responsive.css',
-    '~/assets/css/app.css'
+    '~/assets/css/app.css',
+    'persian-datepicker/dist/css/persian-datepicker.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -29,7 +30,9 @@ export default {
     {src: '~/plugins/toast.js', mode: 'client'},
     '~/plugins/helper.js',
     '~/plugins/navigation.js',
-    '~/plugins/auth.js'
+    '~/plugins/auth.js',
+    '~/plugins/toJalali.js',
+    {src: '~/plugins/persian-datepicker.js', mode: 'client'}
     ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components  
@@ -38,6 +41,11 @@ export default {
       path: '~/components',
     },
   ],
+
+  server: {
+    host: 'localhost',
+    port: 3000
+  },
   
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -108,7 +116,6 @@ export default {
   },
 
   script: [
-      // افزودن اسکریپت Tailwind CSS بدون نیاز به npm install
       { src: 'https://cdn.tailwindcss.com' }
   ]
 }

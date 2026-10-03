@@ -55,11 +55,11 @@ export default {
         },
         itemText: {
             type: [String, Array, Function],
-            default: 'text'
+            default: 'name'
         },
         itemValue: {
             type: [String, Array, Function],
-            default: 'value'
+            default: 'id'
         },
         rules: {
             type: [Array, String],

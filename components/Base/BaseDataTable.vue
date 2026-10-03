@@ -36,7 +36,7 @@
         :server-items-length="serverItemsLength"
         :footer-props="footerProps"
         :header-props="headerProps"
-        :custom-sort="customSort"
+        :custom-sort="tableCustomSort"
         :item-class="itemClass"
         :item-style="itemStyle"
         :locale="locale"
@@ -45,22 +45,23 @@
         :calculate-widths="calculateWidths"
         v-on="$listeners"
     >
-        <template v-for="column in filterableColumns" :slot="`header.${column.value}`" slot-scope="{ header }">
+        <template v-for="column in filterableColumns" v-slot:[`header.${getColumnKey(column)}`]="{ header }">
             <BaseDataTableHeader
-                :key="column.value"
+                :key="getColumnKey(column)"
                 :column="column"
                 :header="header"
-                :value="columnFilterValues[column.value]"
-                @input="updateColumnFilter(column.value, $event)"
+                :value="columnFilterValues[getColumnKey(column)]"
+                @input="updateColumnFilter(getColumnKey(column), $event)"
             />
         </template>
 
-        <template v-for="column in rendererColumns" :slot="`item.${column.value}`" slot-scope="{ item }">
+        <template v-for="column in rendererColumns" :slot="`item.${getColumnKey(column)}`" slot-scope="{ item }">
             <BaseDataTableItem
-                :key="column.value"
+                :key="getColumnKey(column)"
                 :item="item"
                 :column="column"
                 @view="$emit('view', $event)"
+                @edit="$emit('edit', $event)"
                 @delete="$emit('delete', $event)"
             />
         </template>
@@ -90,6 +91,7 @@ export default {
         BaseDataTableFooter
     },
     inheritAttrs: false,
+
     props: {
         value: {
             type: Array,
@@ -117,7 +119,7 @@ export default {
         },
         loading: {
             type: Boolean,
-            default: false
+          default: false
         },
         loadingText: {
             type: String,
@@ -182,10 +184,6 @@ export default {
         expanded: {
             type: Array,
             default: () => []
-        },
-        expandedConfig: {
-            type: Object,
-            default: () => ({ description: true,  features: true})
         },
         dense: {
             type: Boolean,
@@ -265,29 +263,38 @@ export default {
 
     computed: {
         filterableColumns() {
-            return this.columns.filter(column => column.filterable)
+            return this.columns.filter(column => column.filterable !== false)
         },
 
         rendererColumns() {
-            return this.columns.filter(column => column.type)
-        },
-
-        customScopedSlotNames() {
-            const rendererSlotNames = this.rendererColumns.map(column => `item.${column.value}`)
-            const filterSlotNames = this.filterableColumns.map(column => `header.${column.value}`)
-
-            return Object.keys(this.$scopedSlots).filter(slotName => {
-                return (!rendererSlotNames.includes(slotName) && !filterSlotNames.includes(slotName))
+            return this.columns.filter(column => {
+                return column.type || typeof column.value === 'function'
             })
         },
 
         tableSearch() {
-            const hasColumnFilter = Object.values(this.columnFilterValues).some(value => {return value && String(value).trim() !== ''})
+            const hasColumnFilter = Object.values(this.columnFilterValues).some(value => {
+                return value !== undefined && value !== null && String(value).trim() !== ''
+            })
             return hasColumnFilter ? '__COLUMN_FILTER__' : ''
         },
 
         tableColumns() {
-            return this.columns.map(column => ({ ...column, sortable: column.disableSort ? false : column.sortable !== false}))
+            return this.columns.map(column => {
+                const columnKey = this.getColumnKey(column)
+
+                return {
+                    ...column,
+                    value: columnKey,
+                    sortable: column.disableSort
+                        ? false
+                        : column.sortable !== false
+                }
+            })
+        },
+
+        tableCustomSort() {
+            return this.customSort || this.sortColumns
         }
     },
 
@@ -297,9 +304,13 @@ export default {
             deep: true,
 
             handler(columns) {
-                columns.filter(column => column.filterable).forEach(column => {
-                        if (this.columnFilterValues[column.value] === undefined) {
-                            this.$set( this.columnFilterValues, column.value, '')
+                columns
+                    .filter(column => column.filterable !== false)
+                    .forEach(column => {
+                        const key = this.getColumnKey(column)
+
+                        if (this.columnFilterValues[key] === undefined) {
+                            this.$set(this.columnFilterValues, key, '')
                         }
                     })
             }
@@ -307,34 +318,119 @@ export default {
     },
 
     methods: {
-        updateColumnFilter(columnValue, value) {
-            this.$set(this.columnFilterValues, columnValue, value)
+        getColumnKey(column) {
+            if (typeof column.value === 'function') {
+                return column.key || column.text
+            }
+            return column.value
         },
+
         getColumnValue(item, column) {
             if (typeof column.value === 'function') {
                 return column.value(item)
             }
-
             return item[column.value]
         },
+
+        updateColumnFilter(columnKey, value) {
+            this.$set(this.columnFilterValues, columnKey, value)
+        },
+
+        normalizeValue(value) {
+            if (value === undefined || value === null) {
+                return ''
+            }
+            return String(value).trim().toLocaleLowerCase()
+        },
+
         columnFilter(value, search, item) {
             if (search !== '__COLUMN_FILTER__') {
                 return true
             }
 
             return this.filterableColumns.every(column => {
-                const filterText = this.columnFilterValues[column.value]
-                if (!filterText || String(filterText).trim() === '') {
+                const columnKey = this.getColumnKey(column)
+                const filterValue = this.columnFilterValues[columnKey]
+
+                if (filterValue === undefined || filterValue === null || String(filterValue).trim() === '') 
+                {
                     return true
                 }
 
-                const columnValue = item ? item[column.value] : undefined
-                if (columnValue === undefined || columnValue === null) {
+                const itemValue = this.getColumnValue(item, column)
+
+                if (itemValue === undefined || itemValue === null) {
                     return false
                 }
 
-                return String(columnValue).toLocaleLowerCase().includes(String(filterText).toLocaleLowerCase())
+                const normalizedItemValue = this.normalizeValue(itemValue)
+                const normalizedFilterValue = this.normalizeValue(filterValue)
+
+                if (column.filterType === 'number') {
+                    const itemNumber = Number(String(itemValue).replace(/,/g, ''))
+                    const filterNumber = Number(String(filterValue).replace(/,/g, ''))
+
+                    if (!Number.isNaN(itemNumber) && !Number.isNaN(filterNumber)) 
+                    {
+                        return itemNumber === filterNumber
+                    }
+                }
+
+                return normalizedItemValue.includes(normalizedFilterValue)
             })
+        },
+
+        sortColumns(items, sortBy, sortDesc) {
+            if (!sortBy.length) {
+                return items
+            }
+
+            const sortedItems = items.slice()
+
+            return sortedItems.sort((a, b) => {
+                for (let index = 0; index < sortBy.length; index++) {
+                    const key = sortBy[index]
+                    const desc = sortDesc[index]
+                    const column = this.columns.find(column => {return this.getColumnKey(column) === key})
+
+                    if (!column) { continue }
+
+                    const aValue = this.getColumnValue(a, column)
+                    const bValue = this.getColumnValue(b, column)
+                    const result = this.compareValues(aValue, bValue, column)
+
+                    if (result !== 0) {
+                        return desc ? -result : result
+                    }
+                }
+
+                return 0
+            })
+        },
+
+        compareValues(a, b, column) {
+            if (a === undefined || a === null) {
+                return b === undefined || b === null ? 0 : -1
+            }
+
+            if (b === undefined || b === null) {
+                return 1
+            }
+
+            if (column.filterType === 'number') {
+                const aNumber = Number(String(a).replace(/,/g, ''))
+                const bNumber = Number(String(b).replace(/,/g, ''))
+
+                if (!Number.isNaN(aNumber) && !Number.isNaN(bNumber)) {
+                    return aNumber - bNumber
+                }
+            }
+
+            if (column.filterType === 'date') {
+                return String(a).localeCompare(String(b), 'fa')
+            }
+
+            return String(a).localeCompare(String(b), 'fa')
         }
     }
 }

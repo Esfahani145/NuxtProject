@@ -8,7 +8,6 @@
                     label="نام و نام خانوادگی"
                     prepend-inner-icon="mdi-account-outline"
                     rules="required, persian"
-                    variant="light"
                     c-class="form-input"
                 />
             </v-col>
@@ -22,7 +21,6 @@
                     dir="ltr"
                     prepend-inner-icon="mdi-cellphone"
                     rules="required,phone"
-                    variant="light"
                 />
             </v-col>
 
@@ -36,7 +34,6 @@
                     prepend-inner-icon="mdi-card-account-details-outline"
                     rules="required,national_code"
                     maxlength="10"
-                    variant="light"
                 />
             </v-col>
 
@@ -49,7 +46,6 @@
                     dir="ltr"
                     prepend-inner-icon="mdi-email-outline"
                     rules="email"
-                    variant="light"
                 />
             </v-col>
 
@@ -70,9 +66,8 @@
                     :items="gender_items"
                     item-text="text"
                     item-value="value"
-                    placeholder="انتخاب کنید"
                     prepend-inner-icon="mdi-account-group-outline"
-                    :rules="$parseRules('required')"
+                    rules="required"
                 />
             </v-col>
 
@@ -81,8 +76,6 @@
                     v-model="credentials.province"
                     label="استان"
                     :items="provinces"
-                    item-text="name"
-                    item-value="id"
                     placeholder="انتخاب استان"
                     prepend-inner-icon="mdi-map-marker-outline"
                     rules="required"
@@ -99,7 +92,7 @@
                     item-value="id"
                     placeholder="انتخاب شهر"
                     prepend-inner-icon="mdi-city-variant-outline"
-                    :rules="$parseRules('required')"
+                    rules="required"
                     :disabled="!credentials.province"
                     clearable
                 />
@@ -114,7 +107,6 @@
                     dir="ltr"
                     prepend-inner-icon="mdi-lock-outline"
                     rules="required,password"
-                    variant="light"
                 />
             </v-col>
 
@@ -128,7 +120,6 @@
                     prepend-inner-icon="mdi-lock-check-outline"
                     rules="required,confirm_password"
                     :rule-context="credentials"
-                    variant="light"
                 />
             </v-col>
 
@@ -145,7 +136,7 @@
             </v-col>
         </v-row>
 
-        <div class="d-flex align-center my-2">
+        <div v-if="mode === 'signup'" class="d-flex align-center my-2">
             <v-checkbox v-model="credentials.accept_terms" color="primary" class="ma-0 pa-0" dense />
             <BaseButton
                 type="button"
@@ -165,7 +156,7 @@
             </BaseButton>
         </div>
 
-        <div class="mt-4">
+        <div v-if="mode === 'signup'" class="mt-4">
             <BaseButton
                 type="submit"
                 color="primary"
@@ -177,7 +168,7 @@
             </BaseButton>
         </div>
 
-        <div class="mt-3 d-flex align-center justify-center auth-footer-row font-size-12">
+        <div v-if="mode === 'signup'" class="mt-3 d-flex align-center justify-center auth-footer-row font-size-12">
             <span class="auth-footer-text">
                 قبلاً ثبت‌نام کرده‌اید؟
             </span>
@@ -200,7 +191,7 @@
             </BaseButton>
         </div>
 
-        <v-dialog v-model="show_terms" max-width="600">
+        <v-dialog v-if="mode === 'signup'" v-model="show_terms" max-width="600">
             <v-card class="rounded-lg">
                 <v-card-title class="font-weight-bold">
                     قوانین و شرایط استفاده
@@ -226,6 +217,16 @@ import locations from '~/static/data/data.json'
 
 export default {
     name: 'SignupForm',
+    props: {
+        user: {
+            type: Object,
+            default: null
+        },
+        mode: {
+            type: String,
+            default: 'signup'
+        }
+    },
 
     data() {
         return {
@@ -262,19 +263,61 @@ export default {
     },
 
     watch: {
-        'credentials.province'() {
-            this.credentials.city = null
+        user: {
+            immediate: true,
+            handler(user) {
+                if (user && this.mode === 'edit') {
+                    console.log('USER BIRTH DATE:', user.birth_date)
+                    console.log('JALALI BIRTH DATE:', this.$toJalali(user.birth_date))
+
+                    this.credentials = {
+                        ...this.credentials,
+                        full_name: user.full_name || '',
+                        phone: user.phone || '',
+                        email: user.email || '',
+                        national_code: user.national_code || '',
+                        birth_date: user.birth_date
+                            ? this.$toJalali(user.birth_date)
+                            : '',
+                        gender: user.gender || '',
+                        province: user.province || null,
+                        city: user.city || null,
+                        address: user.address || '',
+                        password: user.password || '',
+                        confirm_password: ''
+                    }
+                }
+            }
+        },
+
+        'credentials.province'(newValue, oldValue) {
+            if (oldValue !== undefined && newValue !== oldValue) {
+                this.credentials.city = null
+            }
         }
     },
 
     methods: {
+        submitForm() {
+            this.handleSignup()
+        },
+
         handleSignup() {
             if (this.$refs.registerForm && !this.$refs.registerForm.validate()) { return }
-            if (!this.credentials.accept_terms) {
+
+            if (this.mode === 'signup   ' && !this.credentials.accept_terms) {
                 this.$toast.error('لطفاً قوانین و شرایط استفاده را بپذیرید')
                 return
             }
-            this.$emit('submit', { ...this.credentials })
+
+            const credentials = {
+                ...this.credentials,
+                birth_date: this.credentials.birth_date
+                    ? this.$toGregorian(this.credentials.birth_date)
+                    : ''
+            }
+
+            this.$emit('submit', credentials)
         }
     }
 }

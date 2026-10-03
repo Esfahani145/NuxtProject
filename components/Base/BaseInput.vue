@@ -7,6 +7,7 @@
         </label>
 
         <v-text-field
+            ref="input"
             :value="value"
             :type="computedType"
             :placeholder="placeholder"
@@ -38,6 +39,7 @@
             :color="color"
             @input="$emit('input', $event)"
             @click:append="handleAppendClick"
+            @click:prepend-inner="handlePrependInnerClick"
         />
     </div>
 </template>
@@ -231,7 +233,15 @@ export default {
             }
 
             this.$emit('click:append', event)
-        }
+        },
+
+        handlePrependInnerClick(event) {
+            this.$emit('click:prepend-inner', event)
+        },
+
+        getInputElement() {
+            return this.$refs.input.$el.querySelector('input')
+        },
     }
 }
 </script>

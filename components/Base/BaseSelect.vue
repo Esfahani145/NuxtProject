@@ -7,8 +7,6 @@
         <v-select
             :value="value"
             :items="items"
-            :item-text="itemText"
-            :item-value="itemValue"
             :rules="computedRules"
             :placeholder="placeholder"
             :prepend-inner-icon="prependInnerIcon"
@@ -52,14 +50,6 @@ export default {
             type: Array,
             default: () => []
         },
-        itemText: {
-            type: [String, Array, Function],
-            default: 'text'
-        },
-        itemValue: {
-            type: [String, Array, Function],
-            default: 'value'
-        },
         rules: {
             type: [String, Array],
             default: () => []
@@ -74,7 +64,7 @@ export default {
         },
         placeholder: {
             type: String,
-            default: ''
+            default: 'انتخاب کنید'
         },
         prependInnerIcon: {
             type: String,

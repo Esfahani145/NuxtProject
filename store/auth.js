@@ -104,6 +104,50 @@ export const actions = {
         localStorage.setItem('users', JSON.stringify(users))
     },
 
+    updateProfile({ commit, state }, credentials) {
+        if (!process.client) return
+
+        const saved_users = localStorage.getItem('users')
+        const users = saved_users ? JSON.parse(saved_users) : []
+        const current_user = state.user
+
+        if (!current_user) {
+            throw new Error('کاربر وارد نشده است')
+        }
+
+        const input_phone = String(credentials.phone).trim()
+        const input_email = String(credentials.email).trim().toLowerCase()
+        const input_national_code = String(credentials.national_code).trim()
+        console.log('UPDATE BIRTH DATE:', credentials.birth_date)
+
+        const updated_user = {
+            ...current_user,
+            full_name: credentials.full_name,
+            phone: input_phone,
+            email: input_email,
+            national_code: input_national_code,
+            birth_date: credentials.birth_date,
+            gender: credentials.gender,
+            province: credentials.province,
+            city: credentials.city,
+            address: credentials.address
+        }
+
+        const user_index = users.findIndex(user => user.national_code === current_user.national_code)
+
+        if (user_index !== -1) {
+            users[user_index] = {
+                ...users[user_index],
+                ...updated_user
+            }
+
+            localStorage.setItem('users', JSON.stringify(users))
+        }
+
+        commit('SET_USER', updated_user)
+        localStorage.setItem('user_info', JSON.stringify(updated_user))
+    },
+
     logout({ commit, state }) {
         if (process.client) {
             const saved_users = localStorage.getItem('users')

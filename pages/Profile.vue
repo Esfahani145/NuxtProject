@@ -1,7 +1,7 @@
 <template>
     <v-container class="py-8">
         <v-row align="center" class="mb-6" no-gutters>
-            <v-icon  color="blue-grey darken-4"  x-large class="ml-3">
+            <v-icon color="blue-grey darken-4" x-large class="ml-3">
                 mdi-account-cog
             </v-icon>
 
@@ -43,10 +43,8 @@
 
                                     {{ user ? user.role : 'کاربر عادی' }}
                                 </v-chip>
-
                             </div>
                         </div>
-
                     </div>
 
                     <v-chip color="success" small text-color="white" class="font-weight-bold mt-4 mt-sm-0">
@@ -55,7 +53,6 @@
                         </v-icon>
                         حساب فعال
                     </v-chip>
-
                 </div>
             </v-sheet>
 
@@ -71,7 +68,6 @@
                 </div>
 
                 <v-row>
-
                     <v-col cols="12" sm="6">
                         <v-card class="pa-4 rounded-lg" outlined hover @click="$router.push('/products')">
                             <div class="d-flex align-center">
@@ -112,7 +108,7 @@
                                         سبد خرید
                                     </div>
 
-                                    <div class=" grey--text text--darken-1 mt-1">
+                                    <div class="grey--text text--darken-1 mt-1">
                                         {{ $store.getters.cartTotalCount }} کالا در سبد خرید
                                     </div>
                                 </div>
@@ -138,7 +134,7 @@
                                         علاقه‌مندی‌ها
                                     </div>
 
-                                    <div class=" grey--text text--darken-1 mt-1">
+                                    <div class="grey--text text--darken-1 mt-1">
                                         {{ $store.getters.favoritesCount }} محصول ذخیره‌شده
                                     </div>
                                 </div>
@@ -146,7 +142,6 @@
                                 <v-icon color="grey lighten-1">
                                     mdi-chevron-left
                                 </v-icon>
-
                             </div>
                         </v-card>
                     </v-col>
@@ -180,18 +175,32 @@
 
                 <v-divider class="my-8"></v-divider>
 
-                <div class="d-flex align-center mb-5">
-                    <v-icon color="blue-grey darken-4" class="ml-2">
-                        mdi-account-details-outline
-                    </v-icon>
+                <div class="d-flex align-center justify-space-between mb-5">
+                    <div class="d-flex align-center">
+                        <v-icon color="blue-grey darken-4" class="ml-2">
+                            mdi-account-details-outline
+                        </v-icon>
 
-                    <h2 class="font-weight-bold grey--text text--darken-3 mb-0">
-                        اطلاعات حساب
-                    </h2>
+                        <h2 class="font-weight-bold grey--text text--darken-3 mb-0">
+                            اطلاعات حساب
+                        </h2>
+                    </div>
+
+                    <BaseButton
+                        color="primary"
+                        :block="false"
+                        c-class="rounded-lg font-weight-bold"
+                        @click="startEditing"
+                    >
+                        <v-icon left>
+                            mdi-pencil
+                        </v-icon>
+
+                        ویرایش اطلاعات
+                    </BaseButton>
                 </div>
 
                 <v-list flat class="pa-0">
-
                     <v-list-item class="px-0">
                         <v-list-item-content>
                             <v-list-item-title class="grey--text text--darken-1 font-weight-medium">
@@ -265,7 +274,7 @@
 
                         <v-list-item-action>
                             <span class="font-weight-bold grey--text text--darken-3">
-                                {{ user ? user.birth_date || 'ثبت نشده' : 'ثبت نشده' }}
+                                {{ user && user.birth_date ? $toJalali(user.birth_date, '', 'jYYYY/jMM/jDD') : 'ثبت نشده' }}
                             </span>
                         </v-list-item-action>
                     </v-list-item>
@@ -365,12 +374,7 @@
                         </v-list-item-content>
 
                         <v-list-item-action>
-                            <v-chip
-                                color="success"
-                                small
-                                text-color="white"
-                                class="font-weight-bold"
-                            >
+                            <v-chip color="success" small text-color="white" class="font-weight-bold">
                                 <v-icon x-small class="ml-1">
                                     mdi-check
                                 </v-icon>
@@ -378,8 +382,60 @@
                             </v-chip>
                         </v-list-item-action>
                     </v-list-item>
-
                 </v-list>
+
+                <v-divider class="my-8"></v-divider>
+
+                <v-dialog v-model="is_editing" max-width="900" scrollable>
+                    <v-card class="rounded-xl">
+                        <v-card-title class="d-flex align-center">
+                            <v-icon color="blue-grey darken-4" class="ml-2">
+                                mdi-account-edit-outline
+                            </v-icon>
+
+                            <span class="font-weight-bold">
+                                ویرایش اطلاعات
+                            </span>
+
+                            <v-spacer />
+                        </v-card-title>
+
+                        <v-divider />
+
+                        <v-card-text class="pa-6">
+                            <SignupForm
+                                ref="signupForm"
+                                :user="user"
+                                mode="edit"
+                                @submit="handleUpdateProfile"
+                            />
+                        </v-card-text>
+
+                        <v-divider />
+
+                        <v-card-actions class="pa-4">
+                            <v-spacer />
+
+                            <BaseButton
+                                text
+                                color="grey darken-1"
+                                :block="false"
+                                @click="is_editing = false"
+                            >
+                                انصراف
+                            </BaseButton>
+
+                            <BaseButton
+                                color="primary"
+                                :block="false"
+                                c-class="rounded-lg font-weight-bold"
+                                @click="$refs.signupForm.submitForm()"
+                            >
+                                ذخیره
+                            </BaseButton>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
             </v-card-text>
 
             <v-card-actions class="pa-6 pt-0">
@@ -396,12 +452,14 @@
                     خروج از حساب کاربری
                 </BaseButton>
             </v-card-actions>
+
             <v-dialog v-model="show_delete_dialog" max-width="450">
                 <v-card class="rounded-xl">
                     <v-card-title class="font-weight-bold">
                         <v-icon color="error" class="ml-2">
                             mdi-alert-circle-outline
                         </v-icon>
+
                         حذف حساب کاربری
                     </v-card-title>
 
@@ -430,7 +488,7 @@
                             small
                             :block="false"
                             :x-large="false"
-                            @click="handleLogout"     
+                            @click="handleLogout"
                         >
                             حذف حساب
                         </BaseButton>
@@ -443,14 +501,20 @@
 
 <script>
 import locations from '~/static/data/data.json'
+import SignupForm from '~/components/Form/SignupForm.vue'
 
 export default {
     name: 'ProfilePage',
-    layout: "profileLayout",
+    layout: 'profileLayout',
+
+    components: {
+        SignupForm
+    },
 
     data() {
-        return{
-            show_delete_dialog: false
+        return {
+            show_delete_dialog: false,
+            is_editing: false
         }
     },
 
@@ -461,21 +525,32 @@ export default {
 
         province() {
             if (!this.user) return 'ثبت نشده'
-            const province = locations.locations.provinces.find((item) => item.id === this.user.province)
+
+            const province = locations.locations.provinces.find(
+                item => item.id === this.user.province
+            )
+
             return province ? province.name : 'ثبت نشده'
         },
 
         city() {
             if (!this.user) return 'ثبت نشده'
-            const city = locations.locations.cities.find((item) => item.id === this.user.city)
+
+            const city = locations.locations.cities.find(
+                item => item.id === this.user.city
+            )
+
             return city ? city.name : 'ثبت نشده'
         },
 
         gender() {
             if (!this.user) return 'ثبت نشده'
-            return this.user.gender === 'male' ? 'مرد'
-                : this.user.gender === 'female' ? 'زن'
-                : 'ثبت نشده'
+
+            return this.user.gender === 'male'
+                ? 'مرد'
+                : this.user.gender === 'female'
+                    ? 'زن'
+                    : 'ثبت نشده'
         }
     },
 
@@ -493,9 +568,27 @@ export default {
             }
         },
 
+        startEditing() {
+            this.is_editing = true
+        },
+
+        async handleUpdateProfile(credentials) {
+            try {
+                await this.$store.dispatch('auth/updateProfile', credentials)
+
+                this.is_editing = false
+
+                this.$toast.success('اطلاعات حساب با موفقیت به‌روزرسانی شد')
+            } catch (error) {
+                this.$toast.error(error.message || 'به‌روزرسانی اطلاعات انجام نشد')
+            }
+        },
+
         async handleLogout() {
             this.show_delete_dialog = false
+
             await this.$store.dispatch('auth/logout')
+
             this.$toast.info('حساب کاربری شما حذف شد')
             this.$router.push('/login')
         }

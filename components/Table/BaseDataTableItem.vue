@@ -1,39 +1,31 @@
 <template>
     <v-img
         v-if="column.type === 'image'"
-        :src="item[column.value]"
+        :src="getValue"
         max-width="48"
         max-height="48"
         contain
         class="mx-auto"
     />
 
-    <span v-else-if="column.type === 'text'">
-        {{ item[column.value] }}
-    </span>
-
-    <span v-else-if="column.type === 'bold-text'" class="font-weight-bold slate-dark--text">
-        {{ item[column.value] }}
-    </span>
-
     <span v-else-if="column.type === 'product'" class="font-weight-bold slate-dark--text">
-        {{ item[column.value] }}
+        {{ getValue }}
     </span>
 
     <span v-else-if="column.type === 'price'">
         <span class="font-weight-bold">
-            {{ $helper.formatPrice(item[column.value]) }}
+            {{ $helper.formatPrice(getValue) }}
         </span>
 
         <span> تومان </span>
     </span>
 
     <v-chip v-else-if="column.type === 'chip'" small color="primary" text-color="white">
-        {{ item[column.value] }}
+        {{ getValue }}
     </v-chip>
 
-    <v-icon v-else-if="column.type === 'boolean'" :color="item[column.value] ? 'success' : 'error'">
-        {{ item[column.value] ? 'mdi-check-circle' : 'mdi-close-circle' }}
+    <v-icon v-else-if="column.type === 'boolean'" :color="getValue ? 'success' : 'error'">
+        {{ getValue ? 'mdi-check-circle' : 'mdi-close-circle' }}
     </v-icon>
 
     <div v-else-if="column.type === 'actions'" class="d-flex align-center justify-center">
@@ -51,6 +43,19 @@
         </BaseButton>
 
         <BaseButton
+            v-if="column.showEdit"
+            text
+            small
+            :block="false"
+            :x-large="false"
+            :white-text="false"
+            color="warning"
+            @click.stop="$emit('edit', item)"
+        >
+            <v-icon>mdi-pencil</v-icon>
+        </BaseButton>
+
+        <BaseButton
             v-if="column.showDelete"
             text
             small
@@ -65,7 +70,7 @@
     </div>
 
     <span v-else>
-        {{ item[column.value] }}
+        {{ getValue }}
     </span>
 </template>
 
@@ -81,6 +86,16 @@ export default {
         column: {
             type: Object,
             required: true
+        }
+    },
+
+    computed: {
+        getValue() {
+            if (typeof this.column.value === 'function') {
+                return this.column.value(this.item)
+            }
+
+            return this.item[this.column.value]
         }
     }
 }

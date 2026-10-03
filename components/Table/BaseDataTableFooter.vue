@@ -11,7 +11,6 @@
         :items-per-page-text="itemsPerPageText"
         :options="options"
         :pagination="pagination"
-        :page-text="pageText"
         :show-current-page="showCurrentPage"
         :show-first-last-page="showFirstLastPage"
         class="d-flex align-center"
@@ -72,10 +71,6 @@ export default {
         pagination: {
             type: Object,
             default: () => ({})
-        },
-        pageText: {
-            type: String,
-            default: '$vuetify.dataFooter.pageText'
         },
         showCurrentPage: {
             type: Boolean,

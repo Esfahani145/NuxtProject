@@ -28,17 +28,19 @@ export default {
     AppFooter
   },
 
-  created() {
-    if (process.client) {
-      this.$store.dispatch('auth/initAuth')
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters['auth/isAuthenticated']
     }
   },
 
-  watch: {
-    isAuthenticated(value) {
-      if (value) {
-        this.$store.dispatch('loadUserCart')
-        this.$store.dispatch('loadUserFavorites')
+  async created() {
+    if (process.client) {
+      await this.$store.dispatch('auth/initAuth')
+
+      if (this.isAuthenticated) {
+        await this.$store.dispatch('loadUserCart')
+        await this.$store.dispatch('loadUserFavorites')
       }
     }
   }

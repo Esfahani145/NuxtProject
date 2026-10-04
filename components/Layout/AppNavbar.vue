@@ -44,7 +44,7 @@
                         </v-list-item-icon>
 
                         <v-list-item-title class="font-weight-bold">
-                            جدول محصولات
+                            جدول اطلاعات
                         </v-list-item-title>
                     </v-list-item>
 

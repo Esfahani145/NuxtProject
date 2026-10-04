@@ -130,7 +130,8 @@ export const actions = {
             gender: credentials.gender,
             province: credentials.province,
             city: credentials.city,
-            address: credentials.address
+            address: credentials.address,
+            password: credentials.password
         }
 
         const user_index = users.findIndex(user => user.national_code === current_user.national_code)

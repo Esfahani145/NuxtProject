@@ -1,6 +1,10 @@
 <template>
     <v-container fluid class="pa-6 pt-8">
         <v-card class="mb-8" outlined>
+            <v-card-title>
+                جدول محصولات
+            </v-card-title>
+
             <BaseDataTable
                 v-model="selected_products"
                 :items="products"
@@ -163,14 +167,8 @@ export default {
     },
 
     async fetch() {
-        this.product_loading = true
-
-        try {
-            const data = await import('~/static/data/data.json')
-            this.products = data.default ? data.default.products || [] : data.products || []
-        } finally {
-            this.product_loading = false
-        }
+        const data = await import('~/static/data/data.json')
+        this.products = data.default ? data.default.products || [] : data.products || []
     },
 
     computed: {
@@ -381,13 +379,8 @@ export default {
 
     methods: {
         loadUsers() {
-            this.user_loading = true
-            try {
-                const saved_users = localStorage.getItem('users')
-                this.users = saved_users ? JSON.parse(saved_users) : []
-            } finally {
-                this.user_loading = false
-            }
+            const saved_users = localStorage.getItem('users')
+            this.users = saved_users ? JSON.parse(saved_users) : []
         },
 
         editUser(user) {
@@ -403,8 +396,6 @@ export default {
             const updated_user = {
                 ...this.users[user_index],
                 ...credentials,
-                password: this.users[user_index].password,
-                confirm_password: this.users[user_index].confirm_password
             }
 
             this.$set(this.users, user_index, updated_user)

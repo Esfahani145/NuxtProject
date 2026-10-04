@@ -118,7 +118,6 @@ export const actions = {
         const input_phone = String(credentials.phone).trim()
         const input_email = String(credentials.email).trim().toLowerCase()
         const input_national_code = String(credentials.national_code).trim()
-        console.log('UPDATE BIRTH DATE:', credentials.birth_date)
 
         const updated_user = {
             ...current_user,

@@ -40,7 +40,7 @@
                     </div>
 
                     <div>
-                        {{ formatPrice(selected_product.price) }}
+                        {{ $helper.formatPrice(selected_product.price) }}
                         تومان
                     </div>
                 </v-card-text>
@@ -410,9 +410,9 @@ export default {
         },
 
         deleteProduct(product) {
-            const productId = this.getProductId(product)
-            this.products = this.products.filter(item => { return this.getProductId(item) !== productId})
-            this.selected_products = this.selected_products.filter(item => { return this.getProductId(item) !== productId})
+            const productId = this.$helper.getProductId(product)
+            this.products = this.products.filter(item => { return this.$helper.getProductId(item) !== productId})
+            this.selected_products = this.selected_products.filter(item => { return this.$helper.getProductId(item) !== productId})
         }
     }
 }

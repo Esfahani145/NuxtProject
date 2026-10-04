@@ -94,6 +94,10 @@ export default {
             type: Boolean,
             default: false
         },
+        maxDate: {
+            type: [Number, String],
+            default: null
+        },
         cClass: {
             type: [String, Array, Object],
             default: ''
@@ -107,13 +111,18 @@ export default {
 
     data() {
         return {
-            datePicker: null
+            datePicker: null,
+            today: new Date().getTime()
         }
     },
 
     computed: {
         computedRules() {
             return this.$parseRules(this.rules, this.ruleContext)
+        },
+
+        computedMaxDate() {
+            return this.maxDate || this.today
         }
     },
 
@@ -131,16 +140,27 @@ export default {
         initDatePicker() {
             const input = this.$refs.datePicker.getInputElement()
             this.datePicker = $(input)
-            this.datePicker.val(this.value)
+
             this.datePicker.persianDatepicker({
                 format: this.format,
                 viewMode: 'year',
+                responsive: true,
                 observer: true,
                 autoClose: true,
+                maxDate: this.computedMaxDate,
+                calendar: { persian: { showHint: true }},
+
+                toolbox: {
+                    todayButton: {
+                        enabled: true,
+                        text: { fa: 'امروز' }}
+                },
+
                 onSelect: () => {
                     this.$emit('input', input.value)
                 }
             })
+
             this.datePicker.val(this.value)
         },
 

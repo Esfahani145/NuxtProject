@@ -305,7 +305,7 @@ export default {
         handleSignup() {
             if (this.$refs.registerForm && !this.$refs.registerForm.validate()) { return }
 
-            if (this.mode === 'signup   ' && !this.credentials.accept_terms) {
+            if (this.mode === 'signup' && !this.credentials.accept_terms) {
                 this.$toast.error('لطفاً قوانین و شرایط استفاده را بپذیرید')
                 return
             }

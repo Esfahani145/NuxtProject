@@ -353,12 +353,7 @@
                         </v-list-item-content>
 
                         <v-list-item-action>
-                            <v-chip
-                                color="blue-grey darken-4"
-                                small
-                                text-color="white"
-                                class="font-weight-bold"
-                            >
+                            <v-chip color="blue-grey darken-4" small text-color="white" class="font-weight-bold">
                                 {{ user ? user.role : 'کاربر عادی' }}
                             </v-chip>
                         </v-list-item-action>

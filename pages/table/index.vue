@@ -127,9 +127,7 @@
                 :multi-sort="true"
                 no-data-text="کاربری یافت نشد"
                 no-results-text="کاربری با این مشخصات یافت نشد"
-                :footer-props="{
-                    itemsPerPageOptions: [2, 5, -1]
-                }"
+                :footer-props="{ itemsPerPageOptions: [2, 5, -1] }"
                 @edit="editUser"
             />
         </v-card>

@@ -148,18 +148,15 @@ export default {
                 autoClose: true,
                 maxDate: this.computedMaxDate,
                 calendar: { persian: { showHint: true }},
-
                 toolbox: {
                     todayButton: {
                         enabled: true,
                         text: { fa: 'امروز' }}
                 },
-
                 onSelect: () => {
                     this.$emit('input', input.value)
                 }
             })
-
             this.datePicker.val(this.value)
         },
 

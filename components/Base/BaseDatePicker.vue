@@ -144,7 +144,6 @@ export default {
             this.datePicker.persianDatepicker({
                 format: this.format,
                 viewMode: 'year',
-                responsive: true,
                 observer: true,
                 autoClose: true,
                 maxDate: this.computedMaxDate,

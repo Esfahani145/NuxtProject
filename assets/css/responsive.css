@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -54,6 +55,10 @@ html, body {
         grid-template-columns: repeat(3, 1fr) !important;
         gap: 20px;
     }
+
+    .max-width-container {
+        max-width: 100% !important;
+    }
 }
 
 @media (max-width: 992px) {
@@ -75,8 +80,20 @@ html, body {
     .hamburger-btn {
         display: inline-flex !important;
     }
-}
 
+    .product-detail-card,
+    .white-detail-card {
+        width: 100% !important;
+    }
+
+    .fixed-card {
+        width: 100%;
+    }
+
+    .profile-card {
+        width: 100% !important;
+    }
+}
 
 @media (max-width: 960px) {
     .hero-image-container {
@@ -104,6 +121,52 @@ html, body {
         width: 240px !important;
         height: 240px !important;
     }
+
+    .max-width-container {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+    }
+
+    .white-product-card,
+    .white-news-card {
+        width: 100% !important;
+    }
+
+    .compact-badge {
+        right: 16px !important;
+        top: 12px !important;
+    }
+
+    .white-detail-card .v-image {
+        height: 260px !important;
+    }
+
+    .white-detail-card > .pa-6,
+    .white-detail-card > .pa-md-8 {
+        padding: 20px !important;
+    }
+
+    .news-title {
+        font-size: 24px !important;
+    }
+
+    .profile-header {
+        flex-wrap: wrap !important;
+    }
+
+    .cart-item {
+        align-items: flex-start !important;
+    }
+
+    .fixed-card {
+        max-height: calc(100vh - 24px) !important;
+    }
+
+    .auth-page {
+        min-height: 100vh;
+        height: auto !important;
+        overflow-y: auto !important;
+    }
 }
 
 @media (max-width: 600px) {
@@ -115,7 +178,7 @@ html, body {
 
     .glass-card,
     .v-card {
-          border-radius: 16px !important;
+        border-radius: 16px !important;
     }
 
     .circle-1 {
@@ -135,10 +198,372 @@ html, body {
     .circle-3 {
         display: none !important;
     }
+
+    .max-width-container {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .light-admin-page .d-flex.align-center.justify-space-between,
+    .light-news-page .d-flex.align-center.justify-space-between {
+        align-items: flex-start !important;
+        flex-direction: column !important;
+        gap: 10px;
+    }
+
+    .icon-avatar-box {
+        width: 46px !important;
+        height: 46px !important;
+        min-width: 46px !important;
+    }
+
+    .product-card-title {
+        max-width: 100% !important;
+    }
+
+    .card-desc {
+        min-height: auto !important;
+    }
+
+    .white-product-card .mt-auto > .d-flex {
+        align-items: flex-start !important;
+        flex-wrap: wrap !important;
+        gap: 10px;
+    }
+
+    .white-product-card .mt-auto > .d-flex > div:first-child {
+        width: 100%;
+    }
+
+    .center-container {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .center-container .v-card {
+        padding: 20px !important;
+    }
+
+    .center-container .v-card .d-flex.align-center.mb-6 {
+        align-items: flex-start !important;
+    }
+
+    .center-container .v-card .d-flex.align-center.mb-6 h1 {
+        font-size: 24px !important;
+        line-height: 1.4 !important;
+    }
+
+    .center-container .v-card .d-flex.align-center.justify-space-between.flex-wrap {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    .center-container .v-card .d-flex.align-center.justify-space-between.flex-wrap > .d-flex {
+        width: 100%;
+    }
+
+    .center-container .v-card .d-flex.align-center.justify-space-between.flex-wrap > .d-flex:last-child {
+        justify-content: flex-start !important;
+        margin-top: 16px !important;
+    }
+
+    .white-detail-card .v-image {
+        height: 220px !important;
+    }
+
+    .news-title {
+        font-size: 21px !important;
+        line-height: 1.5 !important;
+    }
+
+    .news-content {
+        font-size: 14px !important;
+        line-height: 1.9 !important;
+    }
+
+    .white-detail-card .d-flex.align-center.justify-space-between.mb-4 {
+        align-items: flex-start !important;
+        gap: 12px;
+    }
+
+    .white-detail-card .d-flex.align-center.justify-space-between.mb-4 > .d-flex {
+        flex-wrap: wrap;
+        row-gap: 6px;
+    }
+
+    .news-excerpt {
+        min-height: auto !important;
+    }
+
+    .white-news-card {
+        padding: 20px !important;
+    }
+
+    .profile-card .pa-6,
+    .profile-card .pa-md-8 {
+        padding: 20px !important;
+    }
+
+    .profile-card .d-flex.align-center.justify-space-between.flex-wrap {
+        align-items: flex-start !important;
+    }
+
+    .profile-card .v-avatar {
+        flex-shrink: 0;
+    }
+
+    .profile-card .v-card.pa-4 {
+        padding: 16px !important;
+    }
+
+    .profile-card .v-list-item {
+        align-items: flex-start !important;
+        flex-wrap: wrap !important;
+    }
+
+    .profile-card .v-list-item-content {
+        min-width: 120px;
+    }
+
+    .profile-card .v-list-item-action {
+        max-width: 60% !important;
+        text-align: left;
+        white-space: normal !important;
+        word-break: break-word;
+    }
+
+    .v-dialog {
+        margin: 12px !important;
+    }
+
+    .v-dialog .v-card {
+        width: 100% !important;
+    }
+
+    .v-dialog .v-card-text {
+        padding: 16px !important;
+    }
+
+    .cart-page .d-flex.align-center.mb-6 {
+        flex-wrap: wrap !important;
+    }
+
+    .cart-item {
+        padding: 16px !important;
+    }
+
+    .cart-item > .d-flex.align-center {
+        width: 100%;
+    }
+
+    .cart-item > .d-flex.align-center.mt-3 {
+        width: 100%;
+        justify-content: space-between !important;
+        flex-wrap: wrap !important;
+        gap: 10px;
+    }
+
+    .border-quantity {
+        margin-left: 0 !important;
+    }
+
+    .auth-page {
+        padding: 8px !important;
+    }
+
+    .fixed-card {
+        height: auto !important;
+        min-height: calc(100vh - 16px);
+        max-height: none !important;
+        border-radius: 16px !important;
+    }
+
+    .fixed-card .form-wrapper {
+        min-height: 0;
+    }
+
+    .fixed-card .white {
+        padding: 20px !important;
+    }
+
+    .fixed-card h1 {
+        font-size: 24px !important;
+        line-height: 1.5 !important;
+    }
+
+    .fixed-card .flex-grow-1 {
+        min-height: 0;
+    }
+
+    .fixed-card .custom-scroll {
+        overflow-y: visible !important;
+        max-height: none !important;
+    }
+
+    .fixed-card .border-top-light {
+        margin-top: 12px !important;
+    }
 }
 
 @media (max-width: 480px) {
     .glass-card {
         padding: 14px 10px !important;
+    }
+
+    .max-width-container {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+
+    .white-product-card {
+        padding: 16px !important;
+    }
+
+    .white-product-card .icon-avatar-box {
+        width: 42px !important;
+        height: 42px !important;
+        min-width: 42px !important;
+    }
+
+    .white-product-card .icon-avatar-box .v-icon {
+        font-size: 22px !important;
+    }
+
+    .white-product-card .d-flex.align-center.mb-4 {
+        margin-bottom: 16px !important;
+    }
+
+    .white-product-card .mt-auto .d-flex.align-center.justify-space-between {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    .white-product-card .mt-auto .d-flex.align-center.justify-space-between > .v-btn,
+    .white-product-card .mt-auto .d-flex.align-center.justify-space-between > .base-button {
+        width: 100% !important;
+    }
+
+    .center-container {
+        padding-top: 16px !important;
+        padding-bottom: 16px !important;
+    }
+
+    .center-container > .v-row {
+        width: 100% !important;
+    }
+
+    .center-container .v-card {
+        padding: 16px !important;
+    }
+
+    .center-container .v-card .v-avatar {
+        width: 52px !important;
+        height: 52px !important;
+        margin-left: 12px !important;
+    }
+
+    .center-container .v-card .v-avatar .v-icon {
+        font-size: 28px !important;
+    }
+
+    .center-container .v-card .d-flex.align-center.mb-6 h1 {
+        font-size: 20px !important;
+    }
+
+    .center-container .v-card .d-flex.align-center.justify-space-between.flex-wrap > .d-flex:last-child {
+        width: 100% !important;
+    }
+
+    .white-detail-card .v-image {
+        height: 190px !important;
+    }
+
+    .white-detail-card > div.pa-6,
+    .white-detail-card > div.pa-md-8 {
+        padding: 16px !important;
+    }
+
+    .news-title {
+        font-size: 19px !important;
+    }
+
+    .white-news-card {
+        padding: 16px !important;
+    }
+
+    .profile-card .v-sheet {
+        padding: 20px !important;
+    }
+
+    .profile-card .v-sheet .v-avatar {
+        width: 64px !important;
+        height: 64px !important;
+        margin-left: 12px !important;
+    }
+
+    .profile-card .v-sheet .v-avatar .v-icon {
+        font-size: 42px !important;
+    }
+
+    .profile-card .v-sheet h2 {
+        font-size: 20px !important;
+    }
+
+    .profile-card .v-row .v-col {
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+    }
+
+    .profile-card .v-list-item {
+        min-height: 58px !important;
+    }
+
+    .profile-card .v-list-item-content {
+        flex: 1 1 100% !important;
+        padding-bottom: 4px !important;
+    }
+
+    .profile-card .v-list-item-action {
+        max-width: 100% !important;
+        width: 100% !important;
+        justify-content: flex-start !important;
+        margin-top: 0 !important;
+    }
+
+    .cart-item {
+        padding: 14px !important;
+    }
+
+    .cart-item > .d-flex.align-center {
+        align-items: flex-start !important;
+    }
+
+    .cart-item > .d-flex.align-center .v-avatar {
+        flex-shrink: 0;
+    }
+
+    .cart-item h3 {
+        font-size: 15px !important;
+    }
+
+    .auth-page {
+        padding: 4px !important;
+    }
+
+    .fixed-card {
+        min-height: calc(100vh - 8px);
+        border-radius: 12px !important;
+    }
+
+    .fixed-card .white {
+        padding: 16px !important;
+    }
+
+    .fixed-card h1 {
+        font-size: 21px !important;
+    }
+
+    .fixed-card .v-sheet {
+        flex-shrink: 0;
     }
 }

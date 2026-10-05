@@ -21,6 +21,7 @@
                     dir="ltr"
                     prepend-inner-icon="mdi-cellphone"
                     rules="required,phone"
+                    maxlength="11"
                 />
             </v-col>
 
@@ -54,7 +55,6 @@
                     label="تاریخ تولد"
                     v-model="credentials.birth_date"
                     placeholder="انتخاب تاریخ تولد"
-                    variant="light"
                     rules="required"
                 />
             </v-col>
@@ -130,7 +130,6 @@
                     prepend-inner-icon="mdi-map-marker-outline"
                     label="آدرس محل سکونت"
                     rules="required,persian_address"
-                    variant="light"
                     c-class="form-input"
                 />
             </v-col>

@@ -147,7 +147,14 @@ export default {
                 observer: true,
                 autoClose: true,
                 maxDate: this.computedMaxDate,
-                calendar: { persian: { showHint: true }},
+                calendar: {
+                    persian: {
+                        showHint: true
+                    },
+                    gregorian: {
+                        showHint: true
+                    }
+                },
                 toolbox: {
                     todayButton: {
                         enabled: true,

@@ -1,80 +1,101 @@
 <template>
-    <v-data-table
-        v-bind="$attrs"
-        :headers="tableColumns"
-        :items="items"
-        :search="tableSearch"
-        :custom-filter="columnFilter"
-        :disable-filtering="disableFiltering"
-        :disable-pagination="disablePagination"
-        :disable-sort="disableSort"
-        :loading="loading"
-        :loading-text="loadingText"
-        :no-data-text="noDataText"
-        :no-results-text="noResultsText"
-        :items-per-page="itemsPerPage"
-        :page="page"
-        :sort-by="sortBy"
-        :sort-desc="sortDesc"
-        :multi-sort="multiSort"
-        :must-sort="mustSort"
-        :group-by="groupBy"
-        :group-desc="groupDesc"
-        :show-select="showSelect"
-        :single-select="singleSelect"
-        :value="value"
-        :show-expand="showExpand"
-        :single-expand="singleExpand"
-        :expanded="expanded"
-        :dense="dense"
-        :fixed-header="fixedHeader"
-        :height="height"
-        :hide-default-footer="hideDefaultFooter"
-        :hide-default-header="hideDefaultHeader"
-        :mobile-breakpoint="mobileBreakpoint"
-        :item-key="itemKey"
-        :server-items-length="serverItemsLength"
-        :footer-props="footerProps"
-        :header-props="headerProps"
-        :custom-sort="tableCustomSort"
-        :item-class="itemClass"
-        :item-style="itemStyle"
-        :locale="locale"
-        :dark="dark"
-        :light="light"
-        :calculate-widths="calculateWidths"
-        v-on="$listeners"
-    >
-        <template v-for="column in filterableColumns" v-slot:[`header.${getColumnKey(column)}`]="{ header }">
-            <BaseDataTableHeader
-                :key="getColumnKey(column)"
-                :column="column"
-                :header="header"
-                :value="columnFilterValues[getColumnKey(column)]"
-                @input="updateColumnFilter(getColumnKey(column), $event)"
-            />
-        </template>
+    <div>
+        <v-data-table
+            v-bind="$attrs"
+            :headers="tableColumns"
+            :items="items"
+            :search="tableSearch"
+            :custom-filter="columnFilter"
+            :disable-filtering="disableFiltering"
+            :disable-pagination="disablePagination"
+            :disable-sort="disableSort"
+            :loading="loading"
+            :loading-text="loadingText"
+            :no-data-text="noDataText"
+            :no-results-text="noResultsText"
+            :items-per-page="itemsPerPage"
+            :page="page"
+            :sort-by="sortBy"
+            :sort-desc="sortDesc"
+            :multi-sort="multiSort"
+            :must-sort="mustSort"
+            :group-by="groupBy"
+            :group-desc="groupDesc"
+            :show-select="showSelect"
+            :single-select="singleSelect"
+            :value="value"
+            :show-expand="showExpand"
+            :single-expand="singleExpand"
+            :expanded="expanded"
+            :dense="dense"
+            :fixed-header="fixedHeader"
+            :height="height"
+            :hide-default-footer="hideDefaultFooter"
+            :hide-default-header="hideDefaultHeader"
+            :mobile-breakpoint="mobileBreakpoint"
+            :item-key="itemKey"
+            :server-items-length="serverItemsLength"
+            :footer-props="footerProps"
+            :header-props="headerProps"
+            :custom-sort="tableCustomSort"
+            :item-class="itemClass"
+            :item-style="itemStyle"
+            :locale="locale"
+            :dark="dark"
+            :light="light"
+            :calculate-widths="calculateWidths"
+            c-class="['base-data-table', cClass]"
+            v-on="$listeners"
+        >
+            <template v-for="column in filterableColumns" v-slot:[`header.${getColumnKey(column)}`]="{ header }">
+                <BaseDataTableHeader
+                    :key="getColumnKey(column)"
+                    :column="column"
+                    :header="header"
+                    :value="columnFilterValues[getColumnKey(column)]"
+                    @input="updateColumnFilter(getColumnKey(column), $event)"
+                />
+            </template>
 
-        <template v-for="column in rendererColumns" :slot="`item.${getColumnKey(column)}`" slot-scope="{ item }">
-            <BaseDataTableItem
-                :key="getColumnKey(column)"
-                :item="item"
-                :column="column"
-                @view="$emit('view', $event)"
-                @edit="$emit('edit', $event)"
-                @delete="$emit('delete', $event)"
-            />
-        </template>
+            <template v-for="column in rendererColumns" :slot="`item.${getColumnKey(column)}`" slot-scope="{ item }">
+                <BaseDataTableItem
+                    :key="getColumnKey(column)"
+                    :item="item"
+                    :column="column"
+                    @view="handleView"
+                    @edit="handleEdit"
+                    @delete="handleDelete"
+                />
+            </template>
 
-        <template slot="footer" slot-scope="slotProps">
-            <BaseDataTableFooter
-                v-bind="footerProps"
-                :options="slotProps.props.options"
-                :pagination="slotProps.props.pagination"
-                v-on="slotProps.on"
-            />
-        </template>
-    </v-data-table>
+            <template slot="footer" slot-scope="slotProps">
+                <BaseDataTableFooter
+                    v-bind="footerProps"
+                    :options="slotProps.props.options"
+                    :pagination="slotProps.props.pagination"
+                    v-on="slotProps.on"
+                />
+            </template>
+        </v-data-table>
+
+        <v-dialog v-model="actionDialog" max-width="700">
+            <v-card v-if="selectedItem">
+                <slot
+                    v-if="actionType === 'view'"
+                    name="view"
+                    :item="selectedItem"
+                    :close="closeAction"
+                />
+
+                <slot
+                    v-if="actionType === 'edit'"
+                    name="edit"
+                    :item="selectedItem"
+                    :close="closeAction"
+                />
+            </v-card>
+        </v-dialog>
+    </div>
 </template>
 
 <script>
@@ -257,7 +278,10 @@ export default {
 
     data() {
         return {
-            columnFilterValues: {}
+            columnFilterValues: {},
+            selectedItem: null,
+            actionDialog: false,
+            actionType: null
         }
     },
 
@@ -286,6 +310,7 @@ export default {
                 return {
                     ...column,
                     value: columnKey,
+                    align: column.align || 'right',
                     sortable: column.disableSort
                         ? false
                         : column.sortable !== false
@@ -330,6 +355,14 @@ export default {
                 return column.value(item)
             }
             return item[column.value]
+        },
+
+        getItemKey(item) {
+            if (!item) {
+                return undefined
+            }
+
+            return item[this.itemKey]
         },
 
         updateColumnFilter(columnKey, value) {
@@ -431,6 +464,31 @@ export default {
             }
 
             return String(a).localeCompare(String(b), 'fa')
+        },
+        
+        closeAction() {
+            this.actionDialog = false
+            this.selectedItem = null
+            this.actionType = null
+        },
+
+        handleView(item) {
+            this.selectedItem = item
+            this.actionType = 'view'
+            this.actionDialog = true
+        },
+
+        handleEdit(item) {
+            this.selectedItem = item
+            this.actionType = 'edit'
+            this.actionDialog = true
+        },
+
+        handleDelete(item) {
+            const itemKey = this.getItemKey(item)
+            if (itemKey === undefined || itemKey === null) { return }
+            const updatedItems = this.items.filter(item => { return this.getItemKey(item) !== itemKey })
+            this.$emit('update:items', updatedItems)
         }
     }
 }

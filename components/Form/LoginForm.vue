@@ -8,8 +8,8 @@
                 label="شماره همراه"
                 dir="ltr"
                 prepend-inner-icon="mdi-cellphone"
-                rules="required,phone"
-                variant="light"
+                rules="required"
+                maxlength="11"
             />
         </div>
 
@@ -31,7 +31,6 @@
                 dir="ltr"
                 prepend-inner-icon="mdi-lock-outline"
                 rules="required"
-                variant="light"
             />
         </div>
 

@@ -3,9 +3,7 @@
         <v-data-table
             v-bind="$attrs"
             :headers="tableColumns"
-            :items="items"
-            :search="tableSearch"
-            :custom-filter="columnFilter"
+            :items="filteredItems"
             :disable-filtering="disableFiltering"
             :disable-pagination="disablePagination"
             :disable-sort="disableSort"
@@ -37,7 +35,6 @@
             :server-items-length="serverItemsLength"
             :footer-props="footerProps"
             :header-props="headerProps"
-            :custom-sort="tableCustomSort"
             :item-class="itemClass"
             :item-style="itemStyle"
             :locale="locale"
@@ -54,6 +51,7 @@
                     :header="header"
                     :value="columnFilterValues[getColumnKey(column)]"
                     @input="updateColumnFilter(getColumnKey(column), $event)"
+                    @apply-filter="applyColumnFilters"
                 />
             </template>
 
@@ -246,10 +244,6 @@ export default {
             type: Object,
             default: () => ({})
         },
-        customSort: {
-            type: Function,
-            default: undefined
-        },
         itemClass: {
             type: [String, Function],
             default: undefined
@@ -279,6 +273,7 @@ export default {
     data() {
         return {
             columnFilterValues: {},
+            appliedColumnFilters: {},
             selectedItem: null,
             actionDialog: false,
             actionType: null
@@ -291,35 +286,84 @@ export default {
         },
 
         rendererColumns() {
-            return this.columns.filter(column => {
-                return column.type || typeof column.value === 'function'
-            })
+            return this.columns.filter(column => { return column.type || typeof column.value === 'function'})
         },
 
-        tableSearch() {
-            const hasColumnFilter = Object.values(this.columnFilterValues).some(value => {
-                return value !== undefined && value !== null && String(value).trim() !== ''
+        filteredItems() {
+            const has_filter = Object.keys(this.appliedColumnFilters).some(column_key => {
+                const column = this.filterableColumns.find(column => {
+                    return this.getColumnKey(column) === column_key
+                })
+
+                const value = this.appliedColumnFilters[column_key]
+
+                if (column && column.filterType === 'date-range') {
+                    return Boolean(value && (value.from || value.to))
+                }
+
+                return value !== undefined &&
+                    value !== null &&
+                    String(value).trim() !== ''
             })
-            return hasColumnFilter ? '__COLUMN_FILTER__' : ''
+            if (!has_filter) { return this.items }
+
+            return this.items.filter(item => {
+                return this.filterableColumns.every(column => {
+                    const column_key = this.getColumnKey(column)
+                    const filter_value = this.appliedColumnFilters[column_key]
+
+                    if (column.filterType === 'date-range') {
+                        if (!filter_value || (!filter_value.from && !filter_value.to)) { return true }
+                        const filter_from = filter_value.from
+                        const filter_to = filter_value.to
+                        const item_value = this.getColumnValue(item, column)
+
+                        if (item_value === undefined || item_value === null) { return false }
+                        const item_date = this.normalizeDateValue(item_value)
+                        const normalized_filter_from = this.normalizeDateValue(filter_from)
+                        const normalized_filter_to = this.normalizeDateValue(filter_to)
+                        console.log('FILTER FROM:', filter_from)
+                        console.log('FILTER TO:', filter_to)
+                        console.log('ITEM DATE:', item_date)
+                        if (normalized_filter_from && item_date < normalized_filter_from) { return false }
+                        if (normalized_filter_to && item_date > normalized_filter_to) { return false }
+                        return true
+                    }
+
+                    if (filter_value === undefined || filter_value === null || String(filter_value).trim() === '') { return true }
+                    const item_value = this.getColumnValue(item, column)
+                    if (item_value === undefined || item_value === null) { return false }
+                    const normalized_item_value = this.normalizeValue(item_value)
+                    const normalized_filter_value = this.normalizeValue(filter_value)
+
+                    if (column.filterType === 'number') {
+                        const item_number = Number(String(item_value).replace(/,/g, ''))
+                        const filter_number = Number(String(filter_value).replace(/,/g, ''))
+
+                        if (!Number.isNaN(item_number) && !Number.isNaN(filter_number)) {
+                            return item_number === filter_number
+                        }
+                        return false
+                    }
+
+                    return normalized_item_value.includes(normalized_filter_value)
+                })
+            })
         },
 
         tableColumns() {
             return this.columns.map(column => {
-                const columnKey = this.getColumnKey(column)
+                const column_key = this.getColumnKey(column)
 
                 return {
                     ...column,
-                    value: columnKey,
+                    value: column_key,
                     align: column.align || 'right',
                     sortable: column.disableSort
                         ? false
                         : column.sortable !== false
                 }
             })
-        },
-
-        tableCustomSort() {
-            return this.customSort || this.sortColumns
         }
     },
 
@@ -351,6 +395,10 @@ export default {
         },
 
         getColumnValue(item, column) {
+            if (typeof column.filterValue === 'function') {
+                return column.filterValue(item)
+            }
+
             if (typeof column.value === 'function') {
                 return column.value(item)
             }
@@ -365,8 +413,14 @@ export default {
             return item[this.itemKey]
         },
 
-        updateColumnFilter(columnKey, value) {
-            this.$set(this.columnFilterValues, columnKey, value)
+        updateColumnFilter(column_key, value) {
+            this.$set(this.columnFilterValues, column_key, value)
+        },
+
+        applyColumnFilters() {
+            this.appliedColumnFilters = { 
+                ...this.columnFilterValues
+            }
         },
 
         normalizeValue(value) {
@@ -376,96 +430,18 @@ export default {
             return String(value).trim().toLocaleLowerCase()
         },
 
-        columnFilter(value, search, item) {
-            if (search !== '__COLUMN_FILTER__') {
-                return true
+        normalizeDateValue(value) {
+            if (value === undefined || value === null) {
+                return ''
             }
 
-            return this.filterableColumns.every(column => {
-                const columnKey = this.getColumnKey(column)
-                const filterValue = this.columnFilterValues[columnKey]
-
-                if (filterValue === undefined || filterValue === null || String(filterValue).trim() === '') 
-                {
-                    return true
-                }
-
-                const itemValue = this.getColumnValue(item, column)
-
-                if (itemValue === undefined || itemValue === null) {
-                    return false
-                }
-
-                const normalizedItemValue = this.normalizeValue(itemValue)
-                const normalizedFilterValue = this.normalizeValue(filterValue)
-
-                if (column.filterType === 'number') {
-                    const itemNumber = Number(String(itemValue).replace(/,/g, ''))
-                    const filterNumber = Number(String(filterValue).replace(/,/g, ''))
-
-                    if (!Number.isNaN(itemNumber) && !Number.isNaN(filterNumber)) 
-                    {
-                        return itemNumber === filterNumber
-                    }
-                }
-
-                return normalizedItemValue.includes(normalizedFilterValue)
-            })
+            return String(value)
+                .replace(/[۰-۹]/g, digit => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
+                .replace(/[٠-٩]/g, digit => String('٠١٢٣٤٥٦٧٨٩'.indexOf(digit)))
+                .replace(/-/g, '/')
+                .trim()
         },
 
-        sortColumns(items, sortBy, sortDesc) {
-            if (!sortBy.length) {
-                return items
-            }
-
-            const sortedItems = items.slice()
-
-            return sortedItems.sort((a, b) => {
-                for (let index = 0; index < sortBy.length; index++) {
-                    const key = sortBy[index]
-                    const desc = sortDesc[index]
-                    const column = this.columns.find(column => {return this.getColumnKey(column) === key})
-
-                    if (!column) { continue }
-
-                    const aValue = this.getColumnValue(a, column)
-                    const bValue = this.getColumnValue(b, column)
-                    const result = this.compareValues(aValue, bValue, column)
-
-                    if (result !== 0) {
-                        return desc ? -result : result
-                    }
-                }
-
-                return 0
-            })
-        },
-
-        compareValues(a, b, column) {
-            if (a === undefined || a === null) {
-                return b === undefined || b === null ? 0 : -1
-            }
-
-            if (b === undefined || b === null) {
-                return 1
-            }
-
-            if (column.filterType === 'number') {
-                const aNumber = Number(String(a).replace(/,/g, ''))
-                const bNumber = Number(String(b).replace(/,/g, ''))
-
-                if (!Number.isNaN(aNumber) && !Number.isNaN(bNumber)) {
-                    return aNumber - bNumber
-                }
-            }
-
-            if (column.filterType === 'date') {
-                return String(a).localeCompare(String(b), 'fa')
-            }
-
-            return String(a).localeCompare(String(b), 'fa')
-        },
-        
         closeAction() {
             this.actionDialog = false
             this.selectedItem = null
@@ -485,10 +461,10 @@ export default {
         },
 
         handleDelete(item) {
-            const itemKey = this.getItemKey(item)
-            if (itemKey === undefined || itemKey === null) { return }
-            const updatedItems = this.items.filter(item => { return this.getItemKey(item) !== itemKey })
-            this.$emit('update:items', updatedItems)
+            const item_key = this.getItemKey(item)
+            if (item_key === undefined || item_key === null) { return }
+            const updated_items = this.items.filter(item => { return this.getItemKey(item) !== item_key })
+            this.$emit('update:items', updated_items)
         }
     }
 }

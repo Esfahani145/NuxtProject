@@ -11,7 +11,6 @@
                 :items-per-page="5"
                 :loading="product_loading"
                 item-key="id"
-                :multi-sort="true"
                 no-data-text="محصولی یافت نشد"
                 no-results-text="محصولی با این مشخصات یافت نشد"
                 :footer-props="{ itemsPerPageOptions: [2, 5, -1] }"
@@ -155,7 +154,8 @@ export default {
                     type: 'image',
                     filterable: false,
                     disableSort: true,
-                    align: 'center'
+                    align: 'center',
+                    icon: 'mdi-shopping'
                 },
                 {
                     text: 'محصول',
@@ -164,7 +164,8 @@ export default {
                     filterType: 'text',
                     filterable: true,
                     disableSort: true,
-                    align: 'right'
+                    align: 'right',
+                    icon: 'mdi-shopping'
                 },
                 {
                     text: 'دسته‌بندی',
@@ -173,7 +174,8 @@ export default {
                     filterType: 'text',
                     filterable: true,
                     disableSort: true,
-                    align: 'right'
+                    align: 'right',
+                    icon: 'mdi-shape'
                 },
                 {
                     text: 'تاریخ ثبت',
@@ -181,11 +183,14 @@ export default {
                     value: (body) => {
                         return this.$toJalali(body.created_at, '', 'jYYYY/jMM/jDD')
                     },
+                    filterValue: (body) => {
+                        return this.$toJalali(body.created_at, '', 'jYYYY/jMM/jDD')
+                    },
                     sortValue: (body) => {
                         return body.created_at
                     },
-                    filterType: 'date',
-                    filterable: false
+                    filterType: 'date-range',
+                    filterable: true
                 },
                 {
                     text: 'قیمت',
@@ -194,7 +199,8 @@ export default {
                     filterable: false,
                     filterType: 'number',
                     sortable: true,
-                    align: 'right'
+                    align: 'right',
+                    icon: 'mdi-credit-card'
                 },
                 {
                     text: 'وضعیت',
@@ -202,7 +208,8 @@ export default {
                     type: 'boolean',
                     filterable: false,
                     disableSort: true,
-                    align: 'center'
+                    align: 'center',
+
                 },
                 {
                     text: 'برچسب',
@@ -210,7 +217,8 @@ export default {
                     type: 'chip',
                     filterable: false,
                     disableSort: true,
-                    align: 'center'
+                    align: 'center',
+                    icon: 'mdi-tag'
                 },
                 {
                     text: 'عملیات',

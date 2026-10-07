@@ -18,27 +18,45 @@
             @click:prepend-inner="$emit('apply-filter')"
         />
 
+        <BaseInput
+            v-else-if="column.filterable !== false && column.filterType === 'number'"
+            class="column-filter"
+            dense
+            :value="value"
+            hide-details
+            :placeholder="column.filterPlaceholder || column.text"
+            single-line
+            :outlined="false"
+            :disabled="column.filterDisabled"
+            :clearable="column.filterClearable"
+            :prepend-inner-icon="column.icon || 'mdi-magnify'"
+            type="number"
+            @click.stop
+            @input="$emit('input', $event)"
+            @keyup.enter.native="$emit('apply-filter')"
+            @click:prepend-inner="$emit('apply-filter')"
+        />
+
         <div v-else-if="column.filterable !== false && column.filterType === 'date-range'" class="date-range-filter">
+            <BaseDatePicker
+                :value="value && value.from ? value.from : ''"
+                class="column-filter date-range-input"
+                placeholder="از تاریخ"
+                :disabled="column.filterDisabled"
+                :clearable="column.filterClearable"
+                @click.stop
+                @input="$emit('input', { ...(value || {}), from: $event })"
+            />
 
-        <BaseDatePicker
-            :value="value && value.from ? value.from : ''"
-            class="column-filter date-range-input"
-            placeholder="از تاریخ"
-            :disabled="column.filterDisabled"
-            :clearable="column.filterClearable"
-            @click.stop
-            @input="$emit('input', { ...(value || {}), from: $event })"
-        />
-
-        <BaseDatePicker
-            :value="value && value.to ? value.to : ''"
-            class="column-filter date-range-input"
-            placeholder="تا تاریخ"
-            :disabled="column.filterDisabled"
-            :clearable="column.filterClearable"
-            @click.stop
-            @input="$emit('input', { ...(value || {}), to: $event })"
-        />
+            <BaseDatePicker
+                :value="value && value.to ? value.to : ''"
+                class="column-filter date-range-input"
+                placeholder="تا تاریخ"
+                :disabled="column.filterDisabled"
+                :clearable="column.filterClearable"
+                @click.stop
+                @input="$emit('input', { ...(value || {}), to: $event })"
+            />
 
             <v-icon class="date-range-filter-icon" small @click.stop="$emit('apply-filter')">
                 {{ column.icon || 'mdi-magnify' }}
@@ -59,6 +77,7 @@
             :prepend-inner-icon="column.icon || 'mdi-magnify'"
             @click.stop
             @input="$emit('input', $event)"
+            @click:prepend-inner="$emit('apply-filter')"
         />
     </div>
 </template>

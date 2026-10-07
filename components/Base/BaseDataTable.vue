@@ -336,6 +336,10 @@ export default {
                     const normalized_item_value = this.normalizeValue(item_value)
                     const normalized_filter_value = this.normalizeValue(filter_value)
 
+                    if (column.filterType === 'select') {
+                        return item_value === filter_value
+                    }
+
                     if (column.filterType === 'number') {
                         const item_number = Number(String(item_value).replace(/,/g, ''))
                         const filter_number = Number(String(filter_value).replace(/,/g, ''))
@@ -373,15 +377,12 @@ export default {
             deep: true,
 
             handler(columns) {
-                columns
-                    .filter(column => column.filterable !== false)
-                    .forEach(column => {
-                        const key = this.getColumnKey(column)
-
-                        if (this.columnFilterValues[key] === undefined) {
-                            this.$set(this.columnFilterValues, key, '')
-                        }
-                    })
+                columns.filter(column => column.filterable !== false).forEach(column => {
+                    const key = this.getColumnKey(column)
+                    if (this.columnFilterValues[key] === undefined) {
+                        this.$set(this.columnFilterValues, key, '')
+                    }
+                })
             }
         }
     },

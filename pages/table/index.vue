@@ -196,9 +196,9 @@ export default {
                     text: 'قیمت',
                     value: 'price',
                     type: 'price',
-                    filterable: false,
+                    filterable: true,
                     filterType: 'number',
-                    sortable: true,
+                    sortable: false,
                     align: 'right',
                     icon: 'mdi-credit-card'
                 },
@@ -206,7 +206,12 @@ export default {
                     text: 'وضعیت',
                     value: 'active',
                     type: 'boolean',
-                    filterable: false,
+                    filterType: 'select',
+                    filterOptions: [
+                        { text: 'فعال', value: true },
+                        { text: 'غیرفعال', value: false }
+                    ],
+                    filterable: true,
                     disableSort: true,
                     align: 'center',
 

@@ -38,15 +38,33 @@
                         </v-list-item-title>
                     </v-list-item>
 
-                    <v-list-item to="/table" exact active-class="blue lighten-5 blue--text text--darken-2">
-                        <v-list-item-icon>
-                            <v-icon>mdi-table</v-icon>
-                        </v-list-item-icon>
+                    <v-list-group prepend-icon="mdi-table" :value="$route.path.startsWith('/table')">
+                        <template v-slot:activator>
+                            <v-list-item-title class="font-weight-bold">
+                                جدول اطلاعات
+                            </v-list-item-title>
+                        </template>
 
-                        <v-list-item-title class="font-weight-bold">
-                            جدول اطلاعات
-                        </v-list-item-title>
-                    </v-list-item>
+                        <v-list-item  to="/table" exact active-class="blue lighten-5 blue--text text--darken-2">
+                            <v-list-item-icon>
+                                <v-icon>mdi-package-variant</v-icon>
+                            </v-list-item-icon>
+
+                            <v-list-item-title>
+                                جدول محصولات
+                            </v-list-item-title>
+                        </v-list-item>
+
+                        <v-list-item to="/table/users" exact active-class="blue lighten-5 blue--text text--darken-2">
+                            <v-list-item-icon>
+                                <v-icon>mdi-account-group-outline</v-icon>
+                            </v-list-item-icon>
+
+                            <v-list-item-title>
+                                جدول کاربران
+                            </v-list-item-title>
+                        </v-list-item>
+                    </v-list-group>
 
                     <v-list-item to="/favorites" exact active-class="blue lighten-5 blue--text text--darken-2">
                         <v-list-item-icon>
@@ -130,20 +148,50 @@
                         فروشگاه محصولات
                     </BaseButton>
 
-                    <BaseButton
-                        text
-                        :class="{ 'active-link': $route.path.startsWith('/table') }"
-                        :block="false"
-                        :x-large="false"
-                        :rounded="false"
-                        c-class="mx-1 rounded-lg"
-                        @click="$goTo('/table')"
-                    >
-                        <v-icon right size="18" class="ml-1">
-                            mdi-table
-                        </v-icon>
-                        جدول اطلاعات
-                    </BaseButton>
+                    <v-menu offset-y>
+                        <template v-slot:activator="{ on, attrs }">
+                            <BaseButton
+                                text
+                                v-bind="attrs"
+                                v-on="on"
+                                :class="{ 'active-link': $route.path.startsWith('/table') }"
+                                :block="false"
+                                :x-large="false"
+                                :rounded="false"
+                                c-class="mx-1 rounded-lg"
+                            >
+                                <v-icon right size="18" class="ml-1">
+                                    mdi-table
+                                </v-icon>
+                                    جدول اطلاعات
+                                <v-icon right size="16">
+                                    mdi-chevron-down
+                                </v-icon>
+                            </BaseButton>
+                        </template>
+
+                        <v-list dense>
+                            <v-list-item to="/table" exact>
+                                <v-list-item-icon>
+                                    <v-icon>mdi-package-variant</v-icon>
+                                </v-list-item-icon>
+
+                                <v-list-item-title>
+                                    جدول محصولات
+                                </v-list-item-title>
+                            </v-list-item>
+
+                            <v-list-item to="/table/users" exact>
+                                <v-list-item-icon>
+                                    <v-icon>mdi-account-group-outline</v-icon>
+                                </v-list-item-icon>
+
+                                <v-list-item-title>
+                                    جدول کاربران
+                                </v-list-item-title>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
 
                     <BaseButton
                         text

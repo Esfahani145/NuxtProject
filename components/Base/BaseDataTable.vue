@@ -41,14 +41,13 @@
             :dark="dark"
             :light="light"
             :calculate-widths="calculateWidths"
-            c-class="['base-data-table', cClass]"
+            class="base-data-table"
             v-on="$listeners"
         >
-            <template v-for="column in filterableColumns" v-slot:[`header.${getColumnKey(column)}`]="{ header }">
+            <template v-for="column in filterableColumns" v-slot:[`header.${getColumnKey(column)}`]>
                 <BaseDataTableHeader
                     :key="getColumnKey(column)"
                     :column="column"
-                    :header="header"
                     :value="columnFilterValues[getColumnKey(column)]"
                     @input="updateColumnFilter(getColumnKey(column), $event)"
                     @apply-filter="applyColumnFilters"
@@ -78,19 +77,8 @@
 
         <v-dialog v-model="actionDialog" max-width="700">
             <v-card v-if="selectedItem">
-                <slot
-                    v-if="actionType === 'view'"
-                    name="view"
-                    :item="selectedItem"
-                    :close="closeAction"
-                />
-
-                <slot
-                    v-if="actionType === 'edit'"
-                    name="edit"
-                    :item="selectedItem"
-                    :close="closeAction"
-                />
+                <slot v-if="actionType === 'view'" name="view" :item="selectedItem" :close="closeAction"/>
+                <slot v-if="actionType === 'edit'" name="edit" :item="selectedItem" :close="closeAction"/>
             </v-card>
         </v-dialog>
     </div>
@@ -109,6 +97,7 @@ export default {
         BaseDataTableItem,
         BaseDataTableFooter
     },
+
     inheritAttrs: false,
 
     props: {
@@ -138,7 +127,7 @@ export default {
         },
         loading: {
             type: Boolean,
-          default: false
+            default: false
         },
         loadingText: {
             type: String,
@@ -267,6 +256,14 @@ export default {
         calculateWidths: {
             type: Boolean,
             default: false
+        },
+        showClearFiltersButton: {
+            type: Boolean,
+            default: false
+        },
+        showColumnClearButtons: {
+            type: Boolean,
+            default: false
         }
     },
 
@@ -286,25 +283,21 @@ export default {
         },
 
         rendererColumns() {
-            return this.columns.filter(column => { return column.type || typeof column.value === 'function'})
+            return this.columns.filter(column => column.type || typeof column.value === 'function')
         },
 
         filteredItems() {
             const has_filter = Object.keys(this.appliedColumnFilters).some(column_key => {
-                const column = this.filterableColumns.find(column => {
-                    return this.getColumnKey(column) === column_key
-                })
-
+                const column = this.filterableColumns.find(c => this.getColumnKey(c) === column_key)
                 const value = this.appliedColumnFilters[column_key]
 
                 if (column && column.filterType === 'date-range') {
-                    return Boolean(value && (value.from || value.to))
+                    return Boolean(value && value.type && (value.from || value.to))
                 }
 
-                return value !== undefined &&
-                    value !== null &&
-                    String(value).trim() !== ''
+                return value !== undefined && value !== null && String(value).trim() !== ''
             })
+
             if (!has_filter) { return this.items }
 
             return this.items.filter(item => {
@@ -314,19 +307,33 @@ export default {
 
                     if (column.filterType === 'date-range') {
                         if (!filter_value || (!filter_value.from && !filter_value.to)) { return true }
-                        const filter_from = filter_value.from
-                        const filter_to = filter_value.to
                         const item_value = this.getColumnValue(item, column)
-
                         if (item_value === undefined || item_value === null) { return false }
                         const item_date = this.normalizeDateValue(item_value)
-                        const normalized_filter_from = this.normalizeDateValue(filter_from)
-                        const normalized_filter_to = this.normalizeDateValue(filter_to)
-                        console.log('FILTER FROM:', filter_from)
-                        console.log('FILTER TO:', filter_to)
-                        console.log('ITEM DATE:', item_date)
-                        if (normalized_filter_from && item_date < normalized_filter_from) { return false }
-                        if (normalized_filter_to && item_date > normalized_filter_to) { return false }
+                        const normalized_filter_from = this.normalizeDateValue(filter_value.from)
+                        const normalized_filter_to = this.normalizeDateValue(filter_value.to)
+                        const filter_type = filter_value.type || ''
+
+                        if (filter_type === 'equal') {
+                            return item_date === normalized_filter_from
+                        }
+
+                        if (filter_type === 'after') {
+                            return item_date >= normalized_filter_from
+                        }
+
+                        if (filter_type === 'before') {
+                            return item_date <= normalized_filter_from
+                        }
+
+                        if (normalized_filter_from && item_date < normalized_filter_from) {
+                            return false
+                        }
+
+                        if (normalized_filter_to && item_date > normalized_filter_to) {
+                            return false
+                        }
+
                         return true
                     }
 
@@ -347,6 +354,7 @@ export default {
                         if (!Number.isNaN(item_number) && !Number.isNaN(filter_number)) {
                             return item_number === filter_number
                         }
+
                         return false
                     }
 
@@ -362,10 +370,9 @@ export default {
                 return {
                     ...column,
                     value: column_key,
+                    text: column.text,
                     align: column.align || 'right',
-                    sortable: column.disableSort
-                        ? false
-                        : column.sortable !== false
+                    sortable: false
                 }
             })
         }
@@ -375,14 +382,16 @@ export default {
         columns: {
             immediate: true,
             deep: true,
-
             handler(columns) {
-                columns.filter(column => column.filterable !== false).forEach(column => {
-                    const key = this.getColumnKey(column)
-                    if (this.columnFilterValues[key] === undefined) {
-                        this.$set(this.columnFilterValues, key, '')
-                    }
-                })
+                columns
+                    .filter(column => column.filterable !== false)
+                    .forEach(column => {
+                        const key = this.getColumnKey(column)
+
+                        if (this.columnFilterValues[key] === undefined) {
+                            this.$set(this.columnFilterValues, key, '')
+                        }
+                    })
             }
         }
     },
@@ -392,6 +401,7 @@ export default {
             if (typeof column.value === 'function') {
                 return column.key || column.text
             }
+
             return column.value
         },
 
@@ -403,6 +413,7 @@ export default {
             if (typeof column.value === 'function') {
                 return column.value(item)
             }
+
             return item[column.value]
         },
 
@@ -419,15 +430,14 @@ export default {
         },
 
         applyColumnFilters() {
-            this.appliedColumnFilters = { 
-                ...this.columnFilterValues
-            }
+            this.appliedColumnFilters = { ...this.columnFilterValues }
         },
 
         normalizeValue(value) {
             if (value === undefined || value === null) {
                 return ''
             }
+
             return String(value).trim().toLocaleLowerCase()
         },
 
@@ -463,16 +473,32 @@ export default {
 
         handleDelete(item) {
             const item_key = this.getItemKey(item)
-            if (item_key === undefined || item_key === null) { return }
-            const updated_items = this.items.filter(item => { return this.getItemKey(item) !== item_key })
+
+            if (item_key === undefined || item_key === null) {
+                return
+            }
+
+            const updated_items = this.items.filter(i => this.getItemKey(i) !== item_key)
+
             this.$emit('update:items', updated_items)
-        }
+        },
+
+        clearAllFilters() {
+            this.columnFilterValues = {}
+            this.appliedColumnFilters = {}
+
+            this.$nextTick(() => {
+                this.applyColumnFilters()
+            })
+        }   
     }
 }
 </script>
 
 <style scoped>
-::v-deep .v-data-table-header__icon {
-    opacity: 1 !important;
+.base-data-table ::v-deep .v-data-table-header th {
+    background-color: #f1f5f9 !important;
+    color: #1e293b !important;
+    font-weight: 600 !important;
 }
 </style>

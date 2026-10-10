@@ -10,6 +10,7 @@
         :elevation="elevation"
         :fixed="fixed"
         :height="height"
+        :icon="icon"
         :left="left"
         :loading="loading"
         :max-height="maxHeight"
@@ -43,142 +44,141 @@ export default {
     name: 'BaseButton',
 
     props: {
-        absolute: { 
-            type: Boolean, 
-            default: false 
+        absolute: {
+            type: Boolean,
+            default: false
         },
         fixed: {
-            type: Boolean, 
-            default: false 
+            type: Boolean,
+            default: false
         },
-        small: { 
-            type: Boolean, 
-            default: false 
+        icon: {
+            type: Boolean,
+            default: false
         },
-        top: { 
-            type: Boolean, 
-            default: false 
+        small: {
+            type: Boolean,
+            default: false
         },
-        bottom: { 
-            type: Boolean, 
-            default: false 
+        top: {
+            type: Boolean,
+            default: false
         },
-        left: { 
-            type: Boolean, 
-            default: false 
+        bottom: {
+            type: Boolean,
+            default: false
         },
-        right: { 
-            type: Boolean, 
-            default: false 
+        left: {
+            type: Boolean,
+            default: false
         },
-        target: { 
-            type: String, 
-            default: undefined 
+        right: {
+            type: Boolean,
+            default: false
+        },
+        target: {
+            type: String,
+            default: undefined
         },
         to: {
-            type: [String, Object], 
-            default: undefined 
+            type: [String, Object],
+            default: undefined
         },
-        color: { 
-            type: String, 
-            default: 'orange darken-4' 
+        color: {
+            type: String,
+            default: undefined
         },
-        activeClass: { 
-            type: String, 
-            default: undefined 
+        activeClass: {
+            type: String,
+            default: undefined
         },
-        outlined: { 
-            type: Boolean, 
-            default: false 
+        outlined: {
+            type: Boolean,
+            default: false
         },
-        plain: { 
-            type: Boolean, 
-            default: false 
+        plain: {
+            type: Boolean,
+            default: false
         },
-        rounded: { 
-            type: Boolean, 
-            default: true 
+        rounded: {
+            type: Boolean,
+            default: true
         },
-        elevation: { 
-            type: [Number, String], 
-            default: undefined },
-        shaped: { 
-            type: Boolean, 
-            default: false 
+        elevation: {
+            type: [Number, String],
+            default: undefined
         },
-        text: { 
-            type: Boolean, 
-            default: false 
+        shaped: {
+            type: Boolean,
+            default: false
         },
-        tile: { 
-            type: Boolean, 
-            default: false 
+        text: {
+            type: Boolean,
+            default: false
         },
-        depressed: { 
-            type: Boolean, 
-            default: true 
+        tile: {
+            type: Boolean,
+            default: false
         },
-        block: { 
-            type: Boolean, 
-            default: true 
+        depressed: {
+            type: Boolean,
+            default: true
         },
-        xLarge: { 
-            type: Boolean, 
-            default: true 
+        block: {
+            type: Boolean,
+            default: true
+        },
+        xLarge: {
+            type: Boolean,
+            default: true
         },
         xSmall: {
-            type: Boolean, 
-            default: false 
+            type: Boolean,
+            default: false
         },
-        height: { 
-            type: [Number, String], 
-            default: undefined 
+        height: {
+            type: [Number, String],
+            default: undefined
         },
-        width: { 
-            type: [Number, String], 
-            default: undefined 
+        width: {
+            type: [Number, String],
+            default: undefined
         },
-        maxHeight: { 
-            type: [Number, String], 
-            default: undefined 
+        maxHeight: {
+            type: [Number, String],
+            default: undefined
         },
-        maxWidth: { 
-            type: [Number, String], 
-            default: undefined 
+        maxWidth: {
+            type: [Number, String],
+            default: undefined
         },
-        minHeight: { 
-            type: [Number, String], 
-            default: undefined 
+        minHeight: {
+            type: [Number, String],
+            default: undefined
         },
-        minWidth: { 
-            type: [Number, String], 
-            default: undefined 
-
+        minWidth: {
+            type: [Number, String],
+            default: undefined
         },
-        disabled: { 
-            type: Boolean, 
-            default: false 
-
+        disabled: {
+            type: Boolean,
+            default: false
         },
-        loading: { 
-            type: Boolean, 
-            default: false 
-
+        loading: {
+            type: Boolean,
+            default: false
         },
-        type: { 
-            type: String, 
-            default: 'button' 
-
+        type: {
+            type: String,
+            default: 'button'
         },
-        cClass: { 
-            type: [String, Array, Object], 
-            default: '' 
-
+        cClass: {
+            type: [String, Array, Object],
+            default: ''
         },
         whiteText: {
-            type: Boolean, 
-            default: true 
-
+            type: Boolean,
+            default: true
         }
     }
 }

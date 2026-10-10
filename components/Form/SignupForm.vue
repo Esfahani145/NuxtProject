@@ -9,6 +9,7 @@
                     prepend-inner-icon="mdi-account-outline"
                     rules="required, persian"
                     c-class="form-input"
+                    :dense="false"
                 />
             </v-col>
 
@@ -22,6 +23,7 @@
                     prepend-inner-icon="mdi-cellphone"
                     rules="required,phone"
                     maxlength="11"
+                    :dense="false"
                 />
             </v-col>
 
@@ -35,6 +37,7 @@
                     prepend-inner-icon="mdi-card-account-details-outline"
                     rules="required,national_code"
                     maxlength="10"
+                    :dense="false"
                 />
             </v-col>
 
@@ -47,6 +50,7 @@
                     dir="ltr"
                     prepend-inner-icon="mdi-email-outline"
                     rules="email"
+                    :dense="false"
                 />
             </v-col>
 
@@ -56,6 +60,8 @@
                     v-model="credentials.birth_date"
                     placeholder="انتخاب تاریخ تولد"
                     rules="required"
+                    :outlined="true"
+                    :dense="false"
                 />
             </v-col>
 
@@ -68,6 +74,7 @@
                     item-value="value"
                     prepend-inner-icon="mdi-account-group-outline"
                     rules="required"
+                    :dense="false"
                 />
             </v-col>
 
@@ -107,6 +114,7 @@
                     dir="ltr"
                     prepend-inner-icon="mdi-lock-outline"
                     rules="required,password"
+                    :dense="false"
                 />
             </v-col>
 
@@ -120,6 +128,7 @@
                     prepend-inner-icon="mdi-lock-check-outline"
                     rules="required,confirm_password"
                     :rule-context="credentials"
+                    :dense="false"
                 />
             </v-col>
 

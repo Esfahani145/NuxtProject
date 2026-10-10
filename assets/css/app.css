@@ -206,3 +206,67 @@ body {
 ::v-deep .v-data-table-header th.sortable .v-data-table-header__icon {
     opacity: 1;
 }
+
+.base-select-menu {
+    margin-top: 4px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px !important;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.10) !important;
+}
+
+.base-select-menu .v-list {
+    padding: 4px;
+    background-color: #ffffff;
+}
+
+.base-select-menu .v-list-item {
+    min-height: 36px;
+    border-radius: 5px;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #334155;
+}
+
+.base-select-menu .v-list-item:hover {
+    background-color: #f1f5f9;
+}
+
+.base-select-menu .v-list-item--active {
+    background-color: #eff6ff;
+    color: #2563eb;
+}
+
+.base-select-menu .v-list-item--active::before {
+    opacity: 0;
+}
+
+.compact-field ::v-deep .v-input__slot {
+    min-height: 34px !important;
+    max-height: 34px !important;
+    padding: 0 6px !important;
+    border-radius: 6px !important;
+    border: 1px solid #cbd5e1 !important;
+    background-color: #ffffff !important;
+    box-shadow: none !important;
+}
+
+.compact-field ::v-deep input,
+.compact-field ::v-deep .v-select__selection,
+.compact-field ::v-deep .v-label {
+    font-size: 12px !important;
+    color: #334155 !important;
+}
+
+.compact-field ::v-deep .v-icon {
+    font-size: 18px !important;
+    color: #475569 !important;
+}
+
+.uniform-filter {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0;
+    box-sizing: border-box;
+}

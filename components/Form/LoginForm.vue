@@ -10,6 +10,7 @@
                 prepend-inner-icon="mdi-cellphone"
                 rules="required"
                 maxlength="11"
+                :dense="false"
             />
         </div>
 
@@ -31,6 +32,7 @@
                 dir="ltr"
                 prepend-inner-icon="mdi-lock-outline"
                 rules="required"
+                :dense="false"
             />
         </div>
 
@@ -40,7 +42,6 @@
                 color="primary"
                 :loading="loading"
                 :disabled="!valid"
-                :block="true"
                 c-class="corporate-btn-primary"
             >
                 ورود به حساب

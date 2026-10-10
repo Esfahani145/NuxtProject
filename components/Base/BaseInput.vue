@@ -9,6 +9,7 @@
         <v-text-field
             ref="input"
             :value="value"
+            :single-line="singleLine"
             :type="computedType"
             :placeholder="placeholder"
             :rules="computedRules"
@@ -26,7 +27,7 @@
             :append-icon="computedAppendIcon"
             :append-outer-icon="appendOuterIcon"
             :prepend-icon="prependIcon"
-            :prepend-inner-icon="prependInnerIcon"
+            :prepend-inner-icon="computedPrependInnerIcon"
             :autofocus="autofocus"
             :outlined="outlined"
             :filled="filled"
@@ -60,6 +61,10 @@ export default {
         showPasswordToggle: {
             type: Boolean,
             default: true
+        },
+        singleLine: {
+            type: Boolean,
+            default: false
         },
         label: {
             type: String,
@@ -138,7 +143,7 @@ export default {
             default: undefined
         },
         prependInnerIcon: {
-            type: String,
+            type: [String, Boolean],
             default: undefined
         },
         autofocus: {
@@ -155,7 +160,7 @@ export default {
         },
         dense: {
             type: Boolean,
-            default: false
+            default: true
         },
         filled: {
             type: Boolean,
@@ -219,6 +224,12 @@ export default {
             }
 
             return this.appendIcon
+        },
+
+        computedPrependInnerIcon() {
+            return this.prependInnerIcon === false
+                ? undefined
+                : this.prependInnerIcon
         },
 
         computedRules() {

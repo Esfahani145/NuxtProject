@@ -1,5 +1,5 @@
 <template>
-    <div :class="['base-select', cClass]">
+    <div :class="[variant === 'light' ? 'light-input' : 'glass-input', cClass]">
         <label v-if="label" class="form-label">
             {{ label }}
         </label>
@@ -26,6 +26,9 @@
             :rounded="rounded"
             :dark="dark"
             :color="color"
+            :menu-props="menuProps"
+            :item-text="itemText"
+            :item-value="itemValue"
             @input="$emit('input', $event)"
             @change="$emit('change', $event)"
             @blur="$emit('blur', $event)"
@@ -108,7 +111,7 @@ export default {
         },
         dense: {
             type: Boolean,
-            default: false
+            default: true
         },
         outlined: {
             type: Boolean,
@@ -137,6 +140,26 @@ export default {
         cClass: {
             type: [String, Array, Object],
             default: ''
+        },
+        dir: {
+            type: String,
+            default: 'rtl',
+        },
+        variant: {
+            type: String,
+            default: 'glass', validator: value => ['glass', 'light'].includes(value)
+        },
+        menuProps: {
+            type: [String, Object],
+            default: () => ({offsetY: true, closeOnContentClick: true, contentClass: 'base-select-menu'})
+        },
+        itemValue: {
+            type: String,
+            default: 'value'
+        },
+        itemText: {
+            type: String,
+            default: 'text'
         }
     },
 

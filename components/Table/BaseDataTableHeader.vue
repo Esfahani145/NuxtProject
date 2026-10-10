@@ -136,12 +136,12 @@
             :clearable="column.filterClearable !== false"
             :disabled="column.filterDisabled"
             prepend-inner-icon="mdi-filter-variant"
-            item-text="text"
-            item-value="value"
             :menu-props="dateMenuProps"
             class="compact-field select-field date-type-select uniform-filter"
             @click.stop
-            @input="$emit('input', $event)"
+            @input="handleSelectFilter"
+            @keyup.enter.native="$emit('apply-filter')"
+            @click:prepend-inner.stop="$emit('apply-filter')"
         />
     </div>
 </template>
@@ -221,6 +221,10 @@ export default {
                     target_picker.openDatePicker()
                 }
             })
+        },
+
+        handleSelectFilter(selectedValue) {
+            this.$emit('input', selectedValue)
         },
 
         toggleSelectList() {
@@ -308,6 +312,7 @@ export default {
 </script>
 
 <style scoped>
+
 .filter-cell-wrapper {
     display: flex;
     flex-direction: column;
@@ -317,7 +322,8 @@ export default {
     min-width: 0;
     padding: 2px 0;
     box-sizing: border-box;
-}
+    position: relative;
+}   
 
 .select-field {
     width: 100% !important;

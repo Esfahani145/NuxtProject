@@ -1,30 +1,9 @@
 <template>
     <v-container fluid class="pa-6 pt-8">
-        <div class="d-flex align-center justify-space-between mb-2">
-            <v-card-title class="pa-0">
-                جدول محصولات
-            </v-card-title>
-
-            <BaseButton
-                icon
-                text
-                small
-                :block="false"
-                :x-large="false"
-                :white-text="false"
-                :loading="product_loading"
-                title="بارگذاری مجدد"
-                @click="reloadProducts"
-            >
-                <v-icon small color="primary">
-                    mdi-refresh
-                </v-icon>
-            </BaseButton>
-        </div>
-
         <v-card class="mb-8" outlined>
             <BaseDataTable
                 ref='productsTable'
+                title='جدول محصولات '
                 :items.sync="products"
                 :columns="product_columns"
                 :items-per-page="5"
@@ -35,6 +14,7 @@
                 no-data-text="محصولی یافت نشد"
                 no-results-text="محصولی با این مشخصات یافت نشد"
                 :footer-props="{ itemsPerPageOptions: [2, 5, -1] }"
+                @reload="reloadProducts"
             >
                 <template #view="{ item, close }">
                     <v-card-title class="font-weight-bold">
@@ -89,6 +69,12 @@ export default {
     },
 
     computed: {
+        categoryFilterOptions() {
+            return [
+                ...new Set(this.products.map(product => product.category).filter(Boolean))
+            ]
+        },
+        
         product_columns() {
             return [
                 {
@@ -114,7 +100,8 @@ export default {
                     text: 'دسته‌بندی',
                     value: 'category',
                     type: 'text',
-                    filterType: 'text',
+                    filterType: 'select',
+                    filterOptions: this.categoryFilterOptions,
                     filterable: true,
                     sortable: false,
                     align: 'right',
@@ -124,15 +111,9 @@ export default {
                 {
                     text: 'تاریخ ثبت',
                     key: 'created_date',
-                    value: (body) => {
-                        return this.$toJalali(body.created_at, '', 'jYYYY/jMM/jDD')
-                    },
-                    filterValue: (body) => {
-                        return this.$toJalali(body.created_at, '', 'jYYYY/jMM/jDD')
-                    },
-                    sortValue: (body) => {
-                        return body.created_at
-                    },
+                    value: (body) => {return this.$toJalali(body.created_at, '', 'jYYYY/jMM/jDD')},
+                    filterValue: (body) => {return this.$toJalali(body.created_at, '', 'jYYYY/jMM/jDD')},
+                    sortValue: (body) => {return body.created_at},
                     filterType: 'date-range',
                     filterable: true,
                     sortable: false,
@@ -210,7 +191,10 @@ export default {
         },
 
         async reloadProducts() {
-            if (this.product_loading) { return }
+            if (this.product_loading) {
+                return
+            }
+
             this.$refs.productsTable.clearAllFilters()
             await this.loadProduct()
         }

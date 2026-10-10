@@ -1,5 +1,6 @@
+
 <template>
-    <div>
+    <div class="data-table-container">
         <v-data-table
             v-bind="$attrs"
             :headers="tableColumns"
@@ -44,6 +45,30 @@
             class="base-data-table"
             v-on="$listeners"
         >
+        
+            <template v-slot:[`header.${reloadColumnKey}`]>
+                <div class="reload-column-content">
+                    <BaseButton
+                        icon
+                        small
+                        :block="false"
+                        :x-large="false"
+                        :rounded="false"
+                        :loading="loading"
+                        :white-text="false"
+                        color="primary"
+                        c-class="reload-icon-button"
+                        title="بارگذاری مجدد"
+                        aria-label="بارگذاری مجدد جدول"
+                        @click.stop="$emit('reload')"
+                    >
+                        <v-icon small>
+                            mdi-refresh
+                        </v-icon>
+                    </BaseButton>
+                </div>
+            </template>
+
             <template v-for="column in filterableColumns" v-slot:[`header.${getColumnKey(column)}`]>
                 <BaseDataTableHeader
                     :key="getColumnKey(column)"
@@ -51,6 +76,7 @@
                     :value="columnFilterValues[getColumnKey(column)]"
                     @input="updateColumnFilter(getColumnKey(column), $event)"
                     @apply-filter="applyColumnFilters"
+                    @reload="$emit('reload')"
                 />
             </template>
 
@@ -364,7 +390,17 @@ export default {
         },
 
         tableColumns() {
-            return this.columns.map(column => {
+            const reload_column = {
+                text: '',
+                value: this.reloadColumnKey,
+                sortable: false,
+                width: '48px',
+                align: 'center',
+                class: 'reload-column-header',
+                cellClass: 'reload-column-cell'
+            }
+
+            const columns = this.columns.map(column => {
                 const column_key = this.getColumnKey(column)
 
                 return {
@@ -375,6 +411,13 @@ export default {
                     sortable: false
                 }
             })
+
+            return [reload_column, ...columns]
+        },
+
+
+        relodColumnKey() {
+            return '__table_reload__'
         }
     },
 
@@ -501,4 +544,37 @@ export default {
     color: #1e293b !important;
     font-weight: 600 !important;
 }
+
+.data-table-container {
+    position: relative;
+}
+
+.table-reload-button {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 5;
+    min-width: 36px;
+}
+
+
+.base-data-table ::v-deep th.reload-column-header,
+.base-data-table ::v-deep td.reload-column-cell {
+    width: 48px !important;
+    min-width: 48px !important;
+    max-width: 48px !important;
+    padding: 0 4px !important;
+}
+
+.reload-column-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.reload-icon-button {
+    min-width: 32px !important;
+}
+
 </style>

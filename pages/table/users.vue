@@ -27,6 +27,7 @@
                 no-data-text="کاربری یافت نشد"
                 no-results-text="کاربری با این مشخصات یافت نشد"
                 :footer-props="{ itemsPerPageOptions: [2, 5, -1] }"
+                @reload="loadUsers"
             >
                 <template #edit="{ item, close }">
                     <v-card-title class="d-flex align-center">
@@ -193,7 +194,8 @@ export default {
                     filterType: 'date',
                     filterable: false,
                     disableSort: false,
-                    align: 'center'
+                    align: 'center',
+                    width: '100px'
                 },
                 {
                     text: 'جنسیت',
@@ -259,8 +261,13 @@ export default {
 
     methods: {
         loadUsers() {
-            const saved_users = localStorage.getItem('users')
-            this.users = saved_users ? JSON.parse(saved_users) : []
+            try {
+                const saved_users = localStorage.getItem('users')
+                this.users = saved_users ? JSON.parse(saved_users) : []
+            } catch (error) {
+                console.error('خطا در بارگذاری کاربران:', error)
+                this.users = []
+            }
         },
 
         handleUpdateUser(credentials, selected_user, close) {
@@ -287,7 +294,7 @@ export default {
             } catch (error) {
                 this.$toast.error(error.message || 'ثبت کاربر با خطا مواجه شد')
             }
-        }    
+        }
     }
 }
 </script>

@@ -60,7 +60,7 @@
                         c-class="reload-icon-button"
                         title="بارگذاری مجدد"
                         aria-label="بارگذاری مجدد جدول"
-                        @click.stop="$emit('reload')"
+                        @click.stop="reloadTable"
                     >
                         <v-icon small>
                             mdi-refresh
@@ -76,7 +76,7 @@
                     :value="columnFilterValues[getColumnKey(column)]"
                     @input="updateColumnFilter(getColumnKey(column), $event)"
                     @apply-filter="applyColumnFilters"
-                    @reload="$emit('reload')"
+                    @reload="$emit('reloadTable')"
                 />
             </template>
 
@@ -290,6 +290,10 @@ export default {
         showColumnClearButtons: {
             type: Boolean,
             default: false
+        },
+        reloadHandler: {
+            type: Function,
+            default: null
         }
     },
 
@@ -416,7 +420,7 @@ export default {
         },
 
 
-        relodColumnKey() {
+        reloadColumnKey() {
             return '__table_reload__'
         }
     },
@@ -529,11 +533,17 @@ export default {
         clearAllFilters() {
             this.columnFilterValues = {}
             this.appliedColumnFilters = {}
+        },
 
-            this.$nextTick(() => {
-                this.applyColumnFilters()
-            })
-        }   
+        async reloadTable() {
+            if (this.loading) { return }
+            this.clearAllFilters()
+            this.$emit('reload')            
+            if (this.reloadHandler) {
+                await this.reloadHandler()
+            }
+        }
+
     }
 }
 </script>

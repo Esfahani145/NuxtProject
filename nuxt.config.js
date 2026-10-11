@@ -95,14 +95,17 @@ export default {
           background: '#1E293B',
           accent: '#2563eb',
           info: '#0284c7',
+          purple: '#7c3aed',
           hero: '#60a5fa',
+
           secondary: '#475569',
           span: '#64748b',
           warning: '#d97706',
           error: '#dc2626',
           success: '#16a34a',
+          green: '#059669',
           avatar: '#eff6ff',
-          test: '#334155'
+          test: '#c4b5fd'
         }
       }
     }

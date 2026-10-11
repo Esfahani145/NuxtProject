@@ -1,7 +1,10 @@
 <template>
     <div class="light-news-page">
         <v-container fluid class="max-width-container py-8 px-4 px-md-8">
-            <BaseHero type="news" />
+            <BaseHero
+                type="news"
+                variant="animated"
+            />
 
             <div class="d-flex align-center justify-space-between mb-6">
                 <div class="d-flex align-center">

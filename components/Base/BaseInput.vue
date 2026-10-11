@@ -160,7 +160,7 @@ export default {
         },
         dense: {
             type: Boolean,
-            default: true
+            default: false
         },
         filled: {
             type: Boolean,

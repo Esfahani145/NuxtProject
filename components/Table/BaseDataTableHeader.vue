@@ -331,6 +331,7 @@ export default {
     box-sizing: border-box;
 }
 
+
 .date-filter-wrapper {
     display: flex;
     align-items: center;
@@ -344,13 +345,16 @@ export default {
 }
 
 .date-filter-wrapper.date-filter-between {
-    max-width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 6px;
 }
 
 .date-filter-wrapper .date-picker-field,
 .date-filter-wrapper .date-type-select {
-    flex: 1 1 0%;
-    width: 0 !important;
+    flex: 1 1 auto;
+    width: 100% !important;
     min-width: 0;
     max-width: 100%;
     box-sizing: border-box;

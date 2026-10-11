@@ -153,12 +153,12 @@
                             <BaseButton
                                 text
                                 v-bind="attrs"
-                                v-on="on"
                                 :class="{ 'active-link': $route.path.startsWith('/table') }"
                                 :block="false"
                                 :x-large="false"
                                 :rounded="false"
                                 c-class="mx-1 rounded-lg"
+                                v-on="on"
                             >
                                 <v-icon right size="18" class="ml-1">
                                     mdi-table

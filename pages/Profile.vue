@@ -500,11 +500,11 @@ import SignupForm from '~/components/Form/SignupForm.vue'
 
 export default {
     name: 'ProfilePage',
-    layout: 'profileLayout',
 
     components: {
         SignupForm
     },
+    layout: 'profileLayout',
 
     data() {
         return {

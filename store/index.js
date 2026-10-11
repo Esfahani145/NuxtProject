@@ -150,7 +150,7 @@ export const actions = {
                 try {
                     commit('SET_FAVORITES', JSON.parse(saved_favorites))
                 } catch (e) {
-                    console.error('Error loading favorites from localStorage', e)
+                    this.$toast.error('Error loading favorites from localStorage', e)
                     commit('SET_FAVORITES', [])
                 }
             } else {

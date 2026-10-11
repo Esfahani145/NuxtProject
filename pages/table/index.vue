@@ -64,10 +64,6 @@ export default {
         }
     },
 
-    mounted() {
-        this.loadProduct()
-    },
-
     computed: {
         categoryFilterOptions() {
             return [
@@ -169,6 +165,10 @@ export default {
         }
     },
 
+    mounted() {
+        this.loadProduct()
+    },
+
     methods: {
         async loadProduct() {
             if (this.product_loading) {
@@ -184,7 +184,7 @@ export default {
                     ? data.default.products || []
                     : data.products || []
             } catch (error) {
-                console.error('خطا در بارگذاری محصولات:', error)
+                this.toast.error('خطا در بارگذاری محصولات:', error)
             } finally {
                 this.product_loading = false
             }

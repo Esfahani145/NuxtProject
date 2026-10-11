@@ -45,9 +45,9 @@
                     color="error"
                     elevation="0"
                     c-class="ml-2 rounded-lg"
-                    @click="$emit('remove-favorite', product)"
                     :x-large="false"
                     :block="false"
+                    @click="$emit('remove-favorite', product)"
                 >
                     <v-icon>mdi-heart-remove-outline</v-icon>
                 </BaseButton>

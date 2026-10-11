@@ -130,10 +130,6 @@ export default {
         }
     },
 
-    mounted() {
-        this.loadUsers()
-    },
-
     computed: {
         user_columns() {
             return [
@@ -252,13 +248,17 @@ export default {
         }
     },
 
+    mounted() {
+        this.loadUsers()
+    },
+
     methods: {
         loadUsers() {
             try {
                 const saved_users = localStorage.getItem('users')
                 this.users = saved_users ? JSON.parse(saved_users) : []
             } catch (error) {
-                console.error('خطا در بارگذاری کاربران:', error)
+                this.$toast.error('خطا در بارگذاری کاربران:', error)
                 this.users = []
             }
         },

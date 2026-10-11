@@ -4,17 +4,6 @@
             <v-card-title class="pa-0">
                 جدول کاربران
             </v-card-title>
-
-            <BaseButton
-                :block="false"
-                color="primary"
-                @click="addUserDialog = true"
-            >
-                <v-icon left small>
-                    mdi-account-plus-outline
-                </v-icon>
-                افزودن کاربر
-            </BaseButton>
         </div>
         <v-card outlined>
             <BaseDataTable
@@ -27,6 +16,10 @@
                 no-data-text="کاربری یافت نشد"
                 no-results-text="کاربری با این مشخصات یافت نشد"
                 :footer-props="{ itemsPerPageOptions: [2, 5, -1] }"
+                :show-add-button="true"
+                add-button-text="افزودن کاربر"
+                add-button-icon="mdi-account-plus-outline"
+                add-button-route="/login/create-user"
                 @reload="loadUsers"
             >
                 <template #edit="{ item, close }">

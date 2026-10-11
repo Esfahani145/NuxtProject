@@ -208,7 +208,8 @@
 
                         <span>علاقه‌مندی‌ها</span>
 
-                        <v-chip v-if="isAuthenticated && $store.getters.favoritesCount > 0"
+                        <v-chip 
+                            v-if="isAuthenticated && $store.getters.favoritesCount > 0"
                             x-small
                             color="red"
                             text-color="white"

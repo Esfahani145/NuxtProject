@@ -1,4 +1,3 @@
-
 <template>
     <div class="data-table-container">
         <v-data-table
@@ -45,25 +44,46 @@
             class="base-data-table"
             v-on="$listeners"
         >
-        
+
             <template v-slot:[`header.${reloadColumnKey}`]>
                 <div class="reload-column-content">
                     <BaseButton
                         icon
                         small
                         :block="false"
-                        :x-large="false"
                         :rounded="false"
                         :loading="loading"
                         :white-text="false"
                         color="primary"
-                        c-class="reload-icon-button"
+                        c-class="table-icon-button"
                         title="بارگذاری مجدد"
                         aria-label="بارگذاری مجدد جدول"
                         @click.stop="reloadTable"
                     >
                         <v-icon small>
                             mdi-refresh
+                        </v-icon>
+                    </BaseButton>
+                </div>
+            </template>
+
+            <template v-slot:[`header.${addColumnKey}`]>
+                <div class="reload-column-content">
+                    <BaseButton
+                        icon
+                        small
+                        :block="false"
+                        :rounded="false"
+                        :loading="loading"
+                        :white-text="false"
+                        color="primary"
+                        c-class="table-icon-button"
+                        title="بارگذاری مجدد"
+                        aria-label="بارگذاری مجدد جدول"
+                        @click.stop="goToPage"
+                    >
+                        <v-icon small>
+                            {{ addButtonIcon }}
                         </v-icon>
                     </BaseButton>
                 </div>
@@ -294,6 +314,30 @@ export default {
         reloadHandler: {
             type: Function,
             default: null
+        },
+        showAddButton: {
+            type: Boolean,
+            default: false
+        },
+        addButtonColor: {
+            type: String,
+            default: 'primary'
+        },
+        addButtonIcon: {
+            type: String,
+            default: 'mdi-plus'
+        },
+        addButtonText: {
+            type: String,
+            default: 'add'
+        },
+        addButtonDisabled: {
+            type: Boolean,
+            default: false
+        },
+        addButtonRoute: {
+            type: [String, Object],
+            default: ''
         }
     },
 
@@ -416,12 +460,25 @@ export default {
                 }
             })
 
-            return [reload_column, ...columns]
-        },
+            const add_column = {
+                text: '',
+                value: this.addColumnKey,
+                sortable: false,
+                width: '56px',
+                align: 'center',
+                class: 'add-column-header',
+                cellClass: 'add-column-cell'
+            }
 
+            return [reload_column, ...columns, add_column]
+        },
 
         reloadColumnKey() {
             return '__table_reload__'
+        },
+
+        addColumnKey() {
+            return '__table_add__'
         }
     },
 
@@ -542,49 +599,41 @@ export default {
             if (this.reloadHandler) {
                 await this.reloadHandler()
             }
-        }
+        },
 
+        goToPage() {
+            if (this.addButtonDisabled) { return }
+            this.$router.push(this.addButtonRoute)
+        }
     }
 }
 </script>
 
 <style scoped>
-.base-data-table ::v-deep .v-data-table-header th {
-    background-color: #f1f5f9 !important;
-    color: #1e293b !important;
-    font-weight: 600 !important;
-}
-
 .data-table-container {
     position: relative;
-}
-
-.table-reload-button {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    z-index: 5;
-    min-width: 36px;
-}
-
-
-.base-data-table ::v-deep th.reload-column-header,
-.base-data-table ::v-deep td.reload-column-cell {
-    width: 48px !important;
-    min-width: 48px !important;
-    max-width: 48px !important;
-    padding: 0 4px !important;
 }
 
 .reload-column-content {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 2px;
     width: 100%;
 }
 
-.reload-icon-button {
-    min-width: 32px !important;
+.base-data-table ::v-deep th.add-column-header,
+.base-data-table ::v-deep td.add-column-cell {
+    width: 56px !important;
+    min-width: 56px !important;
+    max-width: 56px !important;
+    padding: 0 8px !important;
 }
 
+.table-icon-button {
+    min-width: 36px !important;
+    width: 36px !important;
+    height: 36px !important;
+    margin: 0 !important;
+}
 </style>

@@ -622,6 +622,12 @@ export default {
     width: 100%;
 }
 
+.base-data-table ::v-deep .v-data-table-header th {
+    background-color: #f1f5f9 !important;
+    color: #1e293b !important;
+    font-weight: 600 !important;
+}
+
 .base-data-table ::v-deep th.add-column-header,
 .base-data-table ::v-deep td.add-column-cell {
     width: 56px !important;

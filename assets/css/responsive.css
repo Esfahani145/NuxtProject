@@ -430,10 +430,6 @@ body {
         height: auto;
     }
 
-    .auth-card {
-        border-radius: 12px !important;
-    }
-
     .auth-form-section {
         padding: 16px;
     }

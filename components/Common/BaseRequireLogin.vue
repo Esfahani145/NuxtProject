@@ -19,7 +19,6 @@
         <BaseButton
             to="/login"
             color="accent"
-            :block="false"
             elevation="2"
             c-class="white--text rounded-lg px-8 font-weight-bold"
         >

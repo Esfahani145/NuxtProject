@@ -64,7 +64,6 @@
                     ref="datePicker"
                     :value="value && value.from ? value.from : ''"
                     placeholder="انتخاب تاریخ"
-                    dense
                     outlined
                     flat
                     hide-details
@@ -81,45 +80,62 @@
                 />
 
                 <template v-else-if="dateFilterType === 'between'">
-                    <BaseDatePicker
-                        ref="fromDatePicker"
-                        :value="value && value.from ? value.from : ''"
-                        placeholder="از تاریخ"
-                        dense
-                        outlined
-                        flat
-                        hide-details
-                        class="compact-field date-picker-field uniform-filter"
-                        prepend-inner-icon="mdi-chevron-down"
-                        append-icon="mdi-magnify"
-                        :disabled="column.filterDisabled"
-                        :clearable="column.filterClearable !== false"
-                        @click.stop
-                        @input="handleFromDateInput"
-                        @keyup.enter.native="applyDateFilter"
-                        @click:prepend-inner="toggleSelectList"
-                        @click:append.stop="applyDateFilter"
-                    />
+                    <div class="date-range-fields">
+                        <div class='date-picker-search' >
+                            <BaseButton
+                                icon
+                                :rounded="false"
+                                c-class="date-filter-icon-button"
+                                @click.stop="applyDateFilter"
+                            >
+                                <v-icon size="24">
+                                    mdi-magnify
+                                </v-icon>
+                            </BaseButton>
 
-                    <BaseDatePicker
-                        ref="toDatePicker"
-                        :value="value && value.to ? value.to : ''"
-                        placeholder="تا تاریخ"
-                        dense
-                        outlined
-                        flat
-                        hide-details
-                        class="compact-field date-picker-field uniform-filter"
-                        prepend-inner-icon="mdi-chevron-down"
-                        append-icon="mdi-magnify"
-                        :disabled="column.filterDisabled"
-                        :clearable="column.filterClearable !== false"
-                        @click.stop
-                        @input="handleToDateInput"
-                        @keyup.enter.native="applyDateFilter"
-                        @click:prepend-inner="toggleSelectList"
-                        @click:append.stop="applyDateFilter"
-                    />
+                            <BaseDatePicker
+                                ref="fromDatePicker"
+                                :value="value && value.from ? value.from : ''"
+                                placeholder="از تاریخ"
+                                dense
+                                outlined
+                                flat
+                                hide-details
+                                class="compact-field date-picker-field uniform-filter"
+                                :disabled="column.filterDisabled"
+                                :clearable="column.filterClearable !== false"
+                                @click.stop
+                                @input="handleFromDateInput"
+                                @keyup.enter.native="applyDateFilter"
+                            />
+
+                            <BaseDatePicker
+                                ref="toDatePicker"
+                                :value="value && value.to ? value.to : ''"
+                                placeholder="تا تاریخ"
+                                dense
+                                outlined
+                                flat
+                                hide-details
+                                class="compact-field date-picker-field uniform-filter"
+                                :disabled="column.filterDisabled"
+                                :clearable="column.filterClearable !== false"
+                                @click.stop
+                                @input="handleToDateInput"
+                                @keyup.enter.native="applyDateFilter"
+                            />
+                                <BaseButton
+                                    icon
+                                    :rounded="false"
+                                    c-class="date-filter-icon-button"
+                                    @click.stop="resetDateFilter"
+                                >
+                                    <v-icon size="20" color="#60a5fa">
+                                        mdi-filter-remove
+                                    </v-icon>
+                                </BaseButton>
+                        </div>
+                    </div>
                 </template>
             </template>
         </div>
@@ -172,6 +188,21 @@ export default {
         }
     },
 
+    watch: {
+        value: {
+            deep: true,
+            handler(value) {
+                if (value && typeof value === 'object' && value.type) {
+                    this.dateFilterType = value.type
+                    this.showSelectList = false
+                } else {
+                    this.dateFilterType = ''
+                    this.showSelectList = true
+                }
+            }
+        }
+    },
+
     computed: {
         dateFilterOptions() {
             return [
@@ -210,7 +241,13 @@ export default {
 
             this.showSelectList = false
             this.dateFilterType = type
-            this.$emit('input', {type, from: '', to: ''})
+
+            const columnKey = typeof this.column.value === 'function'
+                ? (this.column.key || this.column.text)
+                : this.column.value
+
+            this.$emit('filter-type-change', {columnKey, type})
+            this.$emit('input', { type, from: '', to: '' })
 
             this.$nextTick(() => {
                 const target_picker = type === 'between'
@@ -228,6 +265,10 @@ export default {
         },
 
         toggleSelectList() {
+            if (this.dateFilterType === 'between') {
+                this.resetDateFilter()
+                return
+            }
             this.showSelectList = !this.showSelectList
         },
 
@@ -255,7 +296,11 @@ export default {
         },
 
         resetDateFilter() {
-            this.$emit('input', {type: this.dateFilterType, from: '', to: ''})
+            const column_key = typeof this.column.value === 'function' ? (this.column.key || this.column.text) : this.column.value
+            this.dateFilterType = ''
+            this.showSelectList = true
+            this.$emit('filter-type-change', {columnKey: column_key, type: ''})
+            this.$emit('input', {type: '' ,  from: '',  to: ''})
             this.$emit('apply-filter')
         },
 
@@ -273,20 +318,16 @@ export default {
         },
 
         handleFromDateInput(date) {
-            if (!date) {
-                this.resetDateFilter()
-                return
-            }
-
-            const newVal = {
+            const pervious_to = (this.value && this.value.to) || ''
+            
+            const new_value = {
                 type: 'between',
                 from: date,
-                to: (this.value && this.value.to) || ''
+                to: pervious_to
             }
 
-            this.$emit('input', newVal)
-
-            if (!newVal.to) {
+            this.$emit('input', new_value)
+            if (date && !pervious_to) {
                 this.$nextTick(() => {
                     if (this.$refs.toDatePicker) {
                         this.$refs.toDatePicker.openDatePicker()
@@ -296,11 +337,6 @@ export default {
         },
 
         handleToDateInput(date) {
-            if (!date) {
-                this.resetDateFilter()
-                return
-            }
-
             this.$emit('input', {
                 type: 'between',
                 from: (this.value && this.value.from) || '',
@@ -344,11 +380,22 @@ export default {
     box-sizing: border-box;
 }
 
-.date-filter-wrapper.date-filter-between {
-    flex-direction: column;
-    align-items: stretch;
+.date-range-fields {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
     width: 100%;
-    gap: 6px;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.date-range-fields .date-picker-field {
+    flex: 1 1 0;
+    width: 0 !important;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .date-filter-wrapper .date-picker-field,
@@ -358,5 +405,55 @@ export default {
     min-width: 0;
     max-width: 100%;
     box-sizing: border-box;
+}
+
+.date-filter-wrapper.date-filter-between {
+    display: block;
+    width: 100%;
+    min-width: 0;
+}
+
+.date-filter-wrapper.date-filter-between .date-range-fields {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    min-width: 0;
+}
+
+.date-filter-wrapper.date-filter-between .date-range-fields .date-picker-field {
+    flex: 1 1 0;
+    width: 50% !important;
+    min-width: 0;
+    max-width: 50%;
+}
+
+.date-filter-wrapper.date-filter-between .date-range-fields .date-picker-field ::v-deep .v-input,
+.date-filter-wrapper.date-filter-between .date-range-fields .date-picker-field ::v-deep .v-input__control,
+.date-filter-wrapper.date-filter-between .date-range-fields .date-picker-field ::v-deep .v-input__slot {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.date-picker-search {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+}
+
+.date-picker-search ::v-deep .date-filter-icon-button {
+    flex: 0 0 36px;
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    padding: 0;
+}
+
+.date-picker-search ::v-deep .date-filter-icon-button .v-icon {
+    font-size: 20px;
 }
 </style>

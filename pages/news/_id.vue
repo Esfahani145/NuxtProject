@@ -5,7 +5,6 @@
                 <v-col cols="12" md="10" lg="8">
                     <BaseButton
                         color="primary"
-                        :block="false"
                         @click="$goTo('/news')"
                     >
                         <v-icon>mdi-arrow-right</v-icon>

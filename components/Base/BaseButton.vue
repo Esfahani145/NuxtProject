@@ -32,6 +32,7 @@
         :width="width"
         :x-large="xLarge"
         :x-small="xSmall"
+        :white-text="whiteText"
         :class="[{ 'white--text': whiteText }, 'text-none', cClass]"
         @click="$emit('click', $event)"
     >
@@ -126,11 +127,11 @@ export default {
         },
         block: {
             type: Boolean,
-            default: true
+            default: false
         },
         xLarge: {
             type: Boolean,
-            default: true
+            default: false
         },
         xSmall: {
             type: Boolean,
@@ -178,7 +179,7 @@ export default {
         },
         whiteText: {
             type: Boolean,
-            default: true
+            default: false
         }
     }
 }

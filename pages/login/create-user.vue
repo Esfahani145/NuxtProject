@@ -31,7 +31,7 @@
                 <v-form ref="createUserForm" v-model="valid" lazy-validation @submit.prevent="handleSubmit">
                     <v-card class="form-section white-detail-card pa-5 pa-md-7 mb-5" flat>
                         <div class="section-heading">
-                            <div class="section-icon section-icon--blue">
+                            <div class="section-icon section-icon">
                                 <v-icon color="accent" size="24">
                                     mdi-card-account-details-outline
                                 </v-icon>
@@ -131,7 +131,7 @@
 
                     <v-card class="form-section white-detail-card pa-5 pa-md-7 mb-5" flat>
                         <div class="section-heading">
-                            <div class="section-icon section-icon--green">
+                            <div class="section-icon section-icon">
                                 <v-icon color="green" size="24">
                                     mdi-card-account-phone-outline
                                 </v-icon>
@@ -186,7 +186,7 @@
 
                     <v-card class="form-section white-detail-card pa-5 pa-md-7 mb-5" flat>
                         <div class="section-heading">
-                            <div class="section-icon section-icon--orange">
+                            <div class="section-icon section-icon">
                                 <v-icon color="warning" size="24">
                                     mdi-map-marker-radius-outline
                                 </v-icon>
@@ -264,7 +264,7 @@
 
                     <v-card class="form-section white-detail-card pa-5 pa-md-7 mb-5" flat>
                         <div class="section-heading">
-                            <div class="section-icon section-icon--purple">
+                            <div class="section-icon section-icon">
                             <v-icon color="purple" size="24">
                                 mdi-shield-lock-outline
                             </v-icon>

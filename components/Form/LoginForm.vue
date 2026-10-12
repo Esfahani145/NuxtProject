@@ -68,11 +68,8 @@
                     <BaseButton
                         type="button"
                         text
-                        :block="false"
-                        :x-large="false"
                         :rounded="false"
                         :depressed="false"
-                        :white-text="false"
                         color="transparent"
                         min-width="0"
                         height="auto"

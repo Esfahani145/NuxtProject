@@ -2,7 +2,7 @@
     <v-form ref="registerForm" v-model="valid" lazy-validation @submit.prevent="handleSignup">
         <v-card class="auth-form-section white-detail-card mb-4" flat>
             <div class="section-heading">
-                <div class="section-icon section-icon--blue">
+                <div class="section-icon section-icon">
                     <v-icon color="#2563eb" size="24">
                         mdi-card-account-details-outline
                     </v-icon>
@@ -95,7 +95,7 @@
 
         <v-card class="auth-form-section white-detail-card mb-4" flat>
             <div class="section-heading">
-                <div class="section-icon section-icon--green">
+                <div class="section-icon section-icon">
                     <v-icon color="#059669" size="24">
                         mdi-card-account-phone-outline
                     </v-icon>
@@ -150,7 +150,7 @@
 
         <v-card class="auth-form-section white-detail-card mb-4" flat>
             <div class="section-heading">
-                <div class="section-icon section-icon--orange">
+                <div class="section-icon section-icon">
                     <v-icon color="#d97706" size="24">
                         mdi-map-marker-radius-outline
                     </v-icon>
@@ -230,7 +230,7 @@
 
         <v-card class="auth-form-section white-detail-card mb-4" flat>
             <div class="section-heading">
-                <div class="section-icon section-icon--purple">
+                <div class="section-icon section-icon">
                     <v-icon color="#7c3aed" size="24">
                         mdi-shield-lock-outline
                     </v-icon>
@@ -306,11 +306,8 @@
             <BaseButton
                 type="button"
                 text
-                :block="false"
-                :x-large="false"
                 :rounded="false"
                 :depressed="false"
-                :white-text="false"
                 color="transparent"
                 min-width="0"
                 height="auto"
@@ -341,11 +338,8 @@
                 <BaseButton
                     type="button"
                     text
-                    :block="false"
-                    :x-large="false"
                     :rounded="false"
                     :depressed="false"
-                    :white-text="false"
                     color="transparent"
                     min-width="0"
                     height="auto"

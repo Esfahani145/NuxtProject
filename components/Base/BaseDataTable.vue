@@ -1,6 +1,7 @@
 <template>
     <div class="data-table-container">
         <v-data-table
+            :key="table_layout_key"
             v-bind="$attrs"
             :headers="tableColumns"
             :items="filteredItems"
@@ -50,10 +51,8 @@
                     <BaseButton
                         icon
                         small
-                        :block="false"
                         :rounded="false"
                         :loading="loading"
-                        :white-text="false"
                         color="primary"
                         c-class="table-icon-button"
                         title="بارگذاری مجدد"
@@ -72,10 +71,8 @@
                     <BaseButton
                         icon
                         small
-                        :block="false"
                         :rounded="false"
                         :loading="loading"
-                        :white-text="false"
                         color="primary"
                         c-class="table-icon-button"
                         title="بارگذاری مجدد"
@@ -97,6 +94,7 @@
                     @input="updateColumnFilter(getColumnKey(column), $event)"
                     @apply-filter="applyColumnFilters"
                     @reload="$emit('reloadTable')"
+                    @filter-type-change="handleFilterTypeChange"
                 />
             </template>
 
@@ -181,11 +179,11 @@ export default {
         },
         noDataText: {
             type: String,
-            default: '$vuetify.noDataText'
+            default: 'موردی یافت نشد'
         },
         noResultsText: {
             type: String,
-            default: '$vuetify.dataIterator.noResultsText'
+            default: 'موردی با این مشخصات یافت نشد'
         },
         itemsPerPage: {
             type: Number,
@@ -347,7 +345,8 @@ export default {
             appliedColumnFilters: {},
             selectedItem: null,
             actionDialog: false,
-            actionType: null
+            actionType: null,
+            dateFilterType: {}
         }
     },
 
@@ -450,15 +449,19 @@ export default {
 
             const columns = this.columns.map(column => {
                 const column_key = this.getColumnKey(column)
-
+                const is_between = this.dateFilterType[column_key] === 'between'
+                const column_class = [column.class, is_between ? 'date-range-between-column' : ''].filter(Boolean).join(' ')
                 return {
                     ...column,
                     value: column_key,
                     text: column.text,
                     align: column.align || 'right',
-                    sortable: false
+                    sortable: false,
+                    ...(column.filterType === 'date-range'
+                    ? {width: is_between ? '500px' : (column.width || undefined), class: column_class}
+                    : {})
                 }
-            })
+                })
 
             const add_column = {
                 text: '',
@@ -470,6 +473,10 @@ export default {
                 cellClass: 'add-column-cell'
             }
             return this.showAddButton ? [reload_column, ...columns, add_column] : [reload_column, ...columns]
+        },
+
+        table_layout_key() {
+            return Object.keys(this.dateFilterType).filter(column_key => this.dateFilterType[column_key] === 'between').join('-') || 'default'
         },
 
         reloadColumnKey() {
@@ -576,19 +583,34 @@ export default {
 
         handleDelete(item) {
             const item_key = this.getItemKey(item)
-
-            if (item_key === undefined || item_key === null) {
-                return
-            }
-
+            if (item_key === undefined || item_key === null) { return }
             const updated_items = this.items.filter(i => this.getItemKey(i) !== item_key)
-
             this.$emit('update:items', updated_items)
+        },
+
+        handleFilterTypeChange({ columnKey, type }) {
+            if (type === 'between') {
+                this.$set(this.dateFilterType, columnKey, 'between')
+            } else {
+                this.$delete(this.dateFilterType, columnKey)
+            }
         },
 
         clearAllFilters() {
             this.columnFilterValues = {}
             this.appliedColumnFilters = {}
+            this.dateFilterType = {}
+
+            this.filterableColumns
+                .filter(column => column.filterType === 'date-range')
+                .forEach(column => {
+                    const column_key = this.getColumnKey(column)
+                    this.$set(this.columnFilterValues, column_key, {
+                        type: '',
+                        from: '',
+                        to: ''
+                    })
+                })
         },
 
         async reloadTable() {
@@ -625,14 +647,6 @@ export default {
     background-color: #f1f5f9 !important;
     color: #1e293b !important;
     font-weight: 600 !important;
-}
-
-.base-data-table ::v-deep th.add-column-header,
-.base-data-table ::v-deep td.add-column-cell {
-    width: 56px !important;
-    min-width: 56px !important;
-    max-width: 56px !important;
-    padding: 0 8px !important;
 }
 
 .table-icon-button {

@@ -191,7 +191,17 @@ export default {
                 toolbox: {
                     todayButton: {
                         enabled: true,
-                        text: { fa: 'امروز' }
+                        text: { fa: 'امروز' },
+                        onToday: () => {
+                            this.$nextTick(() => {
+                                const val = input.value
+
+                                if (this.isCompleteDate(val)) {
+                                    this.$emit('input', val)
+                                    this.closeDatePicker()
+                                }
+                            })
+                        }
                     }
                 },
                 onSelect: () => {

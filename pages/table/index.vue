@@ -6,16 +6,10 @@
                 title='جدول محصولات '
                 :items.sync="products"
                 :columns="product_columns"
-                :items-per-page="5"
                 :loading="product_loading"
                 :show-clear-filters-button="true"
                 :show-column-clear-buttons="true"
                 item-key="id"
-                no-data-text="محصولی یافت نشد"
-                no-results-text="محصولی با این مشخصات یافت نشد"
-                :footer-props="{ itemsPerPageOptions: [2, 5, -1] }"
-                :show-add-button="false"
-
                 @reload="reloadProducts"
             >
                 <template #view="{ item, close }">
@@ -42,7 +36,6 @@
                         <v-spacer />
 
                         <BaseButton
-                            :block="false"
                             color="primary"
                             @click="close"
                         >
@@ -196,7 +189,6 @@ export default {
             if (this.product_loading) {
                 return
             }
-
             this.$refs.productsTable.clearAllFilters()
             await this.loadProduct()
         }

@@ -159,8 +159,6 @@
                     <div class="d-flex align-center search-row">
                         <BaseButton
                             color="info"
-                            :x-large="false"
-                            :block="false"
                             :depressed="false"
                             :elevation="0"
                             c-class="search-btn"

@@ -35,9 +35,6 @@
                     icon
                     text
                     small
-                    :block="false"
-                    :x-large="false"
-                    :white-text="false"
                     color="primary"
                     v-bind="attrs"
                     v-on="on"

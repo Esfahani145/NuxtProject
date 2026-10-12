@@ -188,7 +188,6 @@
 
                     <BaseButton
                         color="primary"
-                        :block="false"
                         c-class="rounded-lg font-weight-bold"
                         @click="startEditing"
                     >
@@ -414,7 +413,6 @@
                             <BaseButton
                                 text
                                 color="grey darken-1"
-                                :block="false"
                                 @click="is_editing = false"
                             >
                                 انصراف
@@ -422,7 +420,6 @@
 
                             <BaseButton
                                 color="primary"
-                                :block="false"
                                 c-class="rounded-lg font-weight-bold"
                                 @click="$refs.signupForm.submitForm()"
                             >
@@ -436,7 +433,6 @@
             <v-card-actions class="pa-6 pt-0">
                 <BaseButton
                     color="error"
-                    :block="true"
                     c-class="rounded-lg font-weight-bold"
                     @click="show_delete_dialog = true"
                 >
@@ -471,8 +467,6 @@
                             text
                             color="grey darken-1"
                             small
-                            :block="false"
-                            :x-large="false"
                             @click="show_delete_dialog = false"
                         >
                             انصراف
@@ -481,8 +475,6 @@
                         <BaseButton
                             color="error"
                             small
-                            :block="false"
-                            :x-large="false"
                             @click="handleLogout"
                         >
                             حذف حساب

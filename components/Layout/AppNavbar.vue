@@ -121,8 +121,6 @@
                 <div class="d-none d-md-flex align-center nav-links">
                     <BaseButton text color="grey darken-3" 
                         :class="{'active-link': $route.path.startsWith('/news')}"
-                        :block="false"
-                        :x-large="false"
                         :rounded="false"
                         c-class="mx-1 rounded-lg"
                         @click="$goTo('/news')"
@@ -136,8 +134,6 @@
                     <BaseButton
                         text
                         :class="{ 'active-link': $route.path.startsWith('/products') }"
-                        :block="false"
-                        :x-large="false"
                         :rounded="false"
                         c-class="mx-1 rounded-lg"
                         @click="$goTo('/products')"
@@ -154,8 +150,6 @@
                                 text
                                 v-bind="attrs"
                                 :class="{ 'active-link': $route.path.startsWith('/table') }"
-                                :block="false"
-                                :x-large="false"
                                 :rounded="false"
                                 c-class="mx-1 rounded-lg"
                                 v-on="on"
@@ -196,8 +190,6 @@
                     <BaseButton
                         text
                         :class="{'active-link': $route.path.startsWith('/favorites')}"
-                        :block="false"
-                        :x-large="false"
                         :rounded="false"
                         c-class="mx-1 rounded-lg"
                         @click="$goTo('/favorites')"
@@ -222,8 +214,6 @@
                     <BaseButton
                         text
                         :class="{'active-link': $route.path.startsWith('/cart')}"
-                        :block="false"
-                        :x-large="false"
                         :rounded="false"
                         c-class="mx-1 rounded-lg"
                         @click="$goTo('/cart')"
@@ -254,8 +244,6 @@
                                 text
                                 :class="{'active-link': $route.path.startsWith('/profile')}"
                                 color="grey lighten-1"
-                                :block="false"
-                                :x-large="false"
                                 :rounded="false"
                                 c-class="mx-1 rounded-lg d-none d-md-flex"
                                 @click="$goTo('/profile')"
@@ -269,8 +257,6 @@
                             <BaseButton
                                 text
                                 color="red lighten-2"
-                                :block="false"
-                                :x-large="false"
                                 :rounded="false"
                                 c-class="mx-1 rounded-lg"
                                 @click="handleLogout"
@@ -286,8 +272,6 @@
                             <BaseButton
                                 color="info"
                                 elevation="1"
-                                :block="false"
-                                :x-large="false"
                                 :rounded="false"
                                 c-class="rounded-lg font-weight-bold px-4"
                                 @click="$goTo('/login')"

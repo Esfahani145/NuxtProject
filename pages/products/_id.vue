@@ -4,7 +4,6 @@
             <v-col cols="12" md="8">
                 <BaseButton
                     color="primary"
-                    :block="false"
                     @click="$goTo('/products')"
                 >
                     <v-icon>mdi-arrow-right</v-icon>
@@ -59,7 +58,6 @@
                             <BaseButton
                                 color="success"
                                 elevation="2"
-                                :block="false"
                                 c-class="rounded-lg font-weight-bold px-6 ml-3"
                                 @click="handleAddToCart"
                             >
@@ -70,7 +68,6 @@
                             <BaseButton
                                 color="transparent"
                                 elevation="0"
-                                :block="false"
                                 c-class="pa-0 min-w-0"
                                 @click="handleToggleFavorite"
                             >

@@ -9,13 +9,9 @@
             <BaseDataTable
                 :items.sync="users"
                 :columns="user_columns"
-                :items-per-page="5"
                 :loading="user_loading"
                 item-key="national_code"
                 :multi-sort="true"
-                no-data-text="کاربری یافت نشد"
-                no-results-text="کاربری با این مشخصات یافت نشد"
-                :footer-props="{ itemsPerPageOptions: [2, 5, -1] }"
                 :show-add-button="true"
                 add-button-text="افزودن کاربر"
                 add-button-icon="mdi-account-plus-outline"
@@ -55,7 +51,6 @@
                         <BaseButton
                             text
                             color="grey darken-1"
-                            :block="false"
                             @click="close"
                         >
                             انصراف
@@ -63,7 +58,6 @@
 
                         <BaseButton
                             color="primary"
-                            :block="false"
                             c-class="rounded-lg font-weight-bold"
                             @click="$refs.signupForm.submitForm()"
                         >
@@ -100,7 +94,6 @@
                     <BaseButton
                         text
                         color="grey darken-1"
-                        :block="false"
                         @click="addUserDialog = false"
                     >
                         انصراف
@@ -141,7 +134,8 @@ export default {
                     filterable: true,
                     disableSort: false,
                     sortable: false,
-                    align: 'right'
+                    align: 'right',
+                    width: '200px'
                 },
                 {
                     text: 'شماره همراه',

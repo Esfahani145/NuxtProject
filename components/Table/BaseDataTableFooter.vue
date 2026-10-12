@@ -58,7 +58,7 @@ export default {
         },
         itemsPerPageOptions: {
             type: Array,
-            default: () => [5, 10, 15, -1]
+            default: () => [2, 5, -1]
         },
         itemsPerPageText: {
             type: String,

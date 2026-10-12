@@ -33,7 +33,6 @@
                                 <BaseButton
                                     color="info"
                                     elevation="1"
-                                    :block="false"
                                     c-class="white--text rounded-lg px-8 font-weight-bold"
                                     @click="$goTo('/products')"
                                 >
@@ -77,7 +76,6 @@
                                             <BaseButton
                                                 color="transparent"
                                                 elevation="0"
-                                                :block="false"
                                                 c-class="pa-0 min-w-0"
                                                 @click="updateQty(getItemKey(item), (item.quantity || 1) - 1)"
                                             >
@@ -91,7 +89,6 @@
                                             <BaseButton
                                                 color="transparent"
                                                 elevation="0"
-                                                :block="false"
                                                 c-class="pa-0 min-w-0"
                                                 @click="updateQty(getItemKey(item), (item.quantity || 1) + 1)"
                                             >
@@ -106,7 +103,6 @@
                                         <BaseButton
                                             color="transparent"
                                             elevation="0"
-                                            :block="false"
                                             c-class="pa-0 min-w-0"
                                             @click="removeItem(getItemKey(item))"
                                         >

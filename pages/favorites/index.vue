@@ -32,7 +32,6 @@
                             <BaseButton
                                 color="info"
                                 elevation="1"
-                                :block="false"
                                 c-class="rounded-lg px-8 font-weight-bold"
                                 @click="$goTo('/products')"
                             >

@@ -105,7 +105,7 @@ export default {
           success: '#16a34a',
           green: '#059669',
           avatar: '#eff6ff',
-          test: '#c4b5fd'
+          test: '#445c83'
         }
       }
     }

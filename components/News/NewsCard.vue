@@ -42,8 +42,6 @@
                 <BaseButton
                     color="primary"
                     elevation="0"
-                    :block="false"
-                    :x-large="false"
                     c-class="white--text font-weight-bold px-4 rounded-lg"
                     @click="$emit('news_click', item.id)"
                 >

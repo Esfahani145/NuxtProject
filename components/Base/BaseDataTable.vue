@@ -469,8 +469,7 @@ export default {
                 class: 'add-column-header',
                 cellClass: 'add-column-cell'
             }
-
-            return [reload_column, ...columns, add_column]
+            return this.showAddButton ? [reload_column, ...columns, add_column] : [reload_column, ...columns]
         },
 
         reloadColumnKey() {

@@ -14,6 +14,8 @@
                 no-data-text="محصولی یافت نشد"
                 no-results-text="محصولی با این مشخصات یافت نشد"
                 :footer-props="{ itemsPerPageOptions: [2, 5, -1] }"
+                :show-add-button="false"
+
                 @reload="reloadProducts"
             >
                 <template #view="{ item, close }">
@@ -90,7 +92,7 @@ export default {
                     sortable: false,
                     align: 'right',
                     icon: 'mdi-shopping',
-                    width: '250px'
+                    width: '220px'
                 },
                 {
                     text: 'دسته‌بندی',

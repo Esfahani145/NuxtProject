@@ -5,9 +5,9 @@
                 <BaseHero
                     type="users"
                     variant="animated"
-                    title="ایجاد کاربر جدید"
-                    subtitle="اطلاعات موردنیاز را وارد کنید تا حساب کاربری جدید ایجاد شود."
+                    :title="editUser ? 'ویرایش اطاعات' : 'ایجاد کاربر جدید'"
                     badge-text="مدیریت کاربران"
+                    :subtitle="editUser ? 'اطلاعات کاربر را ویرایش کنید' : 'اطلاعات مورد نیاز را وارد کنید تا حساب کاربری جدید ساخته شود'"
                 />
 
                 <div class="page-intro mb-5">
@@ -24,8 +24,8 @@
 
                     <div class="form-status">
                         <span class="status-dot"></span>
-                        آماده ثبت اطلاعات
-                    </div>
+                            {{ editUser ? 'آماده ویرایش اطلاعات' : 'آماده ثبت اطلات'}}                    
+                        </div>
                 </div>
 
                 <v-form ref="createUserForm" v-model="valid" lazy-validation @submit.prevent="handleSubmit">
@@ -59,8 +59,6 @@
                                     placeholder="نام و نام خانوادگی را وارد کنید"
                                     prepend-inner-icon="mdi-account-outline"
                                     rules="required,persian"
-                                    outlined
-                                    hide-details="auto"
                                     class="light-input"
                                 />
                             </v-col>
@@ -79,8 +77,6 @@
                                     maxlength="10"
                                     dir="ltr"
                                     rules="required,national_code"
-                                    outlined
-                                    hide-details="auto"
                                     class="light-input"
                                 />
                             </v-col>
@@ -95,13 +91,7 @@
                                     v-model="credentials.birth_date"
                                     placeholder="تاریخ تولد را انتخاب کنید"
                                     rules="required"
-                                    format="YYYY/MM/DD"
-                                    display-format="jYYYY/jMM/jDD"
-                                    locale="fa"
                                     clearable
-                                    outlined
-                                    :dense="false"
-                                    hide-details="auto"
                                     class="light-input"
                                 />
                             </v-col>
@@ -117,12 +107,8 @@
                                     :items="genderOptions"
                                     placeholder="جنسیت را انتخاب کنید"
                                     prepend-inner-icon="mdi-human-male-female"
-                                    item-text="text"
-                                    item-value="value"
                                     rules="required"
-                                    outlined
                                     :dense="false"
-                                    hide-details="auto"
                                     class="light-input"
                                 />
                             </v-col>
@@ -160,8 +146,6 @@
                                     maxlength="11"
                                     dir="ltr"
                                     rules="required,phone"
-                                    outlined
-                                    hide-details="auto"
                                     class="light-input"
                                 />
                             </v-col>
@@ -176,8 +160,6 @@
                                     type="email"
                                     dir="ltr"
                                     rules="email"
-                                    outlined
-                                    hide-details="auto"
                                     class="light-input"
                                 />
                             </v-col>
@@ -212,11 +194,7 @@
                                     :items="provinces"
                                     placeholder="استان را انتخاب کنید"
                                     prepend-inner-icon="mdi-map-marker-outline"
-                                    item-text="name"
-                                    item-value="id"
                                     rules="required"
-                                    outlined
-                                    hide-details="auto"
                                     class="light-input"
                                     @input="handleProvinceChange"
                                 />
@@ -233,12 +211,8 @@
                                     :items="filteredCities"
                                     placeholder="ابتدا استان را انتخاب کنید"
                                     prepend-inner-icon="mdi-city-variant-outline"
-                                    item-text="name"
-                                    item-value="id"
                                     :disabled="!credentials.province"
                                     rules="required"
-                                    outlined
-                                    hide-details="auto"
                                     class="light-input"
                                 />
                             </v-col>
@@ -254,8 +228,6 @@
                                     placeholder="نشانی کامل محل سکونت را وارد کنید"
                                     rows="3"
                                     rules="required,persian_address"
-                                    outlined
-                                    hide-details="auto"
                                     class="light-input"
                                 />
                             </v-col>
@@ -287,14 +259,12 @@
 
                                 <BaseInput
                                     v-model="credentials.password"
-                                    :type="showPassword ? 'text' : 'password'"
-                                    :append-icon="
-                                    showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
-                                    placeholder="رمز عبور را وارد کنید"
+                                    type="password"
+                                    :append-icon="showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                                    placeholder="رمز عبور را وارد کنید "
+                                    dir="ltr"
                                     prepend-inner-icon="mdi-lock-outline"
                                     rules="required,password"
-                                    outlined
-                                    hide-details="auto"
                                     class="light-input"
                                     @click:append="showPassword = !showPassword"
                                 />
@@ -307,18 +277,13 @@
                                 </label>
 
                                 <BaseInput
-                                    v-model="credentials.confirm_password"
-                                    :type="showConfirmPassword ? 'text' : 'password'"
-                                    :append-icon="
-                                    showConfirmPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
-                                    placeholder="رمز عبور را مجدداً وارد کنید"
-                                    prepend-inner-icon="mdi-lock-check-outline"
-                                    :rule-context="credentials"
-                                    rules="required,confirm_password"
-                                    outlined
-                                    hide-details="auto"
-                                    class="light-input"
-                                    @click:append="showConfirmPassword = !showConfirmPassword"
+                                    v-model="credentials.password"
+                                    placeholder="••••••••"
+                                    type="password"
+                                    dir="ltr"
+                                    prepend-inner-icon="mdi-lock-outline"
+                                    rules="required,password"
+                                    class="light-input placeholder-dir"
                                 />
                             </v-col>
                         </v-row>
@@ -345,22 +310,19 @@
                             <BaseButton
                                 :disabled="loading"
                                 color="secondary"
-                                outlined
                                 @click="$router.push('/table/users')"
                             >
                                 <v-icon right small>mdi-arrow-right</v-icon>
-                                بازگشت به کاربران
+                                بازگشت به  جدول کاربران
                             </BaseButton>
 
                             <BaseButton
                                 type="submit"
                                 color="primary"
-                                :loading="loading"
-                                :disabled="loading"
                                 class="create-submit-btn"
                             >
-                                <v-icon right small>mdi-account-plus-outline</v-icon>
-                                ثبت کاربر جدید
+                                <v-icon center small>mdi-account-plus-outline</v-icon>
+                                {{ editUser ? 'ذخیره تغیرات' : 'ثبت کاربر جدید'}}
                             </BaseButton>
                         </div>
                     </v-card>
@@ -398,6 +360,7 @@ export default {
             loading: false,
             showPassword: false,
             showConfirmPassword: false,
+            editUser: null,
             provinces: locations.locations.provinces || [],
             cities: locations.locations.cities || [],
             genderOptions: [
@@ -428,6 +391,14 @@ export default {
         }
     },
 
+    mounted() {
+        const user_id = this.$route.query.id
+        if (user_id) {
+            this.editUser = String(user_id)
+            this.handleEditUser()
+        }
+    },
+
     methods: {
         handleProvinceChange() {
             this.credentials.city = ''
@@ -444,6 +415,23 @@ export default {
                     birth_date: this.credentials.birth_date ? this.$toGregorian(this.credentials.birth_date) : ''
                 }
 
+                if (this.editUser) {
+                    const saved_users = localStorage.getItem('users')
+                    const users = saved_users ? JSON.parse(saved_users) : []
+                    const user_index = users.findIndex(user => {return String(user.national_code) === this.editUser})
+
+                    if (user_index === -1) {
+                        this.$toast.error('کاربر مورد نظر یافت نشد')
+                        return
+                    }
+                    
+                    users.splice(user_index, 1, {...users[user_index], ...payload})
+                    localStorage.setItem('users', JSON.stringify(users))
+                    this.$toast.success('اطلاعات کاربر با موفقیت به روز رسانی شد')
+                    this.$router.push('/table/users')
+                    return
+                }
+
                 await this.$store.dispatch('auth/signup', payload)
                 this.$toast.success('کاربر جدید با موفقیت اضافه شد')
                 this.$router.push('/table/users')
@@ -451,6 +439,29 @@ export default {
                 this.$toast.error(error.message || 'ثبت کاربر با خطا مواجه شد')
             } finally {
                 this.loading = false
+            }
+        },
+
+        handleEditUser() {
+            try {
+                const saved_users = localStorage.getItem('users')
+                const users = saved_users ? JSON.parse(saved_users) : []
+                const user = users.find(item => { return String(item.national_code) === this.editUser})
+                 
+                if (!user) {
+                    this.$toast.error('گاربر مورد نظر پیدا نشد.')
+                    this.$router.replace('/table/users')
+                    return
+                }
+                
+                this.credentials = {
+                    ...this.credentials,
+                    ...user,
+                    birth_date: user.birth_date ?   this.$toJalali(user.birth_date, 'YYYY-MM-DD', 'jYYYY/jMM/jDD') : '',
+                    confirm_password: user.password || ''
+                }
+            } catch(error) {
+                this.$toast.error('بارگذاری اطلاعات کاربر با خطا مواجه شد')
             }
         }
     }

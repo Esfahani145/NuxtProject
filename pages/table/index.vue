@@ -7,8 +7,6 @@
                 :items.sync="products"
                 :columns="product_columns"
                 :loading="product_loading"
-                :show-clear-filters-button="true"
-                :show-column-clear-buttons="true"
                 item-key="id"
                 @reload="reloadProducts"
             >

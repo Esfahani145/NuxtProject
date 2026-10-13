@@ -121,7 +121,6 @@
                 <div class="d-none d-md-flex align-center nav-links">
                     <BaseButton text color="grey darken-3" 
                         :class="{'active-link': $route.path.startsWith('/news')}"
-                        :rounded="false"
                         c-class="mx-1 rounded-lg"
                         @click="$goTo('/news')"
                     >
@@ -134,7 +133,6 @@
                     <BaseButton
                         text
                         :class="{ 'active-link': $route.path.startsWith('/products') }"
-                        :rounded="false"
                         c-class="mx-1 rounded-lg"
                         @click="$goTo('/products')"
                     >
@@ -150,7 +148,6 @@
                                 text
                                 v-bind="attrs"
                                 :class="{ 'active-link': $route.path.startsWith('/table') }"
-                                :rounded="false"
                                 c-class="mx-1 rounded-lg"
                                 v-on="on"
                             >
@@ -190,7 +187,6 @@
                     <BaseButton
                         text
                         :class="{'active-link': $route.path.startsWith('/favorites')}"
-                        :rounded="false"
                         c-class="mx-1 rounded-lg"
                         @click="$goTo('/favorites')"
                     >
@@ -214,7 +210,6 @@
                     <BaseButton
                         text
                         :class="{'active-link': $route.path.startsWith('/cart')}"
-                        :rounded="false"
                         c-class="mx-1 rounded-lg"
                         @click="$goTo('/cart')"
                     >
@@ -244,7 +239,6 @@
                                 text
                                 :class="{'active-link': $route.path.startsWith('/profile')}"
                                 color="grey lighten-1"
-                                :rounded="false"
                                 c-class="mx-1 rounded-lg d-none d-md-flex"
                                 @click="$goTo('/profile')"
                             >
@@ -257,7 +251,6 @@
                             <BaseButton
                                 text
                                 color="red lighten-2"
-                                :rounded="false"
                                 c-class="mx-1 rounded-lg"
                                 @click="handleLogout"
                             >
@@ -272,7 +265,6 @@
                             <BaseButton
                                 color="info"
                                 elevation="1"
-                                :rounded="false"
                                 c-class="rounded-lg font-weight-bold px-4"
                                 @click="$goTo('/login')"
                             >

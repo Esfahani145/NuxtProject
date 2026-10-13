@@ -1,7 +1,7 @@
 <template>
     <div
-        :dir="dir"
-        :class="[variant === 'light' ? 'light-input' : 'glass-input', { 'no-focus-style': noFocusStyle }, cClass]">
+        dir="rtl"
+        :class="[variant === 'light' ? 'light-input' : 'glass-input', cClass]">
         <label v-if="label" class="form-label">
             {{ label }}
         </label>
@@ -28,6 +28,7 @@
             :append-outer-icon="appendOuterIcon"
             :prepend-icon="prependIcon"
             :prepend-inner-icon="computedPrependInnerIcon"
+            :placeholder-align="placeholderAlign"
             :autofocus="autofocus"
             :outlined="outlined"
             :filled="filled"
@@ -38,6 +39,7 @@
             :flat="flat"
             :dark="dark"
             :color="color"
+            :class="[{'base-input--ltr': dir === 'ltr' }, `placeholder-align--${placeholderAlign}`]"
             @input="$emit('input', $event)"
             @click:append="handleAppendClick"
             @click:prepend-inner="handlePrependInnerClick"
@@ -88,7 +90,7 @@ export default {
         },
         hideDetails: {
             type: [Boolean, String],
-            default: false
+            default: 'auto'
         },
         disabled: {
             type: Boolean,
@@ -186,10 +188,6 @@ export default {
             type: String,
             default: 'accent'
         },
-        noFocusStyle: {
-            type: Boolean,
-            default: false
-        },
         cClass: {
             type: [String, Array, Object],
             default: ''
@@ -198,8 +196,13 @@ export default {
             type: String,
             default: 'glass',
             validator: value => ['glass', 'light'].includes(value)
+        },
+        placeholderAlign: {
+            type: String,
+            default: 'right',
+            validator: value => ['auto', 'left', 'right'].includes(value)
         }
-    },
+},
 
     data() {
         return {
@@ -256,3 +259,17 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.base-input--ltr ::v-deep input::placeholder {
+    text-align: right !important;
+}
+
+.placeholder-align--left ::v-deep input::placeholder {
+    text-align: left !important;
+}
+
+.placeholder-align--right ::v-deep input::placeholder {
+    text-align: right !important;
+}
+</style>

@@ -51,8 +51,6 @@
                     <BaseButton
                         icon
                         small
-                        :rounded="false"
-                        :loading="loading"
                         color="primary"
                         c-class="table-icon-button"
                         title="بارگذاری مجدد"
@@ -71,8 +69,6 @@
                     <BaseButton
                         icon
                         small
-                        :rounded="false"
-                        :loading="loading"
                         color="primary"
                         c-class="table-icon-button"
                         title="بارگذاری مجدد"
@@ -576,6 +572,14 @@ export default {
         },
 
         handleEdit(item) {
+            const actions_column = this.columns.find(column => {return column.type === 'actions' && column.showEdit})
+            if (actions_column && typeof actions_column.editRoute === 'function') {
+                const route = actions_column.editRoute(item)
+                if (route) {
+                    this.$router.push(route)
+                }
+                return
+            }
             this.selectedItem = item
             this.actionType = 'edit'
             this.actionDialog = true

@@ -159,7 +159,6 @@
                     <div class="d-flex align-center search-row">
                         <BaseButton
                             color="info"
-                            :depressed="false"
                             :elevation="0"
                             c-class="search-btn"
                             @click="$emit('search')"
@@ -170,10 +169,8 @@
                         <BaseInput
                             :value="value"
                             placeholder="جستجو..."
-                            dir="rtl"
                             variant="light"
                             clearable
-                            :no-focus-style="true"
                             c-class="search-input"
                             @input="$emit('input', $event)"
                         />

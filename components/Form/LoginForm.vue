@@ -14,9 +14,8 @@
                     dir="ltr"
                     prepend-inner-icon="mdi-cellphone"
                     rules="required"
+                    placeholder-align="left"
                     maxlength="11"
-                    outlined
-                    hide-details="auto"
                     class="light-input"
                 />
             </v-col>
@@ -35,13 +34,12 @@
 
                 <BaseInput
                     v-model="credentials.password"
-                    placeholder="••••••••"
                     type="password"
+                    placeholder="........"
                     dir="ltr"
+                    placeholder-align="left"
                     prepend-inner-icon="mdi-lock-outline"
                     rules="required"
-                    outlined
-                    hide-details="auto"
                     class="light-input"
                 />
             </v-col>
@@ -51,8 +49,6 @@
                     type="submit"
                     color="primary"
                     :block="true"
-                    :loading="loading"
-                    :disabled="loading"
                     c-class="corporate-btn-primary"
                 >
                     ورود به حساب
@@ -68,8 +64,6 @@
                     <BaseButton
                         type="button"
                         text
-                        :rounded="false"
-                        :depressed="false"
                         color="transparent"
                         min-width="0"
                         height="auto"
@@ -87,13 +81,6 @@
 <script>
 export default {
     name: 'LoginForm',
-
-    props: {
-        loading: {
-            type: Boolean,
-            default: false
-        }
-    },
 
     data() {
         return {

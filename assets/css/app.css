@@ -211,13 +211,6 @@ body {
     color: #6d28d9;
 }
 
-.base-select .v-input__prepend-inner,
-.base-autocomplete .v-input__prepend-inner {
-    order: 2;
-    margin-right: auto !important;
-    margin-left: 0 !important;
-}
-
 .base-select-menu {
     margin-top: 4px;
     overflow: hidden;

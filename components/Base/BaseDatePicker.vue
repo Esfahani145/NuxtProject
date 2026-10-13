@@ -21,6 +21,8 @@
             :flat="flat"
             :prepend-inner-icon="prependInnerIcon"
             :append-icon="appendIcon"
+            :format="format"
+            display-format="displayFormat"
             class="base-date-picker-input"
             @click:prepend-inner="$emit('click:prepend-inner', $event)"
             @click:append="$emit('click:append', $event)"
@@ -71,7 +73,7 @@ export default {
         },
         displayFormat: { 
             type: String, 
-            default: 'YYYY/MM/DD' 
+            default: 'jYYYY/jMM/jDD' 
         },
         color: { 
             type: String,
@@ -123,7 +125,7 @@ export default {
         },
         dense: { 
             type: Boolean, 
-            default: true 
+            default: false 
         },
         flat: { 
             type: Boolean, 
@@ -251,7 +253,7 @@ export default {
 <style scoped>
 .base-date-picker-input ::v-deep .v-input__slot {
     display: flex;
-    direction: ltr !important;
+    direction: rtl !important;
     min-width: 0;
 }
 

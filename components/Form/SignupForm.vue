@@ -27,8 +27,6 @@
                         placeholder="علی محمدی"
                         prepend-inner-icon="mdi-account-outline"
                         rules="required,persian"
-                        outlined
-                        hide-details="auto"
                         class="light-input"
                     />
                 </v-col>
@@ -47,8 +45,6 @@
                         prepend-inner-icon="mdi-card-account-details-outline"
                         rules="required,national_code"
                         maxlength="10"
-                        outlined
-                        hide-details="auto"
                         class="light-input"
                     />
                 </v-col>
@@ -63,9 +59,6 @@
                         v-model="credentials.birth_date"
                         placeholder="انتخاب تاریخ تولد"
                         rules="required"
-                        outlined
-                        :dense="false"
-                        hide-details="auto"
                         class="light-input"
                     />
                 </v-col>
@@ -81,12 +74,8 @@
                         :items="gender_items"
                         :dense="false"
                         placeholder="انتخاب جنسیت"
-                        item-text="text"
-                        item-value="value"
                         prepend-inner-icon="mdi-account-group-outline"
                         rules="required"
-                        outlined
-                        hide-details="auto"
                         class="light-input"
                     />
                 </v-col>
@@ -124,8 +113,6 @@
                         prepend-inner-icon="mdi-cellphone"
                         rules="required,phone"
                         maxlength="11"
-                        outlined
-                        hide-details="auto"
                         class="light-input"
                     />
                 </v-col>
@@ -140,8 +127,6 @@
                         dir="ltr"
                         prepend-inner-icon="mdi-email-outline"
                         rules="email"
-                        outlined
-                        hide-details="auto"
                         class="light-input"
                     />
                 </v-col>
@@ -176,12 +161,8 @@
                         :items="provinces"
                         placeholder="انتخاب استان"
                         prepend-inner-icon="mdi-map-marker-outline"
-                        item-text="name"
-                        item-value="id"
                         rules="required"
                         clearable
-                        outlined
-                        hide-details="auto"
                         class="light-input"
                     />
                 </v-col>
@@ -195,14 +176,11 @@
                     <BaseAutocomplete
                         v-model="credentials.city"
                         :items="filteredCities"
-                        item-text="name"
-                        item-value="id"
                         placeholder="ابتدا استان را انتخاب کنید"
                         prepend-inner-icon="mdi-city-variant-outline"
                         rules="required"
                         :disabled="!credentials.province"
                         clearable
-                        outlined
                         hide-details="auto"
                         class="light-input"
                     />
@@ -218,10 +196,8 @@
                         v-model="credentials.address"
                         placeholder="خیابان، کوچه، پلاک"
                         prepend-inner-icon="mdi-map-marker-outline"
-                        rules="required,persian_address"
+                        rules="persian_address"
                         rows="3"
-                        outlined
-                        hide-details="auto"
                         class="light-input"
                     />
                 </v-col>
@@ -258,9 +234,7 @@
                         dir="ltr"
                         prepend-inner-icon="mdi-lock-outline"
                         rules="required,password"
-                        outlined
-                        hide-details="auto"
-                        class="light-input"
+                        class="light-input placeholder-dir"
                     />
                 </v-col>
 
@@ -278,8 +252,6 @@
                         prepend-inner-icon="mdi-lock-check-outline"
                         rules="required,confirm_password"
                         :rule-context="credentials"
-                        outlined
-                        hide-details="auto"
                         class="light-input"
                     />
                 </v-col>
@@ -306,8 +278,6 @@
             <BaseButton
                 type="button"
                 text
-                :rounded="false"
-                :depressed="false"
                 color="transparent"
                 min-width="0"
                 height="auto"
@@ -323,8 +293,6 @@
                 type="submit"
                 color="primary"
                 :block="true"
-                :loading="loading"
-                :disabled="loading"
                 c-class="corporate-btn-primary"
             >
                 ثبت‌نام
@@ -338,8 +306,6 @@
                 <BaseButton
                     type="button"
                     text
-                    :rounded="false"
-                    :depressed="false"
                     color="transparent"
                     min-width="0"
                     height="auto"
@@ -392,10 +358,6 @@ export default {
     name: 'SignupForm',
 
     props: {
-        loading: {
-            type: Boolean,
-            default: false
-        },
         user: {
             type: Object,
             default: null
@@ -495,3 +457,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.placeholder-dir {
+    text-align: left !important;
+}
+</style>

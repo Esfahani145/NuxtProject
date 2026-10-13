@@ -3,9 +3,7 @@
         <BaseInput
             v-if="column.filterable !== false && (!column.filterType || column.filterType === 'text')"
             :value="value"
-            hide-details
             dense
-            outlined
             flat
             :placeholder="column.filterPlaceholder || column.text"
             :disabled="column.filterDisabled"
@@ -21,9 +19,7 @@
         <BaseInput
             v-else-if="column.filterable !== false && column.filterType === 'number'"
             :value="value"
-            hide-details
             dense
-            outlined
             flat
             :placeholder="column.filterPlaceholder || column.text"
             :disabled="column.filterDisabled"
@@ -45,10 +41,7 @@
                     ref="typeSelect"
                     :value="null"
                     :items="dateFilterOptions"
-                    dense
-                    outlined
                     flat
-                    hide-details
                     placeholder="نوع فیلتر"
                     prepend-inner-icon="mdi-chevron-down"
                     :menu-props="dateMenuProps"
@@ -64,9 +57,7 @@
                     ref="datePicker"
                     :value="value && value.from ? value.from : ''"
                     placeholder="انتخاب تاریخ"
-                    outlined
                     flat
-                    hide-details
                     class="compact-field date-picker-field uniform-filter"
                     prepend-inner-icon="mdi-chevron-down"
                     append-icon="mdi-magnify"
@@ -84,7 +75,6 @@
                         <div class='date-picker-search' >
                             <BaseButton
                                 icon
-                                :rounded="false"
                                 c-class="date-filter-icon-button"
                                 @click.stop="applyDateFilter"
                             >
@@ -98,9 +88,7 @@
                                 :value="value && value.from ? value.from : ''"
                                 placeholder="از تاریخ"
                                 dense
-                                outlined
                                 flat
-                                hide-details
                                 class="compact-field date-picker-field uniform-filter"
                                 :disabled="column.filterDisabled"
                                 :clearable="column.filterClearable !== false"
@@ -114,9 +102,7 @@
                                 :value="value && value.to ? value.to : ''"
                                 placeholder="تا تاریخ"
                                 dense
-                                outlined
                                 flat
-                                hide-details
                                 class="compact-field date-picker-field uniform-filter"
                                 :disabled="column.filterDisabled"
                                 :clearable="column.filterClearable !== false"
@@ -126,7 +112,6 @@
                             />
                                 <BaseButton
                                     icon
-                                    :rounded="false"
                                     c-class="date-filter-icon-button"
                                     @click.stop="resetDateFilter"
                                 >
@@ -144,10 +129,7 @@
             v-else-if="column.filterable !== false && column.filterType === 'select'"
             :value="value"
             :items="column.filterOptions || []"
-            dense
-            outlined
             flat
-            hide-details
             :placeholder="column.filterPlaceholder || column.text"
             :clearable="column.filterClearable !== false"
             :disabled="column.filterDisabled"

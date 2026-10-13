@@ -18,108 +18,21 @@
                 add-button-route="/login/create-user"
                 @reload="loadUsers"
             >
-                <template #edit="{ item, close }">
-                    <v-card-title class="d-flex align-center">
-                        <v-icon color="blue-grey darken-4" class="ml-2">
-                            mdi-account-edit-outline
-                        </v-icon>
-
-                        <span class="font-weight-bold">
-                            ویرایش اطلاعات کاربر
-                        </span>
-
-                        <v-spacer />
-                    </v-card-title>
-
-                    <v-divider />
-
-                    <v-card-text class="pa-6">
-                        <SignupForm
-                            v-if="item"
-                            ref="signupForm"
-                            :user="item"
-                            mode="edit"
-                            @submit="handleUpdateUser($event, item, close)"
-                        />
-                    </v-card-text>
-
-                    <v-divider />
-
-                    <v-card-actions class="pa-4">
-                        <v-spacer />
-
-                        <BaseButton
-                            text
-                            color="grey darken-1"
-                            @click="close"
-                        >
-                            انصراف
-                        </BaseButton>
-
-                        <BaseButton
-                            color="primary"
-                            c-class="rounded-lg font-weight-bold"
-                            @click="$refs.signupForm.submitForm()"
-                        >
-                            ذخیره
-                        </BaseButton>
-                    </v-card-actions>
-                </template>
             </BaseDataTable>
         </v-card>
-
-        <v-dialog v-model="addUserDialog" max-width="900px" persistent>
-            <v-card>
-                <v-card-title class="font-weight-bold">
-                    <v-icon color="primary" class="ml-2">
-                        mdi-account-plus-outline
-                    </v-icon>
-
-                    افزودن کاربر جدید
-                </v-card-title>
-
-                <v-divider />
-
-                <v-card-text class="pa-6">
-                    <SignupForm
-                        ref="addUserForm"
-                        mode="signup"
-                        @submit="handleAddUser"
-                    />
-                </v-card-text>
-
-                <v-card-actions class="pa-4">
-                    <v-spacer />
-
-                    <BaseButton
-                        text
-                        color="grey darken-1"
-                        @click="addUserDialog = false"
-                    >
-                        انصراف
-                    </BaseButton>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
     </v-container>
 </template>
 
 <script>
 import locations from '~/static/data/data.json'
-import SignupForm from '~/components/Form/SignupForm.vue'
 
 export default {
     name: 'UserssTablePage',
-
-    components: {
-        SignupForm
-    },
 
     data() {
         return {
             users: [],
             user_loading: false,
-            addUserDialog: false
         }
     },
 
@@ -236,7 +149,13 @@ export default {
                     showEdit: true,
                     showDelete: false,
                     filterable: false,
-                    align: 'center'
+                    align: 'center',
+                    editRoute: item => ({
+                        path: '/login/create-user',
+                        query: {
+                            id: String(item.national_code)
+                        }
+                    })
                 }
             ]
         }
@@ -254,32 +173,6 @@ export default {
             } catch (error) {
                 this.$toast.error('خطا در بارگذاری کاربران:', error)
                 this.users = []
-            }
-        },
-
-        handleUpdateUser(credentials, selected_user, close) {
-            const user_index = this.users.findIndex(user => { return user.national_code === selected_user.national_code })
-            if (user_index === -1) { return }
-
-            const updated_user = {
-                ...this.users[user_index],
-                ...credentials,
-            }
-
-            this.$set(this.users, user_index, updated_user)
-            localStorage.setItem('users', JSON.stringify(this.users))
-            close()
-            this.$toast.success('اطلاعات کاربر با موفقیت به‌روزرسانی شد')
-        },
-
-        async handleAddUser(credentials) {
-            try {
-                await this.$store.dispatch('auth/signup', credentials)
-                this.loadUsers()
-                this.addUserDialog = false
-                this.$toast.success('کاربر جدید با موفقیت اضافه شد')
-            } catch (error) {
-                this.$toast.error(error.message || 'ثبت کاربر با خطا مواجه شد')
             }
         }
     }

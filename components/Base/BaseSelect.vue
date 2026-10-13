@@ -107,7 +107,7 @@ export default {
         },
         hideDetails: {
             type: [Boolean, String],
-            default: false
+            default: 'auto'
         },
         dense: {
             type: Boolean,

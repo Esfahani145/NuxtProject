@@ -12,21 +12,39 @@
         {{ getValue }}
     </span>
 
-    <span v-else-if="column.type === 'price'">
+    <span v-else-if="column.type === 'price'" class="table-price-cell">
+        <v-icon x-small color="success" class="ml-1">mdi-cash</v-icon>
         <span class="font-weight-bold">
             {{ $helper.formatPrice(getValue) }}
         </span>
-
-        <span> تومان </span>
+        <span class="table-price-unit">
+            تومان
+        </span>
     </span>
 
-    <v-chip v-else-if="column.type === 'chip'" small color="primary" text-color="white">
+    <v-chip
+        v-else-if="column.type === 'chip'"
+        small
+        color="blue lighten-5"
+        text-color="accent"
+        class="table-badge-chip"
+    >
         {{ getValue }}
     </v-chip>
 
-    <v-icon v-else-if="column.type === 'boolean'" :color="getValue ? 'success' : 'error'">
-        {{ getValue ? 'mdi-check-circle' : 'mdi-close-circle' }}
-    </v-icon>
+    <v-chip
+        v-else-if="column.type === 'boolean'"
+        small
+        :color="getValue ? 'green lighten-5' : 'red lighten-5'"
+        :text-color="getValue ? 'success' : 'error'"
+        :class="['table-status-chip', getValue ? 'status-active' : 'status-inactive']"
+    >
+        <v-icon left x-small>
+            {{ getValue ? 'mdi-check-circle' : 'mdi-close-circle' }}
+        </v-icon>
+        {{ getValue ? 'فعال' : 'غیرفعال' }}
+    </v-chip>
+
 
     <div v-else-if="column.type === 'actions'" class="d-flex align-center justify-center">
         <v-menu v-if="availableActions.length" offset-y left>

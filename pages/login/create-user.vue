@@ -84,13 +84,11 @@
                             <v-col cols="12" md="6">
                                 <label class="form-label">
                                     تاریخ تولد
-                                    <span class="required-mark">*</span>
                                 </label>
 
                                 <BaseDatePicker
                                     v-model="credentials.birth_date"
                                     placeholder="تاریخ تولد را انتخاب کنید"
-                                    rules="required"
                                     clearable
                                     class="light-input"
                                 />
@@ -99,7 +97,6 @@
                             <v-col cols="12" md="6">
                                 <label class="form-label">
                                     جنسیت
-                                    <span class="required-mark">*</span>
                                 </label>
 
                                 <BaseSelect
@@ -107,7 +104,6 @@
                                     :items="genderOptions"
                                     placeholder="جنسیت را انتخاب کنید"
                                     prepend-inner-icon="mdi-human-male-female"
-                                    rules="required"
                                     :dense="false"
                                     class="light-input"
                                 />
@@ -220,14 +216,13 @@
                             <v-col cols="12">
                                 <label class="form-label">
                                     نشانی محل سکونت
-                                    <span class="required-mark">*</span>
                                 </label>
 
                                 <BaseTextarea
                                     v-model="credentials.address"
                                     placeholder="نشانی کامل محل سکونت را وارد کنید"
                                     rows="3"
-                                    rules="required,persian_address"
+                                    rules="persian_address"
                                     class="light-input"
                                 />
                             </v-col>
@@ -259,14 +254,12 @@
 
                                 <BaseInput
                                     v-model="credentials.password"
+                                    placeholder="رمز عبور را وارد کنید"
                                     type="password"
-                                    :append-icon="showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
-                                    placeholder="رمز عبور را وارد کنید "
                                     dir="ltr"
                                     prepend-inner-icon="mdi-lock-outline"
                                     rules="required,password"
-                                    class="light-input"
-                                    @click:append="showPassword = !showPassword"
+                                    class="light-input placeholder-dir"
                                 />
                             </v-col>
 
@@ -277,13 +270,14 @@
                                 </label>
 
                                 <BaseInput
-                                    v-model="credentials.password"
-                                    placeholder="••••••••"
+                                    v-model="credentials.confirm_password"
+                                    placeholder="تکرار رمز عبور را وارد کنید"
                                     type="password"
                                     dir="ltr"
-                                    prepend-inner-icon="mdi-lock-outline"
-                                    rules="required,password"
-                                    class="light-input placeholder-dir"
+                                    prepend-inner-icon="mdi-lock-check-outline"
+                                    rules="required,confirm_password"
+                                    :rule-context="credentials"
+                                    class="light-input"
                                 />
                             </v-col>
                         </v-row>
@@ -458,7 +452,7 @@ export default {
                     ...this.credentials,
                     ...user,
                     birth_date: user.birth_date ?   this.$toJalali(user.birth_date, 'YYYY-MM-DD', 'jYYYY/jMM/jDD') : '',
-                    confirm_password: user.password || ''
+                    confirm_password: ''
                 }
             } catch(error) {
                 this.$toast.error('بارگذاری اطلاعات کاربر با خطا مواجه شد')

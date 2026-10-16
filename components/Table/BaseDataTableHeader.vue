@@ -1,5 +1,10 @@
 <template>
-    <div class="filter-cell-wrapper ">
+    <div class="filter-cell-wrapper ">        
+        <div v-if="column.filterable === false" class="filter-column-title">
+            <v-icon v-if="column.icon" small>{{ column.icon }}</v-icon>
+            <span>{{ column.text }}</span>
+        </div>
+
         <BaseInput
             v-if="column.filterable !== false && (!column.filterType || column.filterType === 'text')"
             :value="value"
@@ -71,55 +76,53 @@
                 />
 
                 <template v-else-if="dateFilterType === 'between'">
-                    <div class="date-range-fields">
-                        <div class='date-picker-search' >
+                    <div class="date-picker-search date-range-fields" >
+                        <BaseButton
+                            icon
+                            c-class="date-filter-icon-button"
+                            @click.stop="applyDateFilter"
+                        >
+                            <v-icon size="24">
+                                mdi-magnify
+                            </v-icon>
+                        </BaseButton>
+
+                        <BaseDatePicker
+                            ref="fromDatePicker"
+                            :value="value && value.from ? value.from : ''"
+                            placeholder="از تاریخ"
+                            dense
+                            flat
+                            class="compact-field date-picker-field uniform-filter"
+                            :disabled="column.filterDisabled"
+                            :clearable="column.filterClearable !== false"
+                            @click.stop
+                            @input="handleFromDateInput"
+                            @keyup.enter.native="applyDateFilter"
+                        />
+
+                        <BaseDatePicker
+                            ref="toDatePicker"
+                            :value="value && value.to ? value.to : ''"
+                            placeholder="تا تاریخ"
+                            dense
+                            flat
+                            class="compact-field date-picker-field uniform-filter"
+                            :disabled="column.filterDisabled"
+                            :clearable="column.filterClearable !== false"
+                            @click.stop
+                            @input="handleToDateInput"
+                            @keyup.enter.native="applyDateFilter"
+                        />
                             <BaseButton
                                 icon
                                 c-class="date-filter-icon-button"
-                                @click.stop="applyDateFilter"
+                                @click.stop="resetDateFilter"
                             >
-                                <v-icon size="24">
-                                    mdi-magnify
+                                <v-icon size="20">
+                                    mdi-filter-remove-outline
                                 </v-icon>
                             </BaseButton>
-
-                            <BaseDatePicker
-                                ref="fromDatePicker"
-                                :value="value && value.from ? value.from : ''"
-                                placeholder="از تاریخ"
-                                dense
-                                flat
-                                class="compact-field date-picker-field uniform-filter"
-                                :disabled="column.filterDisabled"
-                                :clearable="column.filterClearable !== false"
-                                @click.stop
-                                @input="handleFromDateInput"
-                                @keyup.enter.native="applyDateFilter"
-                            />
-
-                            <BaseDatePicker
-                                ref="toDatePicker"
-                                :value="value && value.to ? value.to : ''"
-                                placeholder="تا تاریخ"
-                                dense
-                                flat
-                                class="compact-field date-picker-field uniform-filter"
-                                :disabled="column.filterDisabled"
-                                :clearable="column.filterClearable !== false"
-                                @click.stop
-                                @input="handleToDateInput"
-                                @keyup.enter.native="applyDateFilter"
-                            />
-                                <BaseButton
-                                    icon
-                                    c-class="date-filter-icon-button"
-                                    @click.stop="resetDateFilter"
-                                >
-                                    <v-icon size="20" color="#60a5fa">
-                                        mdi-filter-remove
-                                    </v-icon>
-                                </BaseButton>
-                        </div>
                     </div>
                 </template>
             </template>
@@ -329,32 +332,57 @@ export default {
 }
 </script>
 
-<style scoped>
 
+<style scoped>
 .filter-cell-wrapper {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 9px;
     width: 100%;
     min-width: 0;
-    padding: 2px 0;
-    box-sizing: border-box;
-    position: relative;
-}   
-
-.select-field {
-    width: 100% !important;
-    min-width: 0;
+    margin: 0;
+    padding: 8px 7px;
     box-sizing: border-box;
 }
 
+.filter-column-title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    width: 100%;
+    min-height: 22px;
+    color: #1e40af;
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.filter-column-title ::v-deep .v-icon {
+    color: #2563eb;
+}
+
+.filter-cell-wrapper ::v-deep .v-input {
+    width: 100%;
+    min-width: 0;
+    margin-top: 0;
+    font-size: 12px;
+}
+
+.filter-cell-wrapper ::v-deep .v-input__control {
+    min-height: 38px;
+}
+
+.filter-cell-wrapper ::v-deep .v-input__slot {
+    border-radius: 8px !important;
+}
 
 .date-filter-wrapper {
     display: flex;
     align-items: center;
-    gap: 4px;
-    position: relative;
     width: 100%;
     max-width: 100%;
     min-width: 0;
@@ -362,80 +390,95 @@ export default {
     box-sizing: border-box;
 }
 
+.date-filter-wrapper .date-picker-field,
+.date-filter-wrapper .date-type-select {
+    flex: 1 1 0;
+    width: 0 !important;
+    min-width: 0;
+    max-width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.date-filter-wrapper.date-filter-between {
+    height: 40px;
+    margin: 0;
+}
+
 .date-range-fields {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: 6px;
     width: 100%;
+    height: 40px;
     min-width: 0;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 .date-range-fields .date-picker-field {
     flex: 1 1 0;
+    align-self: center;
     width: 0 !important;
-    min-width: 0;
-    max-width: 100%;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 40px;
+    margin: 0 !important;
+    padding: 0 !important;
     box-sizing: border-box;
 }
 
-.date-filter-wrapper .date-picker-field,
-.date-filter-wrapper .date-type-select {
-    flex: 1 1 auto;
-    width: 100% !important;
-    min-width: 0;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
-.date-filter-wrapper.date-filter-between {
-    display: block;
+.date-range-fields .date-picker-field ::v-deep .v-input,
+.date-range-fields .date-picker-field ::v-deep .v-input__control,
+.date-range-fields .date-picker-field ::v-deep .v-input__slot {
     width: 100%;
     min-width: 0;
+    margin: 0 !important;
+    box-sizing: border-box;
 }
 
-.date-filter-wrapper.date-filter-between .date-range-fields {
-    display: flex;
-    flex-direction: row;
+.date-range-fields .date-picker-field ::v-deep .v-input {
+    padding: 0 !important;
+}
+
+.date-range-fields .date-picker-field ::v-deep .v-input__slot {
+    padding: 0 6px !important;
+}
+
+.date-range-fields .date-picker-field ::v-deep .v-text-field__details {
+    display: none !important;
+}
+
+.date-range-fields .date-picker-field ::v-deep .v-text-field__control {
+    margin: 0 !important;
+}
+
+.date-filter-icon-button {
+    display: inline-flex;
+    flex: 0 0 32px;
     align-items: center;
-    gap: 8px;
-    width: 100%;
-    min-width: 0;
-}
-
-.date-filter-wrapper.date-filter-between .date-range-fields .date-picker-field {
-    flex: 1 1 0;
-    width: 50% !important;
-    min-width: 0;
-    max-width: 50%;
-}
-
-.date-filter-wrapper.date-filter-between .date-range-fields .date-picker-field ::v-deep .v-input,
-.date-filter-wrapper.date-filter-between .date-range-fields .date-picker-field ::v-deep .v-input__control,
-.date-filter-wrapper.date-filter-between .date-range-fields .date-picker-field ::v-deep .v-input__slot {
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-}
-
-.date-picker-search {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    width: 100%;
-    min-width: 0;
-}
-
-.date-picker-search ::v-deep .date-filter-icon-button {
-    flex: 0 0 36px;
-    width: 36px;
-    min-width: 36px;
+    justify-content: center;
+    width: 32px;
+    min-width: 32px;
     height: 36px;
+    margin: 0;
     padding: 0;
+    color: #475569;
+    font-size: 20px;
 }
 
-.date-picker-search ::v-deep .date-filter-icon-button .v-icon {
-    font-size: 20px;
+.date-filter-icon-button ::v-deep .v-icon {
+    color: #2563eb;
+}
+
+.date-range-fields ::v-deep .date-filter-icon-button {
+    flex: 0 0 32px;
+    width: 32px;
+    min-width: 32px;
+    height: 36px;
+    margin: 0;
+    padding: 0;
 }
 </style>

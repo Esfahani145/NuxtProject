@@ -1,6 +1,6 @@
 <template>
     <div
-        dir="rtl"
+        :dir="dir"
         :class="[variant === 'light' ? 'light-input' : 'glass-input', cClass]">
         <label v-if="label" class="form-label">
             {{ label }}
@@ -9,6 +9,7 @@
         <v-text-field
             ref="input"
             :value="value"
+            :dir="dir"
             :single-line="singleLine"
             :type="computedType"
             :placeholder="placeholder"
@@ -199,7 +200,7 @@ export default {
         },
         placeholderAlign: {
             type: String,
-            default: 'right',
+            default: 'auto',
             validator: value => ['auto', 'left', 'right'].includes(value)
         }
 },
@@ -259,17 +260,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.base-input--ltr ::v-deep input::placeholder {
-    text-align: right !important;
-}
-
-.placeholder-align--left ::v-deep input::placeholder {
-    text-align: left !important;
-}
-
-.placeholder-align--right ::v-deep input::placeholder {
-    text-align: right !important;
-}
-</style>

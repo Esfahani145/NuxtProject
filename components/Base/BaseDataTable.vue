@@ -69,10 +69,11 @@
                     <BaseButton
                         icon
                         small
-                        color="primary"
+                        :color="addButtonColor"
+                        :disabled="addButtonDisabled"
                         c-class="table-icon-button"
-                        title="بارگذاری مجدد"
-                        aria-label="بارگذاری مجدد جدول"
+                        :title="addButtonText"
+                        aria-label="افزودن مورد جدید"
                         @click.stop="goToPage"
                     >
                         <v-icon small>
@@ -634,9 +635,12 @@ export default {
 }
 </script>
 
+
 <style scoped>
 .data-table-container {
     position: relative;
+    width: 100%;
+    min-width: 0;
 }
 
 .reload-column-content {
@@ -645,18 +649,5 @@ export default {
     justify-content: center;
     gap: 2px;
     width: 100%;
-}
-
-.base-data-table ::v-deep .v-data-table-header th {
-    background-color: #f1f5f9 !important;
-    color: #1e293b !important;
-    font-weight: 600 !important;
-}
-
-.table-icon-button {
-    min-width: 36px !important;
-    width: 36px !important;
-    height: 36px !important;
-    margin: 0 !important;
 }
 </style>

@@ -8,8 +8,8 @@ export default (_, inject) => {
 
     const to_gregorian = (date, inputFormat = 'jYYYY/jMM/jDD', outputFormat = 'YYYY-MM-DD') => {
         if (!date) { return ''}
-        const englishDate = String(date).replace(/[۰-۹]/g, digit => { return '۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)})
-        return moment(englishDate, inputFormat).locale('en').format(outputFormat)
+        const english_date = String(date).replace(/[۰-۹]/g, digit => { return '۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)})
+        return moment(english_date, inputFormat).locale('en').format(outputFormat)
     }
 
     inject('toJalali', to_jalali)

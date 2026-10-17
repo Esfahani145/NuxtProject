@@ -362,11 +362,7 @@ export default {
             editUser: null,
             provinces: locations.locations.provinces || [],
             cities: locations.locations.cities || [],
-            genderOptions: [
-                { text: 'مرد', value: 'male' },
-                { text: 'زن', value: 'female' }
-            ],
-
+            genderOptions: [{ text: 'مرد', value: 'male' }, { text: 'زن', value: 'female' }],
             credentials: {
                 full_name: '',
                 national_code: '',
@@ -404,8 +400,8 @@ export default {
         },
 
         async handleSubmit() {
-            const isValid = this.$refs.createUserForm.validate()
-            if (!isValid) { return }
+            const is_valid = this.$refs.createUserForm.validate()
+            if (!is_valid) { return }
             this.loading = true
 
             try {

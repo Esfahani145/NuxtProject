@@ -227,11 +227,11 @@ export default {
             this.showSelectList = false
             this.dateFilterType = type
 
-            const columnKey = typeof this.column.value === 'function'
+            const column_key = typeof this.column.value === 'function'
                 ? (this.column.key || this.column.text)
                 : this.column.value
 
-            this.$emit('filter-type-change', {columnKey, type})
+            this.$emit('filter-type-change', {column_key, type})
             this.$emit('input', { type, from: '', to: '' })
 
             this.$nextTick(() => {
@@ -284,7 +284,7 @@ export default {
             const column_key = typeof this.column.value === 'function' ? (this.column.key || this.column.text) : this.column.value
             this.dateFilterType = ''
             this.showSelectList = true
-            this.$emit('filter-type-change', {columnKey: column_key, type: ''})
+            this.$emit('filter-type-change', {column_key, type: ''})
             this.$emit('input', {type: '' ,  from: '',  to: ''})
             this.$emit('apply-filter')
         },
@@ -406,8 +406,9 @@ export default {
     justify-content: center;
     gap: 6px;
     width: 100%;
-    height: 40px;
     min-width: 0;
+    min-height: 40px;
+    height: auto;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -415,9 +416,8 @@ export default {
 
 .date-range-fields .date-picker-field {
     flex: 1 1 0;
-    align-self: center;
     width: 0 !important;
-    min-width: 0 !important;
+    min-width: 150px !important;
     max-width: none !important;
     height: 40px;
     margin: 0 !important;

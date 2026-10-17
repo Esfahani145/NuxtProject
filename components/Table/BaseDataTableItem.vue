@@ -126,10 +126,10 @@ export default {
         },
 
         availableActions() {
-            const configuredActions = typeof this.column.actions === 'function' ? this.column.actions(this.item) : this.column.actions
+            const configured_actions = typeof this.column.actions === 'function' ? this.column.actions(this.item) : this.column.actions
 
-            if (Array.isArray(configuredActions)) {
-                return configuredActions.filter(action => ['view', 'edit', 'delete'].includes(action))
+            if (Array.isArray(configured_actions)) {
+                return configured_actions.filter(action => ['view', 'edit', 'delete'].includes(action))
             }
 
             const actions = []

@@ -180,7 +180,7 @@ export default {
                     sortable: false,
                     align: 'center',
                     filterPlaceholder: 'کد ملی',
-                    width: '180px'
+                    width: '190px'
                 },
                 {
                     text: 'تاریخ تولد',
@@ -269,8 +269,8 @@ export default {
         loadUsers() {
             this.user_loading = true
             try {
-                const savedUsers = localStorage.getItem('users')
-                this.users = savedUsers ? JSON.parse(savedUsers) : []
+                const saved_users = localStorage.getItem('users')
+                this.users = saved_users ? JSON.parse(saved_users) : []
             } catch (error) {
                 this.$toast.error('خطا در بارگذاری کاربران')
                 this.users = []

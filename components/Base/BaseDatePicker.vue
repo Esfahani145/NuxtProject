@@ -253,8 +253,19 @@ export default {
 <style scoped>
 .base-date-picker-input ::v-deep .v-input__slot {
     display: flex;
-    direction: rtl !important;
+    flex-direction: row-reverse;
+    direction: ltr !important;
     min-width: 0;
+}
+
+.base-date-picker-input ::v-deep .v-input__prepend-inner {
+    order: 2;
+    margin-left: 0;
+    margin-right: 8px;
+}
+
+.base-date-picker-input ::v-deep .v-input__append-inner {
+    order: 0;
 }
 
 .base-date-picker-input ::v-deep .v-input__prepend-inner,

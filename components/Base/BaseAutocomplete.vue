@@ -165,3 +165,35 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.base-autocomplete ::v-deep .v-input__slot {
+    display: flex;
+    flex-direction: row-reverse;
+    direction: ltr !important;
+}
+
+.base-autocomplete ::v-deep .v-input__prepend-inner {
+    order: 2;
+    margin-left: 0;
+    margin-right: 8px;
+}
+
+.base-autocomplete ::v-deep .v-input__append-inner {
+    order: 0;
+}
+
+.base-autocomplete ::v-deep .v-select__slot {
+    flex: 1 1 0%;
+    min-width: 0;
+}
+
+.base-autocomplete ::v-deep input {
+    direction: rtl;
+    text-align: right;
+}
+
+.base-autocomplete ::v-deep input::placeholder {
+    text-align: right;
+}
+</style>

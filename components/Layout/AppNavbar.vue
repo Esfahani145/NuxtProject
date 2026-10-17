@@ -199,7 +199,7 @@
                         <v-chip 
                             v-if="isAuthenticated && $store.getters.favoritesCount > 0"
                             x-small
-                            color="red"
+                            color="info"
                             text-color="white"
                             class="mr-2 font-weight-bold"
                         >
@@ -221,7 +221,7 @@
 
                         <v-chip v-if="isAuthenticated && $store.getters.cartTotalCount > 0"
                             x-small
-                            color="red"
+                            color="info"
                             text-color="white"
                             class="mr-2 font-weight-bold"
                         >

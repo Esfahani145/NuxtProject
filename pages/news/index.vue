@@ -1,6 +1,6 @@
 <template>
     <div class="light-news-page">
-        <v-container fluid class="max-width-container py-8 px-4 px-md-8">
+        <v-container fluid class="py-8 px-4 px-md-8">
             <BaseHero
                 type="news"
                 variant="animated"

@@ -55,10 +55,6 @@ body {
         grid-template-columns: repeat(3, 1fr) !important;
         gap: 20px;
     }
-
-    .max-width-container {
-        max-width: 100% !important;
-    }
 }
 
 @media (max-width: 992px) {
@@ -107,11 +103,6 @@ body {
     .base-data-table tbody td {
         white-space: nowrap;
     }
-
-    .base-data-table .v-data-footer {
-        flex-wrap: wrap;
-        gap: 8px;
-    }
 }
 
 @media (max-width: 768px) {
@@ -133,11 +124,6 @@ body {
     .circle-2 {
         width: 240px !important;
         height: 240px !important;
-    }
-
-    .max-width-container {
-        padding-left: 16px !important;
-        padding-right: 16px !important;
     }
 
     .white-product-card,
@@ -188,7 +174,7 @@ body {
         grid-template-columns: repeat(1, 1fr) !important;
         gap: 12px;
     }
-e
+
     .glass-card,
     .v-card {
         border-radius: 16px !important;
@@ -210,11 +196,6 @@ e
 
     .circle-3 {
         display: none !important;
-    }
-
-    .max-width-container {
-        padding-left: 12px !important;
-        padding-right: 12px !important;
     }
 
     .light-admin-page .d-flex.align-center.justify-space-between,
@@ -435,6 +416,68 @@ e
     .hero-motion-orbit--two {
         right: 15%;
     }
+
+    .base-data-table .v-data-table-header th {
+        padding: 10px 8px !important;
+    }
+
+    .base-data-table tbody td {
+        padding: 10px 8px !important;
+    }
+
+    .form-actions {
+        padding: 20px 16px !important;
+    }
+
+    .actions-buttons {
+        flex-direction: column;
+    }
+
+    .actions-buttons ::v-deep .v-btn {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .create-user-page {
+        padding: 16px !important;
+    }
+
+    .form-section {
+        padding: 20px !important;
+    }
+
+    .page-intro {
+        align-items: flex-start;
+    }
+
+    .form-status {
+        max-width: 100%;
+        font-size: 12px;
+    }
+
+    .products-management-page {
+        padding: 12px !important;
+    }
+
+    .products-page-title {
+        font-size: 20px !important;
+    }
+
+    .base-data-table-footer__select {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .base-data-table-footer {
+        justify-content: center;
+        padding: 12px;
+    }
+
+    .base-data-table-footer__select,
+    .base-data-table-footer__pagination {
+        justify-content: center;
+        width: 100%;
+    }
 }
 
 @media (max-width: 599px) {
@@ -461,11 +504,6 @@ e
 @media (max-width: 480px) {
     .glass-card {
         padding: 14px 10px !important;
-    }
-
-    .max-width-container {
-        padding-left: 8px !important;
-        padding-right: 8px !important;
     }
 
     .white-product-card {
@@ -618,5 +656,14 @@ e
 
     .fixed-card .v-sheet {
         flex-shrink: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .base-data-table *,
+    .base-data-table *::before,
+    .base-data-table *::after {
+        transition: none !important;
+        animation: none !important;
     }
 }

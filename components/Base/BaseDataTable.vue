@@ -106,12 +106,13 @@
                 />
             </template>
 
-            <template slot="footer" slot-scope="slotProps">
+
+            <template v-slot:footer="slotProps">
                 <BaseDataTableFooter
                     v-bind="footerProps"
                     :options="slotProps.props.options"
                     :pagination="slotProps.props.pagination"
-                    v-on="slotProps.on"
+                    @update:options="updateTableOptions(slotProps, $event)"
                 />
             </template>
         </v-data-table>
@@ -508,7 +509,6 @@ export default {
             if (typeof column.value === 'function') {
                 return column.key || column.text
             }
-
             return column.value
         },
 
@@ -520,15 +520,11 @@ export default {
             if (typeof column.value === 'function') {
                 return column.value(item)
             }
-
             return item[column.value]
         },
 
         getItemKey(item) {
-            if (!item) {
-                return undefined
-            }
-
+            if (!item) { return undefined }
             return item[this.itemKey]
         },
 
@@ -541,17 +537,12 @@ export default {
         },
 
         normalizeValue(value) {
-            if (value === undefined || value === null) {
-                return ''
-            }
-
+            if (value === undefined || value === null) { return '' }
             return String(value).trim().toLocaleLowerCase()
         },
 
         normalizeDateValue(value) {
-            if (value === undefined || value === null) {
-                return ''
-            }
+            if (value === undefined || value === null) { return '' }
 
             return String(value)
                 .replace(/[۰-۹]/g, digit => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
@@ -630,11 +621,16 @@ export default {
         goToPage() {
             if (this.addButtonDisabled) { return }
             this.$router.push(this.addButtonRoute)
+        },
+
+        updateTableOptions(slotProps, options) {
+            if (slotProps.on && typeof slotProps.on['update:options'] === 'function') {
+                slotProps.on['update:options'](options)
+            }
         }
     }
 }
 </script>
-
 
 <style scoped>
 .data-table-container {

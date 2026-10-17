@@ -1,6 +1,6 @@
 <template>
     <div class="py-8">
-        <v-container class="max-width-container">
+        <v-container>
             <v-row justify="center">
                 <v-col cols="12" md="10" lg="8">
                     <BaseButton

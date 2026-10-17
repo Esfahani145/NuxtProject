@@ -40,7 +40,7 @@
             :flat="flat"
             :dark="dark"
             :color="color"
-            :class="[{'base-input--ltr': dir === 'ltr' }, `placeholder-align--${placeholderAlign}`]"
+            :class="[{'base-input--ltr': dir === 'ltr'}, {'base-input--rtl': dir === 'rtl'}, `placeholder-align--${placeholderAlign}`]"
             @input="$emit('input', $event)"
             @click:append="handleAppendClick"
             @click:prepend-inner="handlePrependInnerClick"
@@ -260,3 +260,29 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.base-input--ltr ::v-deep input {
+    direction: ltr;
+}
+
+.placeholder-align--right ::v-deep input::placeholder {
+    text-align: right;
+}
+
+.placeholder-align--left ::v-deep input::placeholder {
+    text-align: left;
+}
+
+.base-input--rtl ::v-deep .v-input__slot {
+    direction: rtl;
+}
+
+.base-input--rtl ::v-deep .v-input__prepend-inner {
+    order: 2;
+}
+
+.base-input--rtl ::v-deep .v-text-field__slot {
+    order: 1;
+}
+</style>

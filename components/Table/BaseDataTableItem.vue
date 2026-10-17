@@ -25,8 +25,8 @@
     <v-chip
         v-else-if="column.type === 'chip'"
         small
-        color="blue lighten-5"
-        text-color="accent"
+        color="primary"
+        text-color="white"
         class="table-badge-chip"
     >
         {{ getValue }}
@@ -35,8 +35,8 @@
     <v-chip
         v-else-if="column.type === 'boolean'"
         small
-        :color="getValue ? 'green lighten-5' : 'red lighten-5'"
-        :text-color="getValue ? 'success' : 'error'"
+        :color="getValue ? 'succes' : 'error'"
+        text-color="white"
         :class="['table-status-chip', getValue ? 'status-active' : 'status-inactive']"
     >
         <v-icon left x-small>

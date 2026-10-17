@@ -1,7 +1,7 @@
 <template>
     <AppBackground>
         <div class="create-user-page pa-4 pa-md-6">
-            <div class="max-width-container">
+            <div>
                 <BaseHero
                     type="users"
                     variant="animated"
@@ -31,7 +31,7 @@
                 <v-form ref="createUserForm" v-model="valid" lazy-validation @submit.prevent="handleSubmit">
                     <v-card class="form-section white-detail-card pa-5 pa-md-7 mb-5" flat>
                         <div class="section-heading">
-                            <div class="section-icon section-icon">
+                            <div class="section-icon">
                                 <v-icon color="accent" size="24">
                                     mdi-card-account-details-outline
                                 </v-icon>
@@ -76,6 +76,7 @@
                                     type="tel"
                                     maxlength="10"
                                     dir="ltr"
+                                    placeholder-align="right"
                                     rules="required,national_code"
                                     class="light-input"
                                 />
@@ -105,6 +106,7 @@
                                     placeholder="جنسیت را انتخاب کنید"
                                     prepend-inner-icon="mdi-human-male-female"
                                     :dense="false"
+                                    dir="rtl"
                                     class="light-input"
                                 />
                             </v-col>
@@ -141,6 +143,7 @@
                                     type="tel"
                                     maxlength="11"
                                     dir="ltr"
+                                    placeholder-align="right"
                                     rules="required,phone"
                                     class="light-input"
                                 />
@@ -257,6 +260,7 @@
                                     placeholder="رمز عبور را وارد کنید"
                                     type="password"
                                     dir="ltr"
+                                    placeholder-align="right"
                                     prepend-inner-icon="mdi-lock-outline"
                                     rules="required,password"
                                     class="light-input placeholder-dir"
@@ -274,6 +278,7 @@
                                     placeholder="تکرار رمز عبور را وارد کنید"
                                     type="password"
                                     dir="ltr"
+                                    placeholder-align="right"
                                     prepend-inner-icon="mdi-lock-check-outline"
                                     rules="required,confirm_password"
                                     :rule-context="credentials"
@@ -464,141 +469,6 @@ export default {
 
 
 <style scoped>
-.create-user-page {
-    position: relative;
-    min-height: 100%;
-    overflow: hidden;
-}
-
-.create-user-hero {
-    position: relative;
-    overflow: hidden;
-    border-radius: 16px;
-    animation: fade-up 0.45s ease both;
-}
-
-.hero-pattern {
-    position: absolute;
-    top: -100px;
-    left: 24%;
-    width: 300px;
-    height: 300px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    box-shadow: 0 0 0 35px rgba(255, 255, 255, 0.025), 0 0 0 70px rgba(255, 255, 255, 0.02);
-    pointer-events: none;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 1;
-}
-
-.hero-breadcrumb,
-.hero-meta,
-.hero-meta span {
-    display: flex;
-    align-items: center;
-}
-
-.hero-breadcrumb {
-    flex-wrap: wrap;
-    gap: 8px;
-    color: #cbd5e1;
-}
-
-.breadcrumb-current,
-.hero-title {
-    color: #fff;
-    font-weight: 800;
-}
-
-.hero-icon {
-    display: grid;
-    flex-shrink: 0;
-    width: 60px;
-    height: 60px;
-    place-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.hero-subtitle,
-.hero-meta {
-    color: #cbd5e1;
-}
-
-.hero-meta {
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.hero-meta span {
-    gap: 6px;
-}
-
-.hero-illustration {
-    position: relative;
-    display: grid;
-    height: 180px;
-    place-items: center;
-}
-
-.illustration-orbit {
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    border: 1px solid rgba(191, 219, 254, 0.25);
-    border-radius: 50%;
-}
-
-.illustration-orbit--two {
-    width: 120px;
-    height: 120px;
-    border-style: dashed;
-    animation: rotate-orbit 28s linear infinite;
-}
-
-.illustration-main-icon {
-    display: grid;
-    width: 105px;
-    height: 105px;
-    place-items: center;
-    border-radius: 25px;
-    background: rgba(96, 165, 250, 0.25);
-    transform: rotate(-5deg);
-}
-
-.floating-icon {
-    position: absolute;
-    display: grid;
-    width: 42px;
-    height: 42px;
-    place-items: center;
-    border-radius: 12px;
-    background: #fff;
-    box-shadow: 0 5px 15px rgba(2, 6, 23, 0.15);
-    animation: float-icon 4s ease-in-out infinite;
-}
-
-.floating-icon--one {
-    top: 8px;
-    right: 12px;
-}
-
-.floating-icon--two {
-    bottom: 8px;
-    left: 5px;
-    animation-delay: -1.5s;
-}
-
-.floating-icon--three {
-    right: 0;
-    bottom: 25px;
-    animation-delay: -2.5s;
-}
-
 .page-intro,
 .form-status,
 .actions-description {
@@ -647,27 +517,6 @@ export default {
     margin-bottom: 8px;
 }
 
-.actions-description {
-    gap: 8px;
-    color: #64748b;
-}
-
-.actions-buttons {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.create-submit-btn {
-    min-width: 160px;
-    transition: transform 0.2s ease;
-}
-
-.create-submit-btn:hover {
-    transform: translateY(-2px);
-}
-
 .page-footer {
     display: flex;
     align-items: center;
@@ -678,17 +527,6 @@ export default {
     color: #94a3b8;
 }
 
-@keyframes fade-up {
-    from {
-        opacity: 0; 
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1; 
-        transform: translateY(0);
-    }
-}
-
 @keyframes float-icon {
     0%,
     100% {transform: translateY(0);}
@@ -697,5 +535,58 @@ export default {
 
 @keyframes rotate-orbit {
     to {transform: rotate(360deg);}
+}
+
+.actions-description {
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.actions-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+}
+
+.actions-buttons ::v-deep .v-btn {
+    min-height: 44px;
+    border-radius: 8px;
+    font-family: 'Vazirmatn', sans-serif;
+    font-weight: 700;
+}
+
+.form-actions {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.025);
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.section-heading-text h3 {
+    color: #0f172a;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.section-heading-text p {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.form-section .v-divider {
+    border-color: #e2e8f0;
 }
 </style>

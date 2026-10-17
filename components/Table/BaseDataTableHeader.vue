@@ -1,5 +1,5 @@
 <template>
-    <div class="filter-cell-wrapper ">        
+    <div class="filter-cell-wrapper">        
         <div v-if="column.filterable === false" class="filter-column-title">
             <v-icon v-if="column.icon" small>{{ column.icon }}</v-icon>
             <span>{{ column.text }}</span>
@@ -76,7 +76,7 @@
                 />
 
                 <template v-else-if="dateFilterType === 'between'">
-                    <div class="date-picker-search date-range-fields" >
+                    <div class="date-range-fields" >
                         <BaseButton
                             icon
                             c-class="date-filter-icon-button"
@@ -202,7 +202,7 @@ export default {
             return {
                 offsetY: true,
                 closeOnContentClick: true,
-                contentClass: 'base-select-menu date-filter-menu',
+                contentClass: 'base-select-menu',
                 maxHeight: 200
             }
         }
@@ -348,28 +348,11 @@ export default {
     box-sizing: border-box;
 }
 
-.filter-column-title {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 6px;
-    width: 100%;
-    min-height: 22px;
-    color: #1e40af;
-    font-size: 12px;
-    font-weight: 800;
-    white-space: nowrap;
-}
-
-.filter-column-title ::v-deep .v-icon {
-    color: #2563eb;
-}
-
 .filter-cell-wrapper ::v-deep .v-input {
     width: 100%;
     min-width: 0;
     margin-top: 0;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .filter-cell-wrapper ::v-deep .v-input__control {
@@ -378,6 +361,18 @@ export default {
 
 .filter-cell-wrapper ::v-deep .v-input__slot {
     border-radius: 8px !important;
+}
+
+.filter-column-title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    width: 100%;
+    min-height: 22px;
+    font-size: 13px;
+    font-weight: 800;
+    white-space: nowrap;
 }
 
 .date-filter-wrapper {
@@ -455,6 +450,15 @@ export default {
     margin: 0 !important;
 }
 
+.date-range-fields ::v-deep .date-filter-icon-button {
+    flex: 0 0 32px;
+    width: 32px;
+    min-width: 32px;
+    height: 36px;
+    margin: 0;
+    padding: 0;
+}
+
 .date-filter-icon-button {
     display: inline-flex;
     flex: 0 0 32px;
@@ -465,20 +469,6 @@ export default {
     height: 36px;
     margin: 0;
     padding: 0;
-    color: #475569;
     font-size: 20px;
-}
-
-.date-filter-icon-button ::v-deep .v-icon {
-    color: #2563eb;
-}
-
-.date-range-fields ::v-deep .date-filter-icon-button {
-    flex: 0 0 32px;
-    width: 32px;
-    min-width: 32px;
-    height: 36px;
-    margin: 0;
-    padding: 0;
 }
 </style>

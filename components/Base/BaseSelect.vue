@@ -24,9 +24,11 @@
             :solo="solo"
             :flat="flat"
             :rounded="rounded"
+            :dir="dir"
             :dark="dark"
             :color="color"
             :menu-props="menuProps"
+            :class="[cClass, 'base-select-input']"
             :item-text="itemText"
             :item-value="itemValue"
             @input="$emit('input', $event)"
@@ -170,3 +172,26 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.base-select-input ::v-deep .v-input__slot {
+    display: flex;
+    flex-direction: row-reverse;
+    direction: ltr !important;
+}
+
+.base-select-input ::v-deep .v-input__prepend-inner {
+    order: 2;
+    margin-left: 0;
+    margin-right: 8px;
+}
+
+.base-select-input ::v-deep .v-input__append-inner {
+    order: 0;
+}
+
+.base-select-input ::v-deep .v-select__slot {
+    direction: rtl;
+    text-align: right;
+}
+</style>

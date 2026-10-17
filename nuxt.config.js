@@ -97,7 +97,6 @@ export default {
           info: '#0284c7',
           purple: '#7c3aed',
           hero: '#60a5fa',
-
           secondary: '#475569',
           span: '#64748b',
           warning: '#d97706',

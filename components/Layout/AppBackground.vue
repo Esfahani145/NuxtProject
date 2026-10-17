@@ -30,9 +30,10 @@ export default {
 </script>
 
 <style scoped>
+
 .clean-tech-bg {
     position: relative;
-    background-color: #f8fafc;
+    background-color: #eef2f7;
     min-height: calc(100vh - 120px);
     width: 100%;
     overflow: hidden;
@@ -40,22 +41,19 @@ export default {
 
 .grid-pattern {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        radial-gradient(#1e293b 1.6px, transparent 1.6px),
-        linear-gradient(to right, rgba(30, 41, 59, 0.06) 1px, transparent 1px);
+    inset: 0;
+    background-image:
+        radial-gradient(rgba(51, 65, 85, 0.12) 1.2px, transparent 1.2px),
+        linear-gradient(to right, rgba(51, 65, 85, 0.035) 1px, transparent 1px);
     background-size: 28px 28px, 56px 56px;
-    opacity: 0.85;
+    opacity: 0.7;
     pointer-events: none;
     z-index: 1;
 }
 
 .circuit-ring {
     position: absolute;
-    border: 2px dashed rgba(30, 41, 59, 0.22);
+    border: 2px dashed rgba(51, 65, 85, 0.15);
     border-radius: 50%;
     pointer-events: none;
     z-index: 1;
@@ -77,7 +75,7 @@ export default {
 
 .dark-shape {
     position: absolute;
-    opacity: 0.16;
+    opacity: 0.09;
     pointer-events: none;
     z-index: 1;
 }

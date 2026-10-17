@@ -311,7 +311,7 @@
                                 color="secondary"
                                 @click="$router.push('/table/users')"
                             >
-                                <v-icon right small>mdi-arrow-right</v-icon>
+                                <v-icon right small class="ml-2">mdi-arrow-right</v-icon>
                                 بازگشت به  جدول کاربران
                             </BaseButton>
 
@@ -320,7 +320,7 @@
                                 color="primary"
                                 class="create-submit-btn"
                             >
-                                <v-icon center small>mdi-account-plus-outline</v-icon>
+                                <v-icon center small class="ml-2">mdi-account-plus-outline</v-icon>
                                 {{ editUser ? 'ذخیره تغیرات' : 'ثبت کاربر جدید'}}
                             </BaseButton>
                         </div>

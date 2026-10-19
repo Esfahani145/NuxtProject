@@ -44,7 +44,7 @@
 
                 <div v-else>
                     <div class="d-flex align-center mb-6">
-                        <v-icon color="info " x-large class="ml-3">mdi-heart</v-icon>
+                        <v-icon color="info " x-large class="ml-3">mdi-heart-outline</v-icon>
                         <h1 class="font-weight-bold grey--text text--darken-3">لیست علاقه مندی ها</h1>
                     </div>
 

@@ -1,7 +1,7 @@
 <template>
     <v-container class="py-8">
         <v-row align="center" class="mb-6" no-gutters>
-            <v-icon color="blue-grey darken-4" x-large class="ml-3">
+            <v-icon color="info" x-large class="ml-3">
                 mdi-account-cog
             </v-icon>
 
@@ -16,7 +16,7 @@
             </div>
         </v-row>
 
-        <v-card max-width="1000" class="mx-auto rounded-xl" elevation="3">
+        <v-card class="mx-auto rounded-xl" elevation="3">
             <v-sheet color="primary" class="pa-6 pa-md-8 white--text">
                 <div class="d-flex align-center justify-space-between flex-wrap">
                     <div class="d-flex align-center">
@@ -131,7 +131,7 @@
 
                                 <div class="flex-grow-1">
                                     <div class="font-weight-bold grey--text text--darken-3">
-                                        علاقه‌مندی‌ها
+                                        علاقه مندی ها
                                     </div>
 
                                     <div class="grey--text text--darken-1 mt-1">

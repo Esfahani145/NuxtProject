@@ -103,7 +103,7 @@ export const actions = {
 
     toggleFavorite({ commit, state, rootState }, product) {
         if (!rootState.auth.token) {
-            throw new Error('برای افزودن محصول به علاقه‌مندی‌ها ابتدا وارد حساب کاربری شوید')
+            throw new Error('برای افزودن محصول به علاقه مندی ها ابتدا وارد حساب کاربری شوید')
         }
 
         commit('TOGGLE_FAVORITE', product)

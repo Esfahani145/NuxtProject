@@ -71,7 +71,7 @@
                             <v-icon>mdi-heart-outline</v-icon>
                         </v-list-item-icon>
                         <v-list-item-title class="font-weight-bold">
-                            علاقه‌مندی‌ها
+                            علاقه مندی ها
                         </v-list-item-title>
                     </v-list-item>
 
@@ -194,10 +194,10 @@
                             mdi-heart-outline
                         </v-icon>
 
-                        <span>علاقه‌مندی‌ها</span>
+                        <span>علاقه مندی ها</span>
 
                         <v-chip 
-                            v-if="isAuthenticated && $store.getters.favoritesCount > 0"
+                            v-if="showFavoritesCount"
                             x-small
                             color="info"
                             text-color="white"
@@ -219,7 +219,7 @@
 
                         <span>سبد خرید</span>
 
-                        <v-chip v-if="isAuthenticated && $store.getters.cartTotalCount > 0"
+                        <v-chip v-if="showCartTotalCount"
                             x-small
                             color="info"
                             text-color="white"
@@ -300,6 +300,12 @@ export default {
         },
         cartTotalCount() {
             return this.$store?.getters?.cartTotalCount || 0
+        },
+        showFavoritesCount() {
+            return this.isAuthenticated && this.favoritesCount > 0
+        },
+        showCartTotalCount() {
+            return this.isAuthenticated && this.cartTotalCount > 0
         }
     },
 

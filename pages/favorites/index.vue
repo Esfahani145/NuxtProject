@@ -5,7 +5,7 @@
                 <v-col cols="12" sm="10" md="8" lg="6">
                     <BaseRequireLogin
                         title="ورود به حساب کاربری"
-                        description="برای مشاهده لیست علاقه‌مندی‌ها، لطفاً ابتدا وارد حساب کاربری خود شوید."
+                        description="برای مشاهده لیست علاقه مندی ها، ابتدا وارد حساب کاربری خود شوید."
                         icon="mdi-heart-remove-outline"
                     />
                 </v-col>
@@ -22,11 +22,11 @@
                             </div>
 
                             <h2 class="font-weight-bold grey--text text--darken-3 mb-3">
-                                لیست علاقه‌مندی‌های شما خالی است
+                                لیست علاقه مندی های شما خالی است.   
                             </h2>
 
                             <p class="grey--text text--darken-1 mb-6">
-                                شما هنوز هیچ محصول یا خدماتی را به لیست علاقه‌مندی‌های خود اضافه نکرده‌اید.
+                                شما هنوز هیچ محصول یا خدماتی را به لیست علاقه مندی های خود اضافه نکرده‌اید.
                             </p>
 
                             <BaseButton
@@ -44,8 +44,8 @@
 
                 <div v-else>
                     <div class="d-flex align-center mb-6">
-                        <v-icon color="error" x-large class="ml-3">mdi-heart</v-icon>
-                        <h1 class="font-weight-bold grey--text text--darken-3">لیست علاقه‌مندی‌ها</h1>
+                        <v-icon color="info " x-large class="ml-3">mdi-heart</v-icon>
+                        <h1 class="font-weight-bold grey--text text--darken-3">لیست علاقه مندی ها</h1>
                     </div>
 
                     <v-row align="stretch">

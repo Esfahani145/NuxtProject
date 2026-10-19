@@ -133,9 +133,9 @@ export default {
                 await this.$store.dispatch('toggleFavorite', this.product)
 
                 if (!was_favorite) {
-                    this.$toast.info('محصول به علاقه‌مندی‌ها اضافه شد')
+                    this.$toast.info('محصول به علاقه مندی ها اضافه شد')
                 } else {
-                    this.$toast.info('محصول از علاقه‌مندی‌ها حذف شد')
+                    this.$toast.info('محصول از علاقه مندی ها حذف شد')
                 }
             } catch (error) {
                 this.$toast.error(error.message)

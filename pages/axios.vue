@@ -12,8 +12,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
     data() {
         return {
@@ -27,38 +25,44 @@ export default {
 
     methods: {
         async sendForm() {
-            const response = await axios.post('/users',{
-                data: this.form
+            const response = await this.$reqAPI({
+                url: '/users',
+                data: this.form,
             })
             console.log(response.data)
         },
   
         async getData() {
-            const response = await axios.get('/users',{
-              params: {
-                  ID: this.userId
-              }
+            const response = await this.$reqAPI({
+                url: '/users',
+                params: { ID: this.userId },
+                method: 'get'
             })
             console.log(response.data)
         },
+
         async putData() {
-            const response = await axios.put(`/users/${this.userId}`, this.form)
+            const response = await this.$reqAPI({
+                url: `/users/${this.userId}`, 
+                data: this.form,
+                method: 'put'
+            })
             console.log(response.data)
         },
 
         async patchData() {
-            const response = await axios({
-                method: 'patch',
+            const response = await this.$reqAPI({
                 url: `/api/users/${this.userId}`,
-                data: { foo: this.form.foo }
+                data: { foo: this.form.foo },
+                method: 'patch'
               })
             console.log(response.data)
         },
 
         async deleteData() {
-            const response = await axios({
-                method: 'delete',
-                url: `/api/users/${this.userId}`
+            const response = await this.$reqAPI({
+                url: `/api/users/${this.userId}`,
+                method: 'delete'
             })
             console.log(response.status)
         }

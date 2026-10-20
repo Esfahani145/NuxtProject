@@ -13,5 +13,5 @@ export default function ({ $axios }, inject) {
         }
         return request()
     }
-    inject('reqApi', req_api)
+    inject('reqAPI', req_api)
 }

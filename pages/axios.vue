@@ -25,7 +25,7 @@ export default {
 
     methods: {
         async sendForm() {
-            const response = await this.$reqAPI({
+            const response = await this.$reqApi({
                 url: '/users',
                 data: this.form,
             })
@@ -33,36 +33,32 @@ export default {
         },
   
         async getData() {
-            const response = await this.$reqAPI({
+            const response = await this.$reqApi.get({
                 url: '/users',
-                params: { ID: this.userId },
-                method: 'get'
+                params: { ID: this.userId }
             })
             console.log(response.data)
         },
 
         async putData() {
-            const response = await this.$reqAPI({
+            const response = await this.$reqApi.put({
                 url: `/users/${this.userId}`, 
-                data: this.form,
-                method: 'put'
+                data: this.form
             })
             console.log(response.data)
         },
 
         async patchData() {
-            const response = await this.$reqAPI({
+            const response = await this.$reqApi.patch({
                 url: `/api/users/${this.userId}`,
-                data: { foo: this.form.foo },
-                method: 'patch'
+                data: { foo: this.form.foo }
               })
             console.log(response.data)
         },
 
         async deleteData() {
-            const response = await this.$reqAPI({
-                url: `/api/users/${this.userId}`,
-                method: 'delete'
+            const response = await this.$reqApi.delete({
+                url: `/api/users/${this.userId}`
             })
             console.log(response.status)
         }

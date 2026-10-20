@@ -1,11 +1,11 @@
 export default function ({ $axios }, inject) {
-    const req_api = (url, method = 'post', headers, params, data, config = {}) => {
+    const req_api = ({ url, method = 'post', headers, params, data, ...config }) => {
         const methods = {
-            get: () => $axios.get(url, { headers, params, ...config }),
-            post: () => $axios.post(url, data, { headers, params, ...config }),
-            put: () => $axios.put(url, data, { headers, params, ...config }),
-            patch: () => $axios.patch(url, data, { headers, params, ...config }),
-            delete: () => $axios.delete(url, { headers, params, data, ...config }),
+            get: () => $axios.get(url, { ...config, headers, params }),
+            post: () => $axios.post(url, data, { ...config, headers, params }),
+            put: () => $axios.put(url, data, { ...config, headers, params }),
+            patch: () => $axios.patch(url, data, { ...config, headers, params }),
+            delete: () => $axios.delete(url, { ...config, headers, params, data }),
         }
         const request = methods[method]
         if (!request) {
@@ -13,6 +13,5 @@ export default function ({ $axios }, inject) {
         }
         return request()
     }
-
     inject('reqApi', req_api)
 }

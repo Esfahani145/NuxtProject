@@ -402,7 +402,7 @@ export default {
 
 .user-floating-icon--one {
     top: 8px;
-    right: 12px;
+    right: 15px;
 }
 
 .user-floating-icon--two {
@@ -493,18 +493,18 @@ export default {
 
 .hero-motion-icon--one {
     top: 22px;
-    right: 48%;
+    right: 50%;
 }
 
 .hero-motion-icon--two {
-    right: 28%;
+    right: 60%;
     bottom: 28px;
     animation-delay: -1.4s;
 }
 
 .hero-motion-icon--three {
     top: 42%;
-    right: 5%;
+    left: 5%;
     animation-delay: -2.3s;
 }
 

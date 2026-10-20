@@ -32,8 +32,9 @@ export default {
     '~/plugins/navigation.js',
     '~/plugins/auth.js',
     '~/plugins/toJalali.js',
-    {src: '~/plugins/persian-datepicker.js', mode: 'client'}
-    ],
+    {src: '~/plugins/persian-datepicker.js', mode: 'client'},
+    '~/plugins/axios.js'
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components  
   components: [

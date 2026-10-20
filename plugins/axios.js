@@ -1,26 +1,24 @@
 export default function ({ $axios }, inject) {
-    const request = (method, { url, headers, params, data, ...config } = {}) => {
-        const options = { ...config, headers, params }
+    const req_api = (url, method = 'post', config = {}) => {
+        if( typeof method === 'object' && method !==null){
+            config = method
+            method = 'post'
+        }
+        const { headers = {}, params = {}, data, ...options} = config
+
         const methods = {
-            get: () => $axios.get(url, options),
-            post: () => $axios.post(url, data, options),
-            put: () => $axios.put(url, data, options),
-            patch: () => $axios.patch(url, data, options),
-            delete: () => $axios.delete(url, { ...options, data }),
+            get: () => $axios.get(url, { ...options, headers, params }),
+            post: () => $axios.post(url, data, { ...options, headers, params }),
+            put: () => $axios.put(url, data, { ...options, headers, params }),
+            patch: () => $axios.patch(url, data, { ...options, headers, params }),
+            delete: () => $axios.delete(url, { ...options, headers, params, data})
         }
-        const send_request = methods[method]
-        if (!send_request) {
-            throw new Error(`Unsupported HTTP method: ${method}`)
+
+        const request = methods[method.toLowerCase()]
+        if (!request) {
+            return Promise.reject(new Error(`Unsupported HTTP method: ${method}`))
         }
-        return send_request()
+        return request()
     }
-
-    const req_api = (config) => request('post', config)
-    req_api.get = (config) => request('get', config)
-    req_api.post = (config) => request('post', config)
-    req_api.put = (config) => request('put', config)
-    req_api.patch = (config) => request('patch', config)
-    req_api.delete = (config) => request('delete', config)
-
     inject('reqApi', req_api)
 }

@@ -103,6 +103,10 @@ body {
     .base-data-table tbody td {
         white-space: nowrap;
     }
+
+    .auth-brand-panel {
+        display: none;
+    }
 }
 
 @media (max-width: 768px) {

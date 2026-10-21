@@ -1,11 +1,6 @@
 
 export default function ({ $axios }, inject) {
     const req_api = (url, method = 'post', config = {}) => {
-        if (typeof method === 'object' && method !== null) {
-            config = method
-            method = 'post'
-        }
-
         if (typeof method !== 'string') {
             return Promise.reject(new Error('HTTP method must be a string'))
         }

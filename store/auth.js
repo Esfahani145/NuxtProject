@@ -44,14 +44,16 @@ export const actions = {
             const result = response.data
 
             if (result.status !== 200) {
-                throw new Error(result.message || 'ورود ناموفق بود')
+                const message = result.message === 'شماره در سامانه ثبت نام ندارید'
+                    ? 'شماره تلفن شما در سامانه ثبت نشده است'
+                    : result.message || 'ورود ناموفق'
+                throw new Error(message)
             }
-
             const token = result.data.Authorization
             const user = result.data.user
 
             if (!token) {
-                throw new Error('توکن ورود در پاسخ سرور وجود ندارد')
+                throw new Error('توکن وجود ندارد')
             }
 
             commit('SET_TOKEN', token)
@@ -63,12 +65,13 @@ export const actions = {
             return result
         }).catch((error) => {
             console.error(error)
-            throw new Error(
-                error.response?.data?.message ||
-                error.message ||
+            const message = error.response?.data?.message ||
+                (error.message === 'Network Error'
+                    ? 'ارتباط با سرور برقرار نشد. لطفاً اتصال اینترنت خود را بررسی کنید.'
+                    : error.message) ||
                 'ورود ناموفق بود'
-            )
-        }).finally(() => {
+            throw new Error(message)
+            }).finally(() => {
             console.log('درخواست ورود انجام شد')
         })
     },

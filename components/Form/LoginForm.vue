@@ -47,9 +47,10 @@
             <v-col cols="12" class="pt-2">
                 <BaseButton
                     type="submit"
-                    color="primary"
                     :block="true"
-                    c-class="corporate-btn-primary"
+                    c-class="white--text submit-btn rounded-lg elevation-0 font-weight-bold"
+                    x-large
+                    color="#2563eb"
                 >
                     ورود به حساب
                 </BaseButton>

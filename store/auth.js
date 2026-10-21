@@ -33,39 +33,44 @@ export const actions = {
     },
 
     login({ commit }, credentials) {
-        if (!process.client) return
+        if (!process.client) return Promise.resolve()
 
-        const input_phone = String(credentials.phone).trim()
-        const input_password = String(credentials.password).trim()
-        const static_user = {phone: '09111111111', password: '12345678', full_name: 'کاربر', email: 'user@example.com', national_code: '0000000000', role: 'کاربر عادی'}
+        return this.$reqAPI('/auth/login', {
+            data: {
+                username: String(credentials.phone).trim(),
+                password: credentials.password
+            }
+        }).then((response) => {
+            const result = response.data
 
-        if (input_phone === static_user.phone && input_password === static_user.password) {
-            const token = 'static-user-token'
+            if (result.status !== 200) {
+                throw new Error(result.message || 'ورود ناموفق بود')
+            }
+
+            const token = result.data.Authorization
+            const user = result.data.user
+
+            if (!token) {
+                throw new Error('توکن ورود در پاسخ سرور وجود ندارد')
+            }
 
             commit('SET_TOKEN', token)
-            commit('SET_USER', static_user)
+            commit('SET_USER', user)
 
             localStorage.setItem('user_token', token)
-            localStorage.setItem('user_info', JSON.stringify(static_user))
+            localStorage.setItem('user_info', JSON.stringify(user))
 
-            return
-        }
-
-        const saved_users = localStorage.getItem('users')
-        const users = saved_users ? JSON.parse(saved_users) : []
-        const user_info = users.find(user => user.phone === input_phone && user.password === input_password)
-
-        if (!user_info) {
-            throw new Error('شماره موبایل یا رمز عبور اشتباه است')
-        }
-
-        const token = 'mock-token-123456'
-
-        commit('SET_TOKEN', token)
-        commit('SET_USER', user_info)
-
-        localStorage.setItem('user_token', token)
-        localStorage.setItem('user_info', JSON.stringify(user_info))
+            return result
+        }).catch((error) => {
+            console.error(error)
+            throw new Error(
+                error.response?.data?.message ||
+                error.message ||
+                'ورود ناموفق بود'
+            )
+        }).finally(() => {
+            console.log('درخواست ورود انجام شد')
+        })
     },
 
     signup(_, credentials) {

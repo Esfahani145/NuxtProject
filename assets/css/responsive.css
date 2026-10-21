@@ -96,7 +96,7 @@ body {
         height: 220px;
     }
 
-        .base-data-table .v-data-table-header th {
+    .base-data-table .v-data-table-header th {
         min-width: 130px;
     }
 
@@ -106,6 +106,19 @@ body {
 
     .auth-brand-panel {
         display: none;
+    }
+
+    .form-side-wrapper {
+        left: 16px;
+        right: 16px;
+        top: 16px;
+        bottom: 16px;
+        width: auto;
+    }
+
+    .auth-card-glass {
+        padding: 20px !important;
+        border-radius: 20px;
     }
 }
 

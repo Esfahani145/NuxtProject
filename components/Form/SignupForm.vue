@@ -462,4 +462,71 @@ export default {
 .placeholder-dir {
     text-align: left !important;
 }
+
+.white-detail-card {
+    background: rgba(255, 255, 255, 0.85) !important;
+    border-radius: 16px !important;
+    padding: 16px !important;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.section-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #eff6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.section-heading-text h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.section-heading-text p {
+    font-size: 11px;
+    color: #64748b;
+    margin: 0;
+}
+
+.auth-section-divider {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    border-color: #e2e8f0 !important;
+}
+
+.form-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.required-mark {
+    color: #ef4444;
+}
+
+.security-note {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #6b21a8;
+    background: #faf5ff;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
 </style>

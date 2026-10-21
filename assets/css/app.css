@@ -45,6 +45,11 @@ html::-webkit-scrollbar-thumb:hover {
 .font-size-14 { font-size: 14px; }
 .font-size-12 { font-size: 12px; }
 .font-size-8 { font-size: 8px; }
+.font-size-11 { font-size: 11px; }
+.font-size-12 { font-size: 12px; }
+.font-size-13 { font-size: 13px; }
+.font-size-15 { font-size: 15px; }
+
 
 .blue-accent-line {
     width: 4px !important;
@@ -82,7 +87,6 @@ html::-webkit-scrollbar-thumb:hover {
 
 .line-clamp-3 {
     display: -webkit-box;
-    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -740,3 +744,7 @@ html::-webkit-scrollbar-thumb:hover {
     background: #dbeafe !important;
     color: #1d4ed8 !important;
 }
+
+.opacity-70 { opacity: 0.7; }
+.opacity-80 { opacity: 0.8; }
+.opacity-90 { opacity: 0.9; }

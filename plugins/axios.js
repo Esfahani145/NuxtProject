@@ -1,6 +1,13 @@
-
 export default function ({ $axios }, inject) {
+    const base_url = 'https://test-api.sehregoli.com/api/v1/'
+    $axios.setBaseURL(base_url)
+
     const req_api = (url, method = 'post', config = {}) => {
+        if (typeof method === 'object' && method !== null) {
+            config = method
+            method = 'post'
+        }
+        
         if (typeof method !== 'string') {
             return Promise.reject(new Error('HTTP method must be a string'))
         }
@@ -14,11 +21,11 @@ export default function ({ $axios }, inject) {
             delete: () => $axios.delete(url, { ...options, headers, params, data })
         }
         const request = methods[method.toLowerCase()]
-        
+
         if (!request) {
             return Promise.reject(new Error(`Unsupported HTTP method: ${method}`))
         }
         return request()
     }
-    inject('reqApi', req_api)
+    inject('reqAPI', req_api)
 }

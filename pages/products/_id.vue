@@ -89,23 +89,18 @@ export default {
     
     asyncData({ $reqAPI, params, error }) {
         const id = String(params.id)
+        console.log('PARAM ID:', params.id)
 
-        if (!id.startsWith('api_')) {
-            try {
-                const json_data = require('~/static/data/data.json')
-                const product = (json_data.products || []).find((item) => String(item.id) === id)
+        try {
+            const json_data = require('~/static/data/data.json')
+            const product = (json_data.products || []).find((item) => String(item.id) === id)
 
-                if (product) {
-                    return { product }
-                }
-            } catch (err) {
-                console.error(err)
+            if (product) {
+                return { product }
             }
-
-            return error({ statusCode: 404, message: 'محصول یافت نشد' })
+        } catch (err) {
+            console.error(err)
         }
-
-        const api_id = id.replace('api_', '')
 
         return $reqAPI('/product', 'post').then((response) => {
             const result = response.data
@@ -115,13 +110,13 @@ export default {
             }
 
             const list = result.data?.model?.data || []
-            const item = list.find((p) => String(p.id) === api_id)
+            const item = list.find((p) => String(p.id) === id)
 
             if (!item) {
                 return error({ statusCode: 404, message: 'محصول یافت نشد' })
             }
 
-            return { product: { ...item, id: `api_${item.id}` } }
+            return { product: item }
         }).catch((err) => {
             console.error(err)
             return error({ statusCode: 500, message: 'خطا در دریافت اطلاعات' })

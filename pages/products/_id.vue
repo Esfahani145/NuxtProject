@@ -86,20 +86,41 @@
 <script>
 export default {
     name: 'ProductDetailPage',
-    asyncData({ params, error }) {
-        try {
-            const data = require('~/static/data/data.json')
+    asyncData({ $reqAPI, params, error }) {
+        return $reqAPI('/product', 'get').then((response) => {
+            const result = response.data
+            if (result.status !== 200) {
+                throw new Error(result.message || 'دریافت محصول ناموفق بود')
+            }
+
+            const products = result.data || []
             const product_id = parseInt(params.id, 10)
-            const product = data.products.find((item) => item.id === product_id)
+            const product = products.find((item) => String(item.id) === String(product_id))
 
             if (!product) {
                 return error({statusCode: 404, message: 'محصول یافت نشد'})
             }
-
             return { product }
-        } catch (e) {
+        }).catch((err) => {
+            console.error(err)
             return error({statusCode: 500, message: 'خطا در دریافت اطلاعات'})
-        }
+        }).finally(() => {
+            console.log('درخواست با موفقیت انجام شد')
+        })
+
+        // try {
+        //     const data = require('~/static/data/data.json')
+        //     const product_id = parseInt(params.id, 10)
+        //     const product = data.products.find((item) => item.id === product_id)
+
+        //     if (!product) {
+        //         return error({statusCode: 404, message: 'محصول یافت نشد'})
+        //     }
+
+        //     return { product }
+        // } catch (e) {
+        //     return error({statusCode: 500, message: 'خطا در دریافت اطلاعات'})
+        // }
     },
 
     computed: {

@@ -284,21 +284,40 @@ export default {
     },
 
     methods: {
-        async loadProduct() {
+        loadProduct() {
             if (this.product_loading) { return }
-
             this.product_loading = true
 
-            try {
-                const data = await import('~/static/data/data.json')
-                this.products = data.default
-                    ? data.default.products || []
-                    : data.products || []
-            } catch (error) {
-                this.toast.error('خطا در بارگذاری محصولات:', error)
-            } finally {
+            return this.$reqAPI('/product', 'get').then((response) => {
+                const result = response.data
+                if (result.status !== 200){
+                    throw new Error(result.message || 'دریافت محصول ناموفق بود')
+                }
+
+                this.products = result.data || []
+
+            }).catch((err) => {
+                console.error(err)
+                this.$toast.error(err.message || 'خطا در بارگذاری محصولات')
+            }).finally(() => {
+                console.log('درخواست با موفقیت انجام شد')
                 this.product_loading = false
-            }
+            })
+
+            // if (this.product_loading) { return }
+
+            // this.product_loading = true
+
+            // try {
+            //     const data = await import('~/static/data/data.json')
+            //     this.products = data.default
+            //         ? data.default.products || []
+            //         : data.products || []
+            // } catch (error) {
+            //     this.toast.error('خطا در بارگذاری محصولات:', error)
+            // } finally {
+            //     this.product_loading = false
+            // }
         },
 
         async reloadProducts() {

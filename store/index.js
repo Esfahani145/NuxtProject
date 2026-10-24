@@ -92,7 +92,7 @@ export const mutations = {
 export const actions = {
     addToCart({ commit, state, rootState }, product) {
         if (!rootState.auth.token) {
-            throw new Error('برای افزودن محصول به سبد خرید ابتدا وارد حساب کاربری شوید')
+            this.$toast.error('برای افزودن محصول به سبد خرید ابتدا وارد حساب کاربری شوید')
         }
 
         commit('ADD_TO_CART', product)
@@ -103,7 +103,7 @@ export const actions = {
 
     toggleFavorite({ commit, state, rootState }, product) {
         if (!rootState.auth.token) {
-            throw new Error('برای افزودن محصول به علاقه مندی ها ابتدا وارد حساب کاربری شوید')
+            this.$toast.error('برای افزودن محصول به علاقه مندی ها ابتدا وارد حساب کاربری شوید')
         }
 
         commit('TOGGLE_FAVORITE', product)

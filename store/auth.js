@@ -47,13 +47,13 @@ export const actions = {
                 const message = result.message === 'شماره در سامانه ثبت نام ندارید'
                     ? 'شماره تلفن شما در سامانه ثبت نشده است'
                     : result.message || 'ورود ناموفق'
-                throw new Error(message)
+                this.$toast.error(message)
             }
             const token = result.data.Authorization
             const user = result.data.user
 
             if (!token) {
-                throw new Error('توکن وجود ندارد')
+                this.$toast.error('توکن وجود ندارد')
             }
 
             commit('SET_TOKEN', token)
@@ -70,7 +70,7 @@ export const actions = {
                     ? 'ارتباط با سرور برقرار نشد. لطفاً اتصال اینترنت خود را بررسی کنید.'
                     : error.message) ||
                 'ورود ناموفق بود'
-            throw new Error(message)
+            this.$toast.error(message)
             }).finally(() => {
             console.log('درخواست ورود انجام شد')
         })
@@ -87,11 +87,11 @@ export const actions = {
 
         if (existing_user) {
             if (existing_user.national_code === input_national_code) {
-                throw new Error('کاربری با این کد ملی وجود دارد')
+                this.$toast.error('کاربری با این کد ملی وجود دارد')
             }
 
             if (existing_user.phone === input_phone) {
-                throw new Error('کاربری با این شماره تلفن وجود دارد')
+                this.$toast.error('کاربری با این شماره تلفن وجود دارد')
             }
         }
 
@@ -120,7 +120,7 @@ export const actions = {
         const current_user = state.user
 
         if (!current_user) {
-            throw new Error('کاربر وارد نشده است')
+            this.$toast.error('کاربر وارد نشده است')
         }
 
         const input_phone = String(credentials.phone).trim()

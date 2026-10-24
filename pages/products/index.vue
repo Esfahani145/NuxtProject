@@ -50,54 +50,44 @@ export default {
         BaseHero
     },
 
+    mounted() {
+        this.$reqAPI('/product', 'post').then((res) => {
+            console.log('POST:', JSON.stringify(res.data))
+        })
+    },
+
     asyncData({ $reqAPI }) {
-        return $reqAPI('/product', 'get').then((response) => {
+        let json_products = []
+        let stats = []
+
+        try {
+            const json_data = require('~/static/data/data.json')
+            json_products = json_data.products || []
+            stats = json_data.stats || []
+        } catch (err) {
+            console.error('Error loading data.json:', err)
+        }
+
+        return $reqAPI('/product', 'post').then((response) => {
             const result = response.data
+
             if (result.status !== 200) {
-                throw new Error(result.message || 'دریافت محصول ناموفق بود')
+                this.$toast.error(result.message || 'دریافت محصول ناموفق بود')
             }
 
-            const products = result.data || []
-            console.log('Products:', products)
+            return result.data?.model?.data || []
+        }).catch((err) => {
+            console.error(err)
+            return []
+        }).then((api_products) => {
+            const products = [...json_products, ...api_products]
+
             return {
                 all_products: products,
                 product_list: products,
-                stats: []
+                stats
             }
-            
-        }).catch((err) => {
-            console.error(err)
-
-            return {
-                all_products: [],
-                product_list: [],
-                stats: []
-            }
-
-        }).finally(() => {
-            console.log('درخواست با موفقیت انجام شد')
         })
-        
-
-        // try {
-        //     const json_data = require('~/static/data/data.json')
-        //     const products = json_data.products || []
-        //     const stats = json_data.stats || []
-
-        //     return {
-        //         all_products: products,
-        //         product_list: products,
-        //         stats
-        //     }
-        // } catch (err) {
-        //     console.error('Error loading products.json:', err)
-
-        //     return {
-        //         all_products: [],
-        //         product_list: [],
-        //         stats: []
-        //     }
-        // }
     },
 
     data() {

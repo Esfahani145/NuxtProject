@@ -86,26 +86,45 @@
 <script>
 export default {
     name: 'ProductDetailPage',
+    
     asyncData({ $reqAPI, params, error }) {
-        return $reqAPI('/product', 'get').then((response) => {
+        const id = String(params.id)
+
+        if (!id.startsWith('api_')) {
+            try {
+                const json_data = require('~/static/data/data.json')
+                const product = (json_data.products || []).find((item) => String(item.id) === id)
+
+                if (product) {
+                    return { product }
+                }
+            } catch (err) {
+                console.error(err)
+            }
+
+            return error({ statusCode: 404, message: 'محصول یافت نشد' })
+        }
+
+        const api_id = id.replace('api_', '')
+
+        return $reqAPI('/product', 'post').then((response) => {
             const result = response.data
+
             if (result.status !== 200) {
-                throw new Error(result.message || 'دریافت محصول ناموفق بود')
+                this.$toast.error(result.message || 'دریافت محصول ناموفق بود')
             }
 
-            const products = result.data || []
-            const product_id = parseInt(params.id, 10)
-            const product = products.find((item) => String(item.id) === String(product_id))
+            const list = result.data?.model?.data || []
+            const item = list.find((p) => String(p.id) === api_id)
 
-            if (!product) {
-                return error({statusCode: 404, message: 'محصول یافت نشد'})
+            if (!item) {
+                return error({ statusCode: 404, message: 'محصول یافت نشد' })
             }
-            return { product }
+
+            return { product: { ...item, id: `api_${item.id}` } }
         }).catch((err) => {
             console.error(err)
-            return error({statusCode: 500, message: 'خطا در دریافت اطلاعات'})
-        }).finally(() => {
-            console.log('درخواست با موفقیت انجام شد')
+            return error({ statusCode: 500, message: 'خطا در دریافت اطلاعات' })
         })
 
         // try {

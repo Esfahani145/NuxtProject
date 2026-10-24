@@ -288,13 +288,13 @@ export default {
             if (this.product_loading) { return }
             this.product_loading = true
 
-            return this.$reqAPI('/product', 'get').then((response) => {
+            return this.$reqAPI('/product').then((response) => {
                 const result = response.data
                 if (result.status !== 200){
-                    throw new Error(result.message || 'دریافت محصول ناموفق بود')
+                    this.$toast.error(result.message || 'دریافت محصول ناموفق بود')
                 }
 
-                this.products = result.data || []
+                this.products = result.data?.model?.data
 
             }).catch((err) => {
                 console.error(err)
@@ -314,7 +314,7 @@ export default {
             //         ? data.default.products || []
             //         : data.products || []
             // } catch (error) {
-            //     this.toast.error('خطا در بارگذاری محصولات:', error)
+            //     this.$toast.error('خطا در بارگذاری محصولات:', error)
             // } finally {
             //     this.product_loading = false
             // }

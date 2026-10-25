@@ -8,7 +8,7 @@
             :disable-filtering="disableFiltering"
             :disable-pagination="disablePagination"
             :disable-sort="disableSort"
-            :loading="loading"
+            :loading="internalLoading"
             :loading-text="loadingText"
             :no-data-text="noDataText"
             :no-results-text="noResultsText"
@@ -181,10 +181,6 @@ export default {
             type: Array,
             default: () => []
         },
-        items: {
-            type: Array,
-            default: () => []
-        },
         columns: {
             type: Array,
             default: () => []
@@ -198,10 +194,6 @@ export default {
             default: false
         },
         disableSort: {
-            type: Boolean,
-            default: false
-        },
-        loading: {
             type: Boolean,
             default: false
         },
@@ -368,6 +360,11 @@ export default {
         addButtonRoute: {
             type: [String, Object],
             default: ''
+        },
+        
+        url: {
+            type: String,
+            default: ''
         }
     },
 
@@ -378,7 +375,9 @@ export default {
             selectedItem: null,
             actionDialog: false,
             // actionType: null,
-            dateFilterType: {}
+            dateFilterType: {},
+            internalItems: [],
+            internalLoading: false
         }
     },
 
@@ -392,6 +391,7 @@ export default {
         },
 
         filteredItems() {
+            const items = this.internalItems
             const has_filter = Object.keys(this.appliedColumnFilters).some(column_key => {
                 const column = this.filterableColumns.find(c => this.getColumnKey(c) === column_key)
                 const value = this.appliedColumnFilters[column_key]
@@ -403,9 +403,9 @@ export default {
                 return value !== undefined && value !== null && String(value).trim() !== ''
             })
 
-            if (!has_filter) { return this.items }
+            if (!has_filter) { return items }
 
-            return this.items.filter(item => {
+            return items.filter(item => {
                 return this.filterableColumns.every(column => {
                     const column_key = this.getColumnKey(column)
                     const filter_value = this.appliedColumnFilters[column_key]
@@ -641,16 +641,13 @@ export default {
                 }
                 // return
             }
-            // this.selectedItem = item
-            // this.actionType = 'edit'
-            // this.actionDialog = true
         },
 
         handleDelete(item) {
             const item_key = this.getItemKey(item)
             if (item_key === undefined || item_key === null) { return }
-            const updated_items = this.items.filter(i => this.getItemKey(i) !== item_key)
-            this.$emit('update:items', updated_items)
+            this.internalItems = this.internalItems.filter(i => this.getItemKey(i) !== item_key)
+            this.$emit('items-loaded', this.internalItems)
         },
 
         handleFilterTypeChange({ columnKey, type }) {
@@ -679,11 +676,11 @@ export default {
         },
 
         async reloadTable() {
-            if (this.loading) { return }
+            if (this.internalLoading) { return }
             this.clearAllFilters()
             this.$emit('reload')            
-            if (this.reloadHandler) {
-                await this.reloadHandler()
+            if (this.url) {
+                await this.fetchItems()
             }
         },
 
@@ -696,7 +693,33 @@ export default {
             if (slotProps.on && typeof slotProps.on['update:options'] === 'function') {
                 slotProps.on['update:options'](options)
             }
+        },
+
+        fetchItems() {
+            if (!this.url || this.internalLoading) { return Promise.resolve() }
+            this.internalLoading = true
+
+            return this.$reqAPI(this.url).then((response) => {
+                const result = response.data
+
+                if (result.status !== 200) {
+                    throw new Error(result.message || 'دریافت اطلاعات ناموفق بود')
+                }
+
+                this.internalItems = result.data?.model?.data || []
+                this.$emit('items-loaded', this.internalItems)
+            }).catch((err) => {
+                console.error(err)
+                this.internalItems = []
+                this.$toast.error(err.message || 'خطا در بارگذاری اطلاعات')
+            }).finally(() => {
+                this.internalLoading = false
+            })
         }
+    },
+
+    mounted() {
+        this.fetchItems()
     }
 }
 </script>

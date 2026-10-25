@@ -92,9 +92,8 @@
 
                 <BaseDataTable
                     ref="productsTable"
-                    :items.sync="products"
+                    url="/product"
                     :columns="product_columns"
-                    :loading="product_loading"
                     loading-text="در حال بارگذاری محصولات..."
                     no-data-text="هنوز محصولی ثبت نشده است"
                     no-results-text="محصولی با این فیلترها پیدا نشد"
@@ -105,7 +104,7 @@
                         'items-per-page-text': 'تعداد در صفحه',
                         'show-first-last-page': true
                     }"
-                    @reload="reloadProducts"
+                    @items-loaded="products = $event"
                 >
                 </BaseDataTable>
             </v-card>
@@ -120,7 +119,6 @@ export default {
     data() {
         return {
             products: [],
-            product_loading: false
         }
     },
 
@@ -237,54 +235,6 @@ export default {
             ]
         }
     },
-
-    mounted() {
-        this.loadProduct()
-    },
-
-    methods: {
-        loadProduct() {
-            if (this.product_loading) { return }
-            this.product_loading = true
-
-            return this.$reqAPI('/product').then((response) => {
-                const result = response.data
-                if (result.status !== 200){
-                    this.$toast.error(result.message || 'دریافت محصول ناموفق بود')
-                }
-
-                this.products = result.data?.model?.data
-
-            }).catch((err) => {
-                console.error(err)
-                this.$toast.error(err.message || 'خطا در بارگذاری محصولات')
-            }).finally(() => {
-                console.log('درخواست با موفقیت انجام شد')
-                this.product_loading = false
-            })
-
-            // if (this.product_loading) { return }
-
-            // this.product_loading = true
-
-            // try {
-            //     const data = await import('~/static/data/data.json')
-            //     this.products = data.default
-            //         ? data.default.products || []
-            //         : data.products || []
-            // } catch (error) {
-            //     this.$toast.error('خطا در بارگذاری محصولات:', error)
-            // } finally {
-            //     this.product_loading = false
-            // }
-        },
-
-        async reloadProducts() {
-            if (this.product_loading) { return }
-            this.$refs.productsTable.clearAllFilters()
-            await this.loadProduct()
-        }
-    }
 }
 </script>
 

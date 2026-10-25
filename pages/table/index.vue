@@ -124,11 +124,11 @@ export default {
 
     computed: {
         activeProductsCount() {
-            return this.products.filter(product => product.active === true).length
+            return this.products.filter(product => product.status === 'active').length
         },
 
         inactiveProductsCount() {
-            return this.products.filter(product => product.active === false).length
+            return this.products.filter(product => product.status === 'inactive').length
         },
 
         categoryFilterOptions() {

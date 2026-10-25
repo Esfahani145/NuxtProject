@@ -119,8 +119,42 @@
 
         <v-dialog v-model="actionDialog" max-width="700">
             <v-card v-if="selectedItem">
-                <slot v-if="actionType === 'view'" name="view" :item="selectedItem" :close="closeAction"/>
-                <slot v-if="actionType === 'edit'" name="edit" :item="selectedItem" :close="closeAction"/>
+                <v-card-title class="font-weight-bold">
+                    {{ viewTitle }}
+                </v-card-title>
+                <v-card-text>
+                    <v-img
+                        v-if="viewImage"
+                        :src="viewImage"
+                        max-height="200"
+                        contain
+                        class="mb-4"
+                    />
+                    <v-list dense class="pa-0">
+                        <v-list-item
+                            v-for="row in viewRows"
+                            :key="row.key"
+                            class="px-0"
+                        >
+                            <v-list-item-icon class="ml-2 mr-0">
+                                <v-icon color="success" small>mdi-check-circle-outline</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-subtitle> {{ row.label }}</v-list-item-subtitle>
+                                <v-list-item-title class="font-weight-bold">{{ row.display }}</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list>
+                </v-card-text>
+
+                <v-card-actions class="px-4 pb-4">
+                    <v-spacer />
+                    <BaseButton color="primary" @click="closeAction">
+                        بستن
+                    </BaseButton>
+                </v-card-actions>
+                <!-- <slot v-if="actionType === 'view'" name="view" :item="selectedItem" :close="closeAction"/>
+                <slot v-if="actionType === 'edit'" name="edit" :item="selectedItem" :close="closeAction"/> -->
             </v-card>
         </v-dialog>
     </div>
@@ -343,7 +377,7 @@ export default {
             appliedColumnFilters: {},
             selectedItem: null,
             actionDialog: false,
-            actionType: null,
+            // actionType: null,
             dateFilterType: {}
         }
     },
@@ -483,6 +517,41 @@ export default {
 
         addColumnKey() {
             return '__table_add__'
+        },
+
+        viewTitle() {
+            if (!this.selectedItem) { return '' }
+            const name_column = this.columns.find(c => c.type === 'product')
+            return name_column ? this.getColumnValue(this.selectedItem, name_column) : ''
+        },
+
+        viewImage() {
+            if (!this.selectedItem) { return '' }
+            const image_column = this.columns.find(c => c.type === 'image')
+            return image_column ? this.getColumnValue(this.selectedItem, image_column) : ''
+        },
+
+        viewRows() {
+            if (!this.selectedItem) { return [] }
+
+            return this.columns
+                .filter(c => !['image', 'actions', 'product'].includes(c.type) && c.text)
+                .map(column => {
+                    const raw = this.getColumnValue(this.selectedItem, column)
+                    let display = raw
+
+                    if (column.type === 'boolean') {
+                        display = raw ? 'فعال' : 'غیرفعال'
+                    } else if (column.type === 'price' && this.$helper?.formatPrice) {
+                        display = `${this.$helper.formatPrice(raw)} تومان`
+                    }
+
+                    return {
+                        key: this.getColumnKey(column),
+                        label: column.text,
+                        display: display === undefined || display === null || display === '' ? '-' : display
+                    }
+                })
         }
     },
 
@@ -564,17 +633,17 @@ export default {
         },
 
         handleEdit(item) {
-            const actions_column = this.columns.find(column => {return column.type === 'actions' && column.showEdit})
+            const actions_column = this.columns.find(column => column.type === 'actions' && column.showEdit)
             if (actions_column && typeof actions_column.editRoute === 'function') {
                 const route = actions_column.editRoute(item)
                 if (route) {
                     this.$router.push(route)
                 }
-                return
+                // return
             }
-            this.selectedItem = item
-            this.actionType = 'edit'
-            this.actionDialog = true
+            // this.selectedItem = item
+            // this.actionType = 'edit'
+            // this.actionDialog = true
         },
 
         handleDelete(item) {

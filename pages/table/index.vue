@@ -107,47 +107,6 @@
                     }"
                     @reload="reloadProducts"
                 >
-                    <template #view="{ item, close }">
-                        <v-card-title class="font-weight-bold">
-                            {{ item.name }}
-                        </v-card-title>
-
-                        <v-card-text>
-                            <div class="mb-4 product-view-description">
-                                {{ item.description }}
-                            </div>
-
-                            <div class="font-weight-bold mb-2">قیمت</div>
-                            <div class="product-view-price">
-                                {{ $helper.formatPrice(item.price) }} تومان
-                            </div>
-
-                            <v-divider class="my-4" />
-
-                            <div class="font-weight-bold mb-2">ویژگی‌ها</div>
-                            <v-list dense class="pa-0">
-                                <v-list-item
-                                    v-for="(feature, index) in item.features || []"
-                                    :key="index"
-                                    class="px-0"
-                                >
-                                    <v-list-item-icon class="ml-2 mr-0">
-                                        <v-icon color="success" small>mdi-check-circle-outline</v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-content>
-                                        <v-list-item-title>{{ feature }}</v-list-item-title>
-                                    </v-list-item-content>
-                                </v-list-item>
-                            </v-list>
-                        </v-card-text>
-
-                        <v-card-actions class="px-4 pb-4">
-                            <v-spacer />
-                            <BaseButton color="primary" @click="close">
-                                بستن
-                            </BaseButton>
-                        </v-card-actions>
-                    </template>
                 </BaseDataTable>
             </v-card>
         </v-container>

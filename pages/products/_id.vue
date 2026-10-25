@@ -121,20 +121,6 @@ export default {
             console.error(err)
             return error({ statusCode: 500, message: 'خطا در دریافت اطلاعات' })
         })
-
-        // try {
-        //     const data = require('~/static/data/data.json')
-        //     const product_id = parseInt(params.id, 10)
-        //     const product = data.products.find((item) => item.id === product_id)
-
-        //     if (!product) {
-        //         return error({statusCode: 404, message: 'محصول یافت نشد'})
-        //     }
-
-        //     return { product }
-        // } catch (e) {
-        //     return error({statusCode: 500, message: 'خطا در دریافت اطلاعات'})
-        // }
     },
 
     computed: {
@@ -143,7 +129,8 @@ export default {
         },
 
         formattedPrice() {
-            return this.$helper.formatPrice(this.product.price)
+            const product_price = this.product.price || this.product.base_price
+            return this.$helper.formatPrice(product_price)
         }
     },
 

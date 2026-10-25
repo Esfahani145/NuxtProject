@@ -141,7 +141,7 @@ export default {
             return [
                 {
                     text: 'تصویر',
-                    value: 'image',
+                    value: 'main_picture_path',
                     type: 'image',
                     filterable: false,
                     sortable: false,
@@ -188,7 +188,7 @@ export default {
                 },
                 {
                     text: 'قیمت',
-                    value: 'price',
+                    value: 'base_price',
                     type: 'price',
                     filterable: true,
                     filterType: 'number',
@@ -200,12 +200,12 @@ export default {
                 },
                 {
                     text: 'وضعیت',
-                    value: 'active',
+                    value: 'status',
                     type: 'boolean',
                     filterType: 'select',
                     filterOptions: [
-                        { text: 'فعال', value: true },
-                        { text: 'غیرفعال', value: false }
+                        { text: 'فعال', value: 'active' },
+                        { text: 'غیرفعال', value: 'inactive' }
                     ],
                     filterable: true,
                     sortable: false,

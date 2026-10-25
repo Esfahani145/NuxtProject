@@ -374,7 +374,6 @@ export default {
             appliedColumnFilters: {},
             selectedItem: null,
             actionDialog: false,
-            // actionType: null,
             dateFilterType: {},
             internalItems: [],
             internalLoading: false
@@ -639,7 +638,6 @@ export default {
                 if (route) {
                     this.$router.push(route)
                 }
-                // return
             }
         },
 

@@ -183,7 +183,7 @@ export default {
 
         getItemTotalPrice(item) {
             const quantity = item.quantity || 1
-            const price = this.$helper.parseNumericPrice(item.price)
+            const price = this.$helper.parseNumericPrice(item.price || item.base_price)
             return this.$helper.formatPrice(price * quantity)
         },
 

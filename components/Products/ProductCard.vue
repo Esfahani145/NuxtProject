@@ -36,7 +36,9 @@
             <div class="d-flex align-center justify-space-between">
                 <div>
                     <span class="d-block font-weight-bold blue-grey--text text--lighten-1">تعرفه سرویس</span>
-                    <span class="font-weight-black blue-grey--text text--darken-4">{{ product.price ? $helper.formatPrice(product.price) : 'تماس بگیرید' }}</span>
+                    <span class="font-weight-black blue-grey--text text--darken-4">
+                        {{ (product.price ?? product.base_price) != null ? $helper.formatPrice(product.price ?? product.base_price) : 'تماس بگیرید' }}
+                    </span>
                 </div>
 
                 <BaseButton
@@ -70,7 +72,6 @@ export default {
     props: {
         product: {
             type: Object,
-            // required: true
             default: () => ({})
         },
         showRemoveFavorite: {

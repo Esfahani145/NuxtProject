@@ -270,9 +270,11 @@ export default {
             this.user_loading = true
             try {
                 const saved_users = localStorage.getItem('users')
+                console.log('Svaed Users: ', saved_users)
                 this.users = saved_users ? JSON.parse(saved_users) : []
             } catch (error) {
                 this.$toast.error('خطا در بارگذاری کاربران')
+                console.error(error)
                 this.users = []
             } finally {
                 this.user_loading = false

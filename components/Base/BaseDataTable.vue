@@ -153,8 +153,6 @@
                         بستن
                     </BaseButton>
                 </v-card-actions>
-                <!-- <slot v-if="actionType === 'view'" name="view" :item="selectedItem" :close="closeAction"/>
-                <slot v-if="actionType === 'edit'" name="edit" :item="selectedItem" :close="closeAction"/> -->
             </v-card>
         </v-dialog>
     </div>
@@ -177,6 +175,10 @@ export default {
     inheritAttrs: false,
 
     props: {
+        items: {
+            type: Array,
+            default: () => []
+        },
         value: {
             type: Array,
             default: () => []
@@ -390,7 +392,8 @@ export default {
         },
 
         filteredItems() {
-            const items = this.internalItems
+            const items = this.url ? this.internalItems : this.items
+            if (this.url) {return items}
             const has_filter = Object.keys(this.appliedColumnFilters).some(column_key => {
                 const column = this.filterableColumns.find(c => this.getColumnKey(c) === column_key)
                 const value = this.appliedColumnFilters[column_key]
@@ -602,6 +605,7 @@ export default {
 
         applyColumnFilters() {
             this.appliedColumnFilters = { ...this.columnFilterValues }
+            if (this.url) { this.fetchItems() }
         },
 
         normalizeValue(value) {
@@ -666,7 +670,7 @@ export default {
                 .forEach(column => {
                     const column_key = this.getColumnKey(column)
                     this.$set(this.columnFilterValues, column_key, {
-                        type: '',
+                        type: 'equal',
                         from: '',
                         to: ''
                     })
@@ -694,10 +698,21 @@ export default {
         },
 
         fetchItems() {
+            const payload = {
+                filters: this.buildFilters(),
+                paginate: true,
+                paginate_num: 10,
+                sortBy: 'created_at',
+                orderBy: 'DESC',
+                page: 1,
+                row_number: 10
+            }
             if (!this.url || this.internalLoading) { return Promise.resolve() }
             this.internalLoading = true
 
-            return this.$reqAPI(this.url).then((response) => {
+            return this.$reqAPI(this.url, {
+                data: payload
+            }).then((response) => {
                 const result = response.data
 
                 if (result.status !== 200) {
@@ -713,7 +728,31 @@ export default {
             }).finally(() => {
                 this.internalLoading = false
             })
-        }
+        },
+
+        buildFilters() {
+            const filters = {}
+
+            this.filterableColumns.forEach((column) => {
+                const param = column.filterKey
+                if (!param) { return }
+
+                const value = this.appliedColumnFilters[this.getColumnKey(column)]
+
+                if (column.filterType === 'date-range') {
+                    if (value && (value.from || value.to)) {
+                        filters[param] = { type: value.type, from: value.from, to: value.to }
+                    }
+                    return
+                }
+
+                if (value !== undefined && value !== null && String(value).trim() !== '') {
+                    filters[param] = value
+                }
+            })
+
+            return filters
+        },
     },
 
     mounted() {

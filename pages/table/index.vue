@@ -20,7 +20,7 @@
                 </span> -->
             </div>
 
-            <v-row class="mb-4" dense>
+            <!-- <v-row class="mb-4" dense>
                 <v-col cols="12" sm="4">
                     <v-card outlined class="white-stat-card pa-4 rounded-lg" height="100%">
                         <div class="d-flex align-center">
@@ -68,7 +68,7 @@
                         </div>
                     </v-card>
                 </v-col>
-            </v-row>
+            </v-row> -->
 
             <v-card outlined class="white-detail-card rounded-lg">
                 <div class="d-flex align-center justify-space-between flex-wrap pa-4">
@@ -140,9 +140,23 @@ export default {
         product_columns() {
             return [
                 {
+                    text: 'تاریخ ثبت',
+                    key: 'created_date',
+                    filterKey: 'created_at',
+                    value: body => this.$toJalali(body.created_at, '', 'jYYYY/jMM/jDD'),
+                    filterValue: body => this.$toJalali(body.created_at, '', 'jYYYY/jMM/jDD'),
+                    sortValue: body => body.created_at,
+                    filterType: 'date-range',
+                    filterable: true,
+                    filterPlaceholder: 'فیلتر تاریخ',
+                    sortable: false,
+                    width: '220px'
+                },
+                {
                     text: 'تصویر',
                     value: 'main_picture_path',
                     type: 'image',
+                    filterKey: 'image',
                     filterable: false,
                     sortable: false,
                     align: 'center',
@@ -152,6 +166,7 @@ export default {
                 {
                     text: 'محصول',
                     value: 'name',
+                    filterKey: 'name',
                     type: 'product',
                     filterType: 'text',
                     filterable: true,
@@ -165,6 +180,7 @@ export default {
                 {
                     text: 'دسته‌بندی',
                     value: 'category',
+                    filterKey: 'category',
                     type: 'text',
                     filterType: 'select',
                     filterOptions: this.categoryFilterOptions,
@@ -175,21 +191,10 @@ export default {
                     width: '190px'
                 },
                 {
-                    text: 'تاریخ ثبت',
-                    key: 'created_date',
-                    value: body => this.$toJalali(body.created_at, '', 'jYYYY/jMM/jDD'),
-                    filterValue: body => this.$toJalali(body.created_at, '', 'jYYYY/jMM/jDD'),
-                    sortValue: body => body.created_at,
-                    filterType: 'date-range',
-                    filterable: true,
-                    filterPlaceholder: 'فیلتر تاریخ',
-                    sortable: false,
-                    width: '220px'
-                },
-                {
                     text: 'قیمت',
                     value: 'base_price',
                     type: 'price',
+                    filterKey: 'base_price',
                     filterable: true,
                     filterType: 'number',
                     filterPlaceholder: 'قیمت به تومان',
@@ -201,6 +206,7 @@ export default {
                 {
                     text: 'وضعیت',
                     value: 'status',
+                    filterKey: 'status',
                     type: 'boolean',
                     filterType: 'select',
                     filterOptions: [
@@ -215,6 +221,7 @@ export default {
                 {
                     text: 'برچسب',
                     value: 'badge',
+                    filterKey: 'badge',
                     type: 'chip',
                     filterable: false,
                     sortable: false,
@@ -225,6 +232,7 @@ export default {
                 {
                     text: 'عملیات',
                     value: 'actions',
+                    filterKey: 'actions',
                     type: 'actions',
                     actions: item => item.active === false ? ['view'] : ['view', 'delete'],
                     filterable: false,

@@ -38,27 +38,27 @@
             @click:prepend-inner="$emit('apply-filter')"
         />
 
-
-
         <div v-else-if="column.filterable !== false && column.filterType === 'date-range'" class="date-filter-wrapper" :class="{ 'date-filter-between': dateFilterType === 'between' }" @click.stop>
-            <template v-if="showSelectList">
-                <BaseSelect
-                    ref="typeSelect"
-                    :value="null"
-                    :items="dateFilterOptions"
-                    flat
-                    placeholder="نوع فیلتر"
-                    prepend-inner-icon="mdi-chevron-down"
-                    :menu-props="dateMenuProps"
-                    class="compact-field select-field date-type-select uniform-filter"
-                    @click.stop
-                    @input="handleSelectType"
-                />
-            </template>
+            <v-menu 
+                v-model="showTypeMenu" 
+                offset-y
+                :close-on-content-click="true"
+                :activator="typeMenuActivator"
+            >
+                <v-list dense>
+                    <v-list-item
+                        v-for="option in dateFilterOptions"
+                        :key="option.value"
+                        :input-value="option.value === dateFilterType"
+                        @click="handleSelectType(option.value)"
+                    >
+                        <v-list-item-title>{{ option.text }}</v-list-item-title>
+                    </v-list-item>
+                </v-list>
+            </v-menu>
 
-            <template v-else>
+            <div v-if="dateFilterType !== 'between'" ref="singleWrapper" class="date-range-fields">
                 <BaseDatePicker
-                    v-if="dateFilterType === 'equal' || dateFilterType === 'after' || dateFilterType === 'before'"
                     ref="datePicker"
                     :value="value && value.from ? value.from : ''"
                     placeholder="انتخاب تاریخ"
@@ -71,61 +71,59 @@
                     @click.stop
                     @input="handleSingleDateInput"
                     @keyup.enter.native="applyDateFilter"
-                    @click:prepend-inner="toggleSelectList"
+                    @click:prepend-inner="openTypeMenu"
                     @click:append.stop="applyDateFilter"
                 />
+            </div>
 
-                <template v-else-if="dateFilterType === 'between'">
-                    <div class="date-range-fields" >
-                        <BaseButton
-                            icon
-                            c-class="date-filter-icon-button"
-                            @click.stop="applyDateFilter"
-                        >
-                            <v-icon size="24">
-                                mdi-magnify
-                            </v-icon>
-                        </BaseButton>
+            <div v-else class="date-range-fields" >
+                <BaseButton
+                    icon
+                    c-class="date-filter-icon-button"
+                    @click.stop="applyDateFilter"
+                >
+                    <v-icon size="24">
+                        mdi-magnify
+                    </v-icon>
+                </BaseButton>
 
-                        <BaseDatePicker
-                            ref="fromDatePicker"
-                            :value="value && value.from ? value.from : ''"
-                            placeholder="از تاریخ"
-                            dense
-                            flat
-                            class="compact-field date-picker-field uniform-filter"
-                            :disabled="column.filterDisabled"
-                            :clearable="column.filterClearable !== false"
-                            @click.stop
-                            @input="handleFromDateInput"
-                            @keyup.enter.native="applyDateFilter"
-                        />
+                <BaseDatePicker
+                    ref="fromDatePicker"
+                    :value="value && value.from ? value.from : ''"
+                    placeholder="از تاریخ"
+                    dense
+                    flat
+                    class="compact-field date-picker-field uniform-filter"
+                    :disabled="column.filterDisabled"
+                    :clearable="column.filterClearable !== false"
+                    @click.stop
+                    @input="handleFromDateInput"
+                    @keyup.enter.native="applyDateFilter"
+                />
 
-                        <BaseDatePicker
-                            ref="toDatePicker"
-                            :value="value && value.to ? value.to : ''"
-                            placeholder="تا تاریخ"
-                            dense
-                            flat
-                            class="compact-field date-picker-field uniform-filter"
-                            :disabled="column.filterDisabled"
-                            :clearable="column.filterClearable !== false"
-                            @click.stop
-                            @input="handleToDateInput"
-                            @keyup.enter.native="applyDateFilter"
-                        />
-                            <BaseButton
-                                icon
-                                c-class="date-filter-icon-button"
-                                @click.stop="resetDateFilter"
-                            >
-                                <v-icon size="20">
-                                    mdi-filter-remove-outline
-                                </v-icon>
-                            </BaseButton>
-                    </div>
-                </template>
-            </template>
+                <BaseDatePicker
+                    ref="toDatePicker"
+                    :value="value && value.to ? value.to : ''"
+                    placeholder="تا تاریخ"
+                    dense
+                    flat
+                    class="compact-field date-picker-field uniform-filter"
+                    :disabled="column.filterDisabled"
+                    :clearable="column.filterClearable !== false"
+                    @click.stop
+                    @input="handleToDateInput"
+                    @keyup.enter.native="applyDateFilter"
+                />
+                    <BaseButton
+                        icon
+                        c-class="date-filter-icon-button"
+                        @click.stop="resetDateFilter"
+                    >
+                        <v-icon size="20">
+                            mdi-filter-remove-outline
+                        </v-icon>
+                    </BaseButton>
+            </div>
         </div>
 
         <BaseSelect
@@ -168,8 +166,10 @@ export default {
 
     data() {
         return {
-            dateFilterType: '',
-            showSelectList: false
+            dateFilterType: 'equal',
+            showSelectList: false,
+            showTypeMenu: false,
+            typeMenuActivator: null
         }
     },
 
@@ -177,13 +177,8 @@ export default {
         value: {
             deep: true,
             handler(value) {
-                if (value && typeof value === 'object' && value.type) {
-                    this.dateFilterType = value.type
-                    this.showSelectList = false
-                } else {
-                    this.dateFilterType = ''
-                    this.showSelectList = true
-                }
+                if (this.column.filterType !== 'date-range') { return }
+                this.dateFilterType = (value && value.type) ? value.type: 'equal'
             }
         }
     },
@@ -209,39 +204,31 @@ export default {
     },
 
     mounted() {
+        if (this.column.filterType !== 'date-range') { return }
         if (this.value && typeof this.value === 'object' && this.value.type) {
             this.dateFilterType = this.value.type
-            this.showSelectList = false
         } else {
-            this.showSelectList = true
+            this.$emit('input', { type: 'equal', from: '', to: '' })
         }
     },
 
     methods: {
         handleSelectType(type) {
-            if (!type) {
-                this.showSelectList = true
-                return
-            }
-
-            this.showSelectList = false
+            this.showTypeMenu = false
             this.dateFilterType = type
 
             const column_key = typeof this.column.value === 'function'
-                ? (this.column.key || this.column.text)
+                ? (this.column.key || this.column.text) 
                 : this.column.value
 
-            this.$emit('filter-type-change', {column_key, type})
-            this.$emit('input', { type, from: '', to: '' })
-
+            this.$emit('filter-type-change', {columnKey: column_key, type })
+            this.$emit('input', {type, from: '', to: ''})
             this.$nextTick(() => {
-                const target_picker = type === 'between'
+                const picker = type === 'between'
                     ? this.$refs.fromDatePicker
                     : this.$refs.datePicker
-
-                if (target_picker) {
-                    target_picker.openDatePicker()
-                }
+                
+                if (picker) { picker.openDatePicker() }
             })
         },
 
@@ -250,6 +237,7 @@ export default {
         },
 
         toggleSelectList() {
+            console.log('2) toggle called, showSelectList قبل', this.showSelectList)
             if (this.dateFilterType === 'between') {
                 this.resetDateFilter()
                 return
@@ -274,32 +262,43 @@ export default {
                 this.$refs.toDatePicker.openDatePicker()
             }
         },
-
+        
+        openTypeMenu() {
+            this.typeMenuActivator = this.$refs.singleWrapper
+            this.$nextTick(() => {
+                this.showTypeMenu = true
+            })
+        },
 
         applyDateFilter() {
             this.$emit('apply-filter')
         },
 
         resetDateFilter() {
-            const column_key = typeof this.column.value === 'function' ? (this.column.key || this.column.text) : this.column.value
-            this.dateFilterType = ''
-            this.showSelectList = true
-            this.$emit('filter-type-change', {column_key, type: ''})
-            this.$emit('input', {type: '' ,  from: '',  to: ''})
+            console.log('3) RESET called')
+            console.trace()
+            const column_key = typeof this.column.value === 'function'
+                ? (this.column.key || this.column.text) 
+                : this.column.value
+
+            this.dateFilterType = 'equal'
+            this.$emit('filter-type-change', {columnKey: column_key, type: 'equal'})
+            this.$emit('input', {type: 'equal' ,  from: '',  to: ''})
             this.$emit('apply-filter')
         },
 
         handleSingleDateInput(date) {
-            if (!date) {
-                this.resetDateFilter()
-                return
-            }
+            console.log('1) single input:', JSON.stringify(date))
 
             this.$emit('input', {
                 type: this.dateFilterType,
-                from: date,
+                from: date || '',
                 to: ''
             })
+
+            if (!date) {
+                this.$emit('apply-filter')
+            }
         },
 
         handleFromDateInput(date) {
@@ -383,6 +382,7 @@ export default {
     min-width: 0;
     margin: 0 auto;
     box-sizing: border-box;
+    height: 40px;
 }
 
 .date-filter-wrapper .date-picker-field,
@@ -393,11 +393,6 @@ export default {
     max-width: 100%;
     margin: 0;
     box-sizing: border-box;
-}
-
-.date-filter-wrapper.date-filter-between {
-    height: 40px;
-    margin: 0;
 }
 
 .date-range-fields {

@@ -22,7 +22,7 @@
                 aria-label="صفحه اول"
                 @click="setPage(1)"
             >
-                <v-icon small>{{ firstIcon }}</v-icon>
+                <v-icon small>{{ lastIcon }}</v-icon>
             </BaseButton>
 
             <BaseButton
@@ -57,7 +57,7 @@
                 aria-label="صفحه آخر"
                 @click="setPage(pageCount)"
             >
-                <v-icon small>{{ lastIcon }}</v-icon>
+                <v-icon small>{{ firstIcon }}</v-icon>
             </BaseButton>
         </div>
     </div>

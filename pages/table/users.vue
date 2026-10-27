@@ -116,7 +116,8 @@
                     :items-per-page="10"
                     :footer-props="{
                         'items-per-page-options': [5, 10, 25, 50],
-                        'items-per-page-text': 'تعداد در صفحه'
+                        'items-per-page-text': 'تعداد در صفحه',
+                        'show-first-last-page': true
                     }"
                     @items-loaded= "users = $event"
                     @reload="loadUsers"

@@ -118,7 +118,7 @@
                         'items-per-page-options': [5, 10, 25, 50],
                         'items-per-page-text': 'تعداد در صفحه'
                     }"
-                    @items-loaded= "$event"
+                    @items-loaded= "users = $event"
                     @reload="loadUsers"
                 />
             </v-card>

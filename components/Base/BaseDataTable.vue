@@ -773,7 +773,6 @@ export default {
             if (!value || !value.from) { return null }
 
             const from = this.$toGregorian(value.from)
-            // if (value.type === 'between') { return { from: from, to: to, op: 'between'}}
             if (value.type === 'after') { return { value: from, op: '>=' } }
             if (value.type === 'before') { return { value: from, op: '<=' } }
             return { value: from, op: 'LIKE' }

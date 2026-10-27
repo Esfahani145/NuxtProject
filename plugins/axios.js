@@ -2,6 +2,16 @@ export default function ({ $axios }, inject) {
     const base_url = 'https://test-api.sehregoli.com/api/v1/'
     $axios.setBaseURL(base_url)
 
+    $axios.onRequest((config) => {
+        if (process.client) {
+            const token = localStorage.getItem('user_token')
+
+            if(token) {
+                config.headers.Authorization = `Bearer ${token}`
+            }
+        }
+    })
+
     const req_api = (url, method = 'post', config = {}) => {
         if (typeof method === 'object' && method !== null) {
             config = method

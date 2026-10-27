@@ -42,6 +42,7 @@
             <v-menu 
                 v-model="showTypeMenu" 
                 offset-y
+                :open-on-click="false"
                 :close-on-content-click="true"
                 :activator="typeMenuActivator"
             >
@@ -64,15 +65,16 @@
                     placeholder="انتخاب تاریخ"
                     flat
                     class="compact-field date-picker-field uniform-filter"
-                    prepend-inner-icon="mdi-chevron-down"
-                    append-icon="mdi-magnify"
+                    prepend-inner-icon="mdi-magnify"
+                    append-icon="mdi-chevron-down"
                     :disabled="column.filterDisabled"
                     :clearable="column.filterClearable !== false"
                     @click.stop
                     @input="handleSingleDateInput"
                     @keyup.enter.native="applyDateFilter"
-                    @click:prepend-inner="openTypeMenu"
-                    @click:append.stop="applyDateFilter"
+                    @click:prepend-inner="applyDateFilter"
+                    @click:append.stop="openTypeMenu"
+                    @open="showTypeMenu = false"
                 />
             </div>
 
@@ -264,10 +266,15 @@ export default {
         },
         
         openTypeMenu() {
+            if (this.$refs.datePicker) {
+                this.$refs.datePicker.closeDatePicker()
+            }
+
             this.typeMenuActivator = this.$refs.singleWrapper
             this.$nextTick(() => {
                 this.showTypeMenu = true
             })
+
         },
 
         applyDateFilter() {

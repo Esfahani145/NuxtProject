@@ -150,7 +150,8 @@ export default {
                     filterable: true,
                     filterPlaceholder: 'فیلتر تاریخ',
                     sortable: false,
-                    width: '220px'
+                    width: '220px',
+                    align: 'center'
                 },
                 {
                     text: 'تصویر',
@@ -179,14 +180,18 @@ export default {
                 },
                 {
                     text: 'دسته‌بندی',
-                    value: 'category',
+                    value: body => {
+                        const category = body.category
+                        return category ? body.category : '_'
+                    },
+                    // 'category',
                     filterKey: 'category',
                     type: 'text',
                     filterType: 'select',
                     filterOptions: this.categoryFilterOptions,
                     filterable: true,
                     sortable: false,
-                    align: 'right',
+                    align: 'center',
                     icon: 'mdi-shape',
                     width: '190px'
                 },

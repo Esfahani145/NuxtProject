@@ -14,12 +14,13 @@
                     </div>
                 </div>
 
-                <span class="font-weight-bold grey--text text--darken-2 mt-2 mt-sm-0">
+                <!-- <span class="font-weight-bold grey--text text--darken-2 mt-2 mt-sm-0">
                     تعداد کاربران: {{ users.length }}
-                </span>
+                </span> -->
+
             </div>
 
-            <v-row dense class="mb-6">
+            <!-- <v-row dense class="mb-6">
                 <v-col cols="12" sm="4">
                     <v-card outlined class="white-stat-card pa-4 rounded-lg" height="100%">
                         <div class="d-flex align-center">
@@ -73,7 +74,7 @@
                         </div>
                     </v-card>
                 </v-col>
-            </v-row>
+            </v-row> -->
 
             <v-card outlined class="white-detail-card rounded-lg">
                 <div class="d-flex align-center justify-space-between flex-wrap pa-4">
@@ -100,9 +101,13 @@
                 <BaseDataTable
                     class="users-data-table"
                     :items.sync="users"
+                    url="/user"
                     :columns="user_columns"
                     :loading="user_loading"
-                    item-key="national_code"
+                    loading-text="...درحال بارگذاری کاربران"
+                    no-data-text="هنوز کاربری ثبت نشده است"
+                    no-results-text="کاربری با این فیلتر یافت نشد"
+                    item-key="id"
                     :multi-sort="true"
                     :show-add-button="true"
                     add-button-text="افزودن کاربر"
@@ -113,6 +118,7 @@
                         'items-per-page-options': [5, 10, 25, 50],
                         'items-per-page-text': 'تعداد در صفحه'
                     }"
+                    @items-loaded= "$event"
                     @reload="loadUsers"
                 />
             </v-card>
@@ -137,10 +143,28 @@ export default {
         user_columns() {
             return [
                 {
+                    text: 'تاریخ ایجاد',
+                    key: 'created_date',
+                    filterKey: 'created_at',
+                    value: (body => this.$toJalali(body.created_at, '', 'jYYYY/jMM/jDD') || '_'),
+                    filterValue: body => this.$toJalali(body.created_at, '', 'jYYYY/jMM/jDD'),
+                    sortValue: body => body.created_at,
+                    filterType: 'date-range',
+                    filterable: true,
+                    sortable: false,
+                    align: 'center',
+                    width: '220px'
+                },
+                {
                     text: 'نام و نام خانوادگی',
-                    value: 'full_name',
+                    value: body => {
+                        const name = body.first_name
+                        return name ? body.first_name : '_'
+                    },
+                    //  'first_name'
                     type: 'text',
                     filterType: 'text',
+                    filterKey: 'first_name',
                     filterable: true,
                     sortable: false,
                     disableSort: false,
@@ -150,9 +174,14 @@ export default {
                 },
                 {
                     text: 'شماره همراه',
-                    value: 'phone',
+                    value: body => {
+                        const phone = body.phone
+                        return phone ? body.phone : '_'
+                    },
+                    //  'phone'
                     type: 'text',
                     filterType: 'text',
+                    filterKey: 'phone',
                     filterable: true,
                     disableSort: true,
                     sortable: false,
@@ -162,7 +191,11 @@ export default {
                 },
                 {
                     text: 'ایمیل',
-                    value: 'email',
+                    value: body => {
+                        const email = body.email
+                        return email ? body.email : '_'
+                    },
+                    //  'email'
                     type: 'text',
                     filterType: 'text',
                     filterable: false,
@@ -172,9 +205,14 @@ export default {
                 },
                 {
                     text: 'کد ملی',
-                    value: 'national_code',
+                    value: body => {
+                        const national_code = body.national_code
+                        return national_code ? body.national_code : '_'
+                    },
+                    //  'national_code'
                     type: 'text',
                     filterType: 'text',
+                    filterKey: 'national_code',
                     filterable: true,
                     disableSort: true,
                     sortable: false,
@@ -183,20 +221,9 @@ export default {
                     width: '190px'
                 },
                 {
-                    text: 'تاریخ تولد',
-                    value: body => this.$toJalali(body.birth_date, '', 'jYYYY/jMM/jDD'),
-                    type: 'text',
-                    filterType: 'date',
-                    filterable: false,
-                    disableSort: false,
-                    sortable: false,
-                    align: 'center',
-                    width: '120px'
-                },
-                {
                     text: 'جنسیت',
                     value: body => body.gender === 'male' ? 'مرد'
-                        : body.gender === 'female' ? 'زن' : '',
+                        : body.gender === 'female' ? 'زن' : '_',
                     type: 'text',
                     filterType: 'text',
                     filterable: false,
@@ -208,7 +235,7 @@ export default {
                     text: 'استان',
                     value: body => {
                         const province = locations.locations.provinces.find(item => item.id === body.province)
-                        return province ? province.name : ''
+                        return province ? province.name : '_'
                     },
                     type: 'text',
                     filterType: 'text',
@@ -223,7 +250,7 @@ export default {
                     text: 'شهر',
                     value: body => {
                         const city = locations.locations.cities.find(item => item.id === body.city)
-                        return city ? city.name : ''
+                        return city ? city.name : '_'
                     },
                     type: 'text',
                     filterType: 'text',
@@ -235,8 +262,28 @@ export default {
                     width: '200px'
                 },
                 {
+                    text: 'آدرس',
+                    value: body => {
+                        const address = body.address
+                        return address ? body.address : '_'
+                    },
+                    //  'address',
+                    type: 'text',
+                    filterType: 'text',
+                    filterable: false,
+                    disableSort: true,
+                    sortable: false,
+                    align: 'center',
+                    filterPlaceholder: 'کد ملی',
+                    width: '190px'
+                },
+                {
                     text: 'نقش',
-                    value: 'role',
+                    value: body => {
+                        const role = body.role
+                        return role ? body.role : '_'
+                    },
+                    //  'role'
                     type: 'text',
                     filterType: 'text',
                     filterable: false,

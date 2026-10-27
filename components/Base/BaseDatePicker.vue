@@ -190,6 +190,7 @@ export default {
                     persian: { showHint: true },
                     gregorian: { showHint: true }
                 },
+                position: [36, -48],
                 toolbox: {
                     todayButton: {
                         enabled: true,
@@ -204,6 +205,14 @@ export default {
                                 }
                             })
                         }
+                    },
+
+                    submitButton: {
+                        enabled: true,
+                        text: { fa: 'بستن' },
+                        onSubmit: () => {
+                            this.closeDatePicker()
+                        }
                     }
                 },
                 onSelect: () => {
@@ -212,6 +221,9 @@ export default {
                         this.$emit('input', val)
                         this.closeDatePicker()
                     }
+                },
+                onShow: () => {
+                    this.$emit('open')
                 }
             })
 
@@ -295,5 +307,13 @@ export default {
 
 .base-date-picker-input ::v-deep .v-input__icon--clear {
     order: -1;
+}
+</style>
+
+<style>
+.datepicker-plot-area {
+    width: 180px !important;
+    border-radius: 5px !important;
+    overflow: hidden;
 }
 </style>

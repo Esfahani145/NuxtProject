@@ -363,10 +363,13 @@ export default {
             type: [String, Object],
             default: ''
         },
-        
         url: {
             type: String,
             default: ''
+        },
+        method: {
+            type: String,
+            default: 'post'
         }
     },
 
@@ -604,7 +607,9 @@ export default {
         },
 
         applyColumnFilters() {
+            console.log('coiumn filter value:', this.columnFilterValues)
             this.appliedColumnFilters = { ...this.columnFilterValues }
+            console.log('Applied column filters: ', this.appliedColumnFilters)
             if (this.url) { this.fetchItems() }
         },
 
@@ -698,25 +703,27 @@ export default {
         },
 
         fetchItems() {
+            if (!this.url || this.internalLoading) { return Promise.resolve() }
+
             const payload = {
                 filters: this.buildFilters(),
                 paginate: true,
-                paginate_num: 10,
+                paginate_num: 50,
                 sortBy: 'created_at',
                 orderBy: 'DESC',
                 page: 1,
-                row_number: 10
+                row_number: 50
             }
-            if (!this.url || this.internalLoading) { return Promise.resolve() }
+
+            const config = this.method.toLowerCase() === 'get' ? {params: payload} : {data: payload}
+            
             this.internalLoading = true
 
-            return this.$reqAPI(this.url, {
-                data: payload
-            }).then((response) => {
+            return this.$reqAPI(this.url, this.method, config).then((response) => {
                 const result = response.data
 
                 if (result.status !== 200) {
-                    throw new Error(result.message || 'دریافت اطلاعات ناموفق بود')
+                    this.$toast.error(result.message || 'دریافت اطلاعات ناموفق بود')
                 }
 
                 this.internalItems = result.data?.model?.data || []
@@ -731,6 +738,8 @@ export default {
         },
 
         buildFilters() {
+            console.log('Applied filters:', JSON.stringify(this.appliedColumnFilters, null, 2))
+
             const filters = {}
 
             this.filterableColumns.forEach((column) => {
@@ -740,19 +749,35 @@ export default {
                 const value = this.appliedColumnFilters[this.getColumnKey(column)]
 
                 if (column.filterType === 'date-range') {
-                    if (value && (value.from || value.to)) {
-                        filters[param] = { type: value.type, from: value.from, to: value.to }
+                    const date_filter = this.buildDateFilters(value)
+                    if (date_filter) {
+                        filters[param] = date_filter
                     }
                     return
                 }
 
-                if (value !== undefined && value !== null && String(value).trim() !== '') {
-                    filters[param] = value
+                if (value === undefined || value === null || String(value).trim() === '') {
+                    return
+                }
+
+                filters[param] = {
+                    value,
+                    op: column.filterOp || (column.filterType === 'text' ? 'LIKE' : '=')
                 }
             })
 
             return filters
         },
+
+        buildDateFilters(value) {
+            if (!value || !value.from) { return null }
+
+            const from = this.$toGregorian(value.from)
+            // if (value.type === 'between') { return { from: from, to: to, op: 'between'}}
+            if (value.type === 'after') { return { value: from, op: '>=' } }
+            if (value.type === 'before') { return { value: from, op: '<=' } }
+            return { value: from, op: 'LIKE' }
+        }
     },
 
     mounted() {

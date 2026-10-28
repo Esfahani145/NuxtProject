@@ -95,9 +95,6 @@
                     url="/product"
                     :columns="product_columns"
                     loading-text="در حال بارگذاری محصولات..."
-                    no-data-text="هنوز محصولی ثبت نشده است"
-                    no-results-text="محصولی با این فیلترها پیدا نشد"
-                    item-key="id"
                     :items-per-page="10"
                     :footer-props="{
                         'items-per-page-options': [5, 10, 25, 50],

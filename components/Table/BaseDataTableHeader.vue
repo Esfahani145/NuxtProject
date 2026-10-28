@@ -238,15 +238,6 @@ export default {
             this.$emit('input', selectedValue)
         },
 
-        toggleSelectList() {
-            console.log('2) toggle called, showSelectList قبل', this.showSelectList)
-            if (this.dateFilterType === 'between') {
-                this.resetDateFilter()
-                return
-            }
-            this.showSelectList = !this.showSelectList
-        },
-
         openCalendar() {
             if (this.$refs.datePicker) {
                 this.$refs.datePicker.openDatePicker()
@@ -282,8 +273,7 @@ export default {
         },
 
         resetDateFilter() {
-            console.log('3) RESET called')
-            console.trace()
+
             const column_key = typeof this.column.value === 'function'
                 ? (this.column.key || this.column.text) 
                 : this.column.value
@@ -295,8 +285,6 @@ export default {
         },
 
         handleSingleDateInput(date) {
-            console.log('1) single input:', JSON.stringify(date))
-
             this.$emit('input', {
                 type: this.dateFilterType,
                 from: date || '',

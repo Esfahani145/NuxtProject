@@ -1,7 +1,6 @@
 <template>
     <div class="data-table-container">
         <v-data-table
-            :key="table_layout_key"
             v-bind="$attrs"
             :headers="tableColumns"
             :items="filteredItems"
@@ -12,8 +11,8 @@
             :loading-text="loadingText"
             :no-data-text="noDataText"
             :no-results-text="noResultsText"
-            :items-per-page="itemsPerPage"
-            :page="page"
+            :items-per-page="url ? tableOptions.itemsPerPage : itemsPerPage"
+            :page="url ? tableOptions.page : page"
             :sort-by="sortBy"
             :sort-desc="sortDesc"
             :multi-sort="multiSort"
@@ -33,7 +32,7 @@
             :hide-default-header="hideDefaultHeader"
             :mobile-breakpoint="mobileBreakpoint"
             :item-key="itemKey"
-            :server-items-length="serverItemsLength"
+            :server-items-length="serverTotal"
             :footer-props="footerProps"
             :header-props="headerProps"
             :item-class="itemClass"
@@ -291,10 +290,6 @@ export default {
             type: String,
             default: 'id'
         },
-        serverItemsLength: {
-            type: Number,
-            default: -1
-        },
         footerProps: {
             type: Object,
             default: () => ({})
@@ -381,7 +376,12 @@ export default {
             actionDialog: false,
             dateFilterType: {},
             internalItems: [],
-            internalLoading: false
+            internalLoading: false,
+            tableOptions: {
+                page: 1,
+                itemsPerPage: 10,
+            },
+            serverTotal: 0
         }
     },
 
@@ -498,7 +498,7 @@ export default {
                     ? {width: is_between ? '500px' : (column.width || undefined), class: column_class}
                     : {})
                 }
-                })
+            })
 
             const add_column = {
                 text: '',
@@ -510,10 +510,6 @@ export default {
                 cellClass: 'add-column-cell'
             }
             return this.showAddButton ? [reload_column, ...columns, add_column] : [reload_column, ...columns]
-        },
-
-        table_layout_key() {
-            return Object.keys(this.dateFilterType).filter(column_key => this.dateFilterType[column_key] === 'between').join('-') || 'default'
         },
 
         reloadColumnKey() {
@@ -560,24 +556,6 @@ export default {
         }
     },
 
-    watch: {
-        columns: {
-            immediate: true,
-            deep: true,
-            handler(columns) {
-                columns
-                    .filter(column => column.filterable !== false)
-                    .forEach(column => {
-                        const key = this.getColumnKey(column)
-
-                        if (this.columnFilterValues[key] === undefined) {
-                            this.$set(this.columnFilterValues, key, '')
-                        }
-                    })
-            }
-        }
-    },
-
     methods: {
         getColumnKey(column) {
             if (typeof column.value === 'function') {
@@ -587,10 +565,6 @@ export default {
         },
 
         getColumnValue(item, column) {
-            if (typeof column.filterValue === 'function') {
-                return column.filterValue(item)
-            }
-
             if (typeof column.value === 'function') {
                 return column.value(item)
             }
@@ -607,9 +581,8 @@ export default {
         },
 
         applyColumnFilters() {
-            console.log('coiumn filter value:', this.columnFilterValues)
             this.appliedColumnFilters = { ...this.columnFilterValues }
-            console.log('Applied column filters: ', this.appliedColumnFilters)
+            this.tableOptions.page = 1
             if (this.url) { this.fetchItems() }
         },
 
@@ -623,7 +596,6 @@ export default {
 
             return String(value)
                 .replace(/[۰-۹]/g, digit => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
-                .replace(/[٠-٩]/g, digit => String('٠١٢٣٤٥٦٧٨٩'.indexOf(digit)))
                 .replace(/-/g, '/')
                 .trim()
         },
@@ -631,12 +603,10 @@ export default {
         closeAction() {
             this.actionDialog = false
             this.selectedItem = null
-            this.actionType = null
         },
 
         handleView(item) {
             this.selectedItem = item
-            this.actionType = 'view'
             this.actionDialog = true
         },
 
@@ -697,22 +667,31 @@ export default {
         },
 
         updateTableOptions(slotProps, options) {
+            if (this.url) {
+                this.tableOptions = {
+                    page: options.page,
+                    itemsPerPage: options.itemsPerPage
+                }
+                this.fetchItems()
+                return
+            }
+
             if (slotProps.on && typeof slotProps.on['update:options'] === 'function') {
                 slotProps.on['update:options'](options)
             }
         },
 
         fetchItems() {
-            if (!this.url || this.internalLoading) { return Promise.resolve() }
+            if (!this.url || this.internalLoading) { return }
 
             const payload = {
                 filters: this.buildFilters(),
                 paginate: true,
-                paginate_num: 50,
+                paginate_num: this.tableOptions.itemsPerPage,
                 sortBy: 'created_at',
                 orderBy: 'DESC',
-                page: 1,
-                row_number: 50
+                page: this.tableOptions.page,
+                row_number: this.tableOptions.itemsPerPage
             }
 
             const config = this.method.toLowerCase() === 'get' ? {params: payload} : {data: payload}
@@ -721,13 +700,14 @@ export default {
 
             return this.$reqAPI(this.url, this.method, config).then((response) => {
                 const result = response.data
-
+                const model = result.data?.model
                 if (result.status !== 200) {
                     this.$toast.error(result.message || 'دریافت اطلاعات ناموفق بود')
                 }
 
-                this.internalItems = result.data?.model?.data || []
+                this.internalItems = model?.data || []
                 this.$emit('items-loaded', this.internalItems)
+                this.serverTotal = model?.total || 0
             }).catch((err) => {
                 console.error(err)
                 this.internalItems = []
@@ -738,8 +718,6 @@ export default {
         },
 
         buildFilters() {
-            console.log('Applied filters:', JSON.stringify(this.appliedColumnFilters, null, 2))
-
             const filters = {}
 
             this.filterableColumns.forEach((column) => {

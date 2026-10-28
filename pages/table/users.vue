@@ -105,9 +105,6 @@
                     :columns="user_columns"
                     :loading="user_loading"
                     loading-text="...درحال بارگذاری کاربران"
-                    no-data-text="هنوز کاربری ثبت نشده است"
-                    no-results-text="کاربری با این فیلتر یافت نشد"
-                    item-key="id"
                     :multi-sort="true"
                     :show-add-button="true"
                     add-button-text="افزودن کاربر"
@@ -318,7 +315,6 @@ export default {
             this.user_loading = true
             try {
                 const saved_users = localStorage.getItem('users')
-                console.log('Svaed Users: ', saved_users)
                 this.users = saved_users ? JSON.parse(saved_users) : []
             } catch (error) {
                 this.$toast.error('خطا در بارگذاری کاربران')

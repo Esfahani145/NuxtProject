@@ -89,7 +89,6 @@ export default {
     
     asyncData({ $reqAPI, params, error }) {
         const id = String(params.id)
-        console.log('PARAM ID:', params.id)
 
         try {
             const json_data = require('~/static/data/data.json')

@@ -396,9 +396,11 @@ export default {
         fetchUser() {
             this.loading= true
 
-            return this.$reqAPI(`/user/${this.edit_user}`, 'get', {
-                prams: {
-                    id: this.edit_user
+            return this.$reqAPI('/user', 'get', {
+                data: {
+                    filters: {
+                        id: this.edit_user
+                    }
                 }
             }).then((response) => {
                 const result = response.data
@@ -406,18 +408,19 @@ export default {
 
                 if (result.status !== 200) {
                     this.$toast.error(result.message || 'دریافت اطلاعات ناموفق بود')
-                    console.log(result.message)
+                    // console.log(result.message)
                 }
                 
                 const users = model.data || []
+
                 this.handleEditUser(users)
             }).catch((err) => {
                 this.$toast.error(err.message || 'خطا در بارگذاری اطلاعات')
                 this.$router.replace('/table/users')
-                console.log(err)
+                // console.log(err)
             }).finally(() => {
                 this.loading = false
-                console.log(this.edit_user)
+                // console.log(this.edit_user)
             })
         
         },
@@ -446,7 +449,6 @@ export default {
                         this.$toast.error('کاربر مورد نظر یافت نشد')
                         return
                     }
-                    console.log('USER INDEX:', user_index)
                     users.splice(user_index, 1, {...users[user_index], ...payload})
                     localStorage.setItem('users', JSON.stringify(users))
                     this.$toast.success('اطلاعات کاربر با موفقیت به روز رسانی شد')
@@ -459,7 +461,7 @@ export default {
                 this.$router.push('/table/users')
             } catch (error) {
                 this.$toast.error(error.message || 'ثبت کاربر با خطا مواجه شد')
-                console.log(error)
+                // console.log(error)
             } finally {
                 this.loading = false
             }
@@ -472,10 +474,8 @@ export default {
                 if (!user) {
                     this.$toast.error('کاربر مورد نظر پیدا نشد')
                     this.$router.replace('/table/users')
-                    console.log('No User')
                     return
                 }
-                
                 this.credentials = {
                     ...this.credentials,
                     ...user,
@@ -484,7 +484,6 @@ export default {
                 }
             } catch(error) {
                 this.$toast.error('بارگذاری اطلاعات کاربر با خطا مواجه شد')
-                console.log('No User Info')
             }
         }
     }

@@ -398,6 +398,7 @@ export default {
         filteredItems() {
             const items = this.url ? this.internalItems : this.items
             if (this.url) {return items}
+
             const has_filter = Object.keys(this.appliedColumnFilters).some(column_key => {
                 const column = this.filterableColumns.find(c => this.getColumnKey(c) === column_key)
                 const value = this.appliedColumnFilters[column_key]
@@ -406,7 +407,7 @@ export default {
                     return Boolean(value && value.type && (value.from || value.to))
                 }
 
-                return value !== undefined && value !== null && String(value).trim() !== ''
+                return value !== null && String(value).trim() !== ''
             })
 
             if (!has_filter) { return items }

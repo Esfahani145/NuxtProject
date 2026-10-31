@@ -5,10 +5,8 @@ function parseNumericPrice(value) {
 
     const english_value = String(value)
     const persian_digits = '۰۱۲۳۴۵۶۷۸۹'
-    const arabic_digits = '٠١٢٣٤٥٦٧٨٩'
     const converted = english_value
         .replace(/[۰-۹]/g, (d) => persian_digits.indexOf(d))
-        .replace(/[٠-٩]/g, (d) => arabic_digits.indexOf(d))
 
     const only_digits = converted.replace(/[^0-9]/g, '')
 
@@ -37,7 +35,6 @@ function normalizeDateValue(value) {
     if (value === undefined || value === null) { return '' }
 
     return String(value)
-        .replace(/[۰-۹]/g, digit => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
         .replace(/-/g, '/')
         .trim()
 }

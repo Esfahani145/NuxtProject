@@ -283,7 +283,7 @@ export default {
                 const input_rect = input.getBoundingClientRect()
 
                 datepicker.css({
-                    position: 'fixed',
+                    position: 'absolute ',
                     top: `${Math.round(input_rect.bottom + 1)}px`,
                     left: `${Math.round(input_rect.left - 48)}px`
                 })

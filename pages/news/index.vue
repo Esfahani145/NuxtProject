@@ -12,12 +12,12 @@
                     <h2 class="font-weight-bold grey--text text--darken-4">آخرین اطلاعیه‌ها</h2>
                 </div>
 
-                <span class="grey--text text--darken-1">تعداد اخبار: {{ newsList.length }}</span>
+                <span class="grey--text text--darken-1">تعداد اخبار: {{ news_list.length }}</span>
             </div>
 
             <v-row align="stretch">
                 <v-col
-                    v-for="(item, index) in newsList"
+                    v-for="(item, index) in news_list"
                     :key="item.id || index"
                     cols="12"
                     sm="6"
@@ -46,7 +46,7 @@ export default {
 
     data() {
         return {
-            newsList: newsData.newsList || []
+            news_list: newsData.newsList || []
         }
     },
 }

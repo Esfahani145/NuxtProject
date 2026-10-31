@@ -68,12 +68,12 @@
                 <v-list-item v-for="action in availableActions" :key="action" @click.stop="handleAction(action)">
                     <v-list-item-icon>
                         <v-icon small>
-                            {{ actionIcons[action] }}
+                            {{ action_icons[action] }}
                         </v-icon>
                     </v-list-item-icon>
 
                     <v-list-item-title>
-                        {{ actionLabels[action] }}
+                        {{ action_labels[action] }}
                     </v-list-item-title>
                 </v-list-item>
             </v-list>
@@ -102,13 +102,13 @@ export default {
 
     data() {
         return {
-            actionLabels: {
+            action_labels: {
                 view: 'مشاهده',
                 edit: 'ویرایش',
                 delete: 'حذف'
             },
 
-            actionIcons: {
+            action_icons: {
                 view: 'mdi-eye',
                 edit: 'mdi-pencil',
                 delete: 'mdi-delete'

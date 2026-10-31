@@ -7,12 +7,12 @@
             :disable-filtering="disableFiltering"
             :disable-pagination="disablePagination"
             :disable-sort="disableSort"
-            :loading="internalLoading"
+            :loading="internal_loading"
             :loading-text="loadingText"
             :no-data-text="noDataText"
             :no-results-text="noResultsText"
-            :items-per-page="url ? tableOptions.itemsPerPage : itemsPerPage"
-            :page="url ? tableOptions.page : page"
+            :items-per-page="url ? table_options.items_per_page : itemsPerPage"
+            :page="url ? table_options.page : page"
             :sort-by="sortBy"
             :sort-desc="sortDesc"
             :multi-sort="multiSort"
@@ -32,7 +32,7 @@
             :hide-default-header="hideDefaultHeader"
             :mobile-breakpoint="mobileBreakpoint"
             :item-key="itemKey"
-            :server-items-length="serverTotal"
+            :server-items-length="server_total"
             :footer-props="footerProps"
             :header-props="headerProps"
             :item-class="itemClass"
@@ -87,7 +87,7 @@
                     ref="tableHeader"
                     :key="getColumnKey(column)"
                     :column="column"
-                    :value="columnFilterValues[getColumnKey(column)]"
+                    :value="column_filter_values[getColumnKey(column)]"
                     @input="updateColumnFilter(getColumnKey(column), $event)"
                     @apply-filter="applyColumnFilters"
                     @reload="$emit('reloadTable')"
@@ -117,8 +117,8 @@
             </template>
         </v-data-table>
 
-        <v-dialog v-model="actionDialog" max-width="700">
-            <v-card v-if="selectedItem">
+        <v-dialog v-model="action_dialog" max-width="700">
+            <v-card v-if="selected_item">
                 <v-card-title class="font-weight-bold">
                     {{ viewTitle }}
                 </v-card-title>
@@ -371,18 +371,18 @@ export default {
 
     data() {
         return {
-            columnFilterValues: {},
-            appliedColumnFilters: {},
-            selectedItem: null,
-            actionDialog: false,
-            dateFilterType: {},
-            internalItems: [],
-            internalLoading: false,
-            tableOptions: {
+            column_filter_values: {},
+            applied_column_filters: {},
+            selected_item: null,
+            action_dialog: false,
+            date_filter_type: {},
+            internal_items: [],
+            internal_loading: false,
+            table_options: {
                 page: 1,
-                itemsPerPage: 10,
+                items_per_page: 10,
             },
-            serverTotal: 0
+            server_total: 0
         }
     },
 
@@ -396,12 +396,12 @@ export default {
         },
 
         filteredItems() {
-            const items = this.url ? this.internalItems : this.items
+            const items = this.url ? this.internal_items : this.items
             if (this.url) {return items}
 
-            const has_filter = Object.keys(this.appliedColumnFilters).some(column_key => {
+            const has_filter = Object.keys(this.applied_column_filters).some(column_key => {
                 const column = this.filterableColumns.find(c => this.getColumnKey(c) === column_key)
-                const value = this.appliedColumnFilters[column_key]
+                const value = this.applied_column_filters[column_key]
 
                 if (column && column.filterType === 'date-range') {
                     return Boolean(value && value.type && (value.from || value.to))
@@ -415,7 +415,7 @@ export default {
             return items.filter(item => {
                 return this.filterableColumns.every(column => {
                     const column_key = this.getColumnKey(column)
-                    const filter_value = this.appliedColumnFilters[column_key]
+                    const filter_value = this.applied_column_filters[column_key]
 
                     if (column.filterType === 'date-range') {
                         if (!filter_value || (!filter_value.from && !filter_value.to)) { return true }
@@ -488,7 +488,7 @@ export default {
 
             const columns = this.columns.map(column => {
                 const column_key = this.getColumnKey(column)
-                const is_between = this.dateFilterType[column_key] === 'between'
+                const is_between = this.date_filter_type[column_key] === 'between'
                 const column_class = [column.class, is_between ? 'date-range-between-column' : ''].filter(Boolean).join(' ')
                 return {
                     ...column,
@@ -523,29 +523,29 @@ export default {
         },
 
         viewTitle() {
-            if (!this.selectedItem) { return '' }
+            if (!this.selected_item) { return '' }
             const name_column = this.columns.find(c => c.type === 'product')
-            return name_column ? this.getColumnValue(this.selectedItem, name_column) : ''
+            return name_column ? this.getColumnValue(this.selected_item, name_column) : ''
         },
 
         viewImage() {
-            if (!this.selectedItem) { return '' }
+            if (!this.selected_item) { return '' }
             const image_column = this.columns.find(c => c.type === 'image')
-            return image_column ? this.getColumnValue(this.selectedItem, image_column) : ''
+            return image_column ? this.getColumnValue(this.selected_item, image_column) : ''
         },
 
         viewRows() {
-            if (!this.selectedItem) { return [] }
+            if (!this.selected_item) { return [] }
 
             return this.columns
                 .filter(c => !['image', 'actions', 'product'].includes(c.type) && c.text)
                 .map(column => {
-                    const raw = this.getColumnValue(this.selectedItem, column)
+                    const raw = this.getColumnValue(this.selected_item, column)
                     let display = raw
 
                     if (column.type === 'boolean') {
                         display = raw ? 'فعال' : 'غیرفعال'
-                    } else if (column.type === 'price' && this.$helper?.formatPrice) {
+                    } else if (column.type === 'price' && this.$helper.formatPrice) {
                         display = `${this.$helper.formatPrice(raw)} تومان`
                     }
 
@@ -583,23 +583,23 @@ export default {
         },
 
         updateColumnFilter(column_key, value) {
-            this.$set(this.columnFilterValues, column_key, value)
+            this.$set(this.column_filter_values, column_key, value)
         },
 
         applyColumnFilters() {
-            this.appliedColumnFilters = { ...this.columnFilterValues }
-            this.tableOptions.page = 1
+            this.applied_column_filters = { ...this.column_filter_values }
+            this.table_options.page = 1
             if (this.url) { this.fetchItems() }
         },
 
         closeAction() {
-            this.actionDialog = false
-            this.selectedItem = null
+            this.action_dialog = false
+            this.selected_item = null
         },
 
         handleView(item) {
-            this.selectedItem = item
-            this.actionDialog = true
+            this.selected_item = item
+            this.action_dialog = true
         },
 
         handleEdit(item) {
@@ -615,28 +615,28 @@ export default {
         handleDelete(item) {
             const item_key = this.getItemKey(item)
             if (item_key === undefined || item_key === null) { return }
-            this.internalItems = this.internalItems.filter(i => this.getItemKey(i) !== item_key)
-            this.$emit('items-loaded', this.internalItems)
+            this.internal_items = this.internal_items.filter(i => this.getItemKey(i) !== item_key)
+            this.$emit('items-loaded', this.internal_items)
         },
 
         handleFilterTypeChange({ columnKey, type }) {
             if (type === 'between') {
-                this.$set(this.dateFilterType, columnKey, 'between')
+                this.$set(this.date_filter_type, columnKey, 'between')
             } else {
-                this.$delete(this.dateFilterType, columnKey)
+                this.$delete(this.date_filter_type, columnKey)
             }
         },
 
         clearAllFilters() {
-            this.columnFilterValues = {}
-            this.appliedColumnFilters = {}
-            this.dateFilterType = {}
+            this.column_filter_values = {}
+            this.applied_column_filters = {}
+            this.date_filter_type = {}
 
             this.filterableColumns
                 .filter(column => column.filterType === 'date-range')
                 .forEach(column => {
                     const column_key = this.getColumnKey(column)
-                    this.$set(this.columnFilterValues, column_key, {
+                    this.$set(this.column_filter_values, column_key, {
                         type: 'equal',
                         from: '',
                         to: ''
@@ -645,7 +645,7 @@ export default {
         },
 
         async reloadTable() {
-            if (this.internalLoading) { return }
+            if (this.internal_loading) { return }
             this.clearAllFilters()
             this.$emit('reload')            
             if (this.url) {
@@ -664,9 +664,9 @@ export default {
 
         updateTableOptions(slotProps, options) {
             if (this.url) {
-                this.tableOptions = {
+                this.table_options = {
                     page: options.page,
-                    itemsPerPage: options.itemsPerPage
+                    items_per_page: options.items_per_page
                 }
                 this.fetchItems()
                 return
@@ -678,7 +678,7 @@ export default {
         },
 
         fetchItems() {
-            if (!this.url || this.internalLoading) { return }
+            if (!this.url || this.internal_loading) { return }
 
             const payload = {
                 filters: this.buildFilters(),
@@ -686,30 +686,30 @@ export default {
                 // paginate_num: this.tableOptions.itemsPerPage,
                 sortBy: 'created_at',
                 orderBy: 'DESC',
-                page: this.tableOptions.page,
-                row_number: this.tableOptions.itemsPerPage
+                page: this.table_options.page,
+                row_number: this.table_options.items_per_page
             }
 
             const config = this.method.toLowerCase() === 'get' ? {params: payload} : {data: payload}
             
-            this.internalLoading = true
+            this.internal_loading = true
 
             return this.$reqAPI(this.url, this.method, config).then((response) => {
                 const result = response.data
-                const model = result.data?.model
+                const model = result.data.model
                 if (result.status !== 200) {
                     this.$toast.error(result.message || 'دریافت اطلاعات ناموفق بود')
                 }
 
-                this.internalItems = model?.data || []
-                this.$emit('items-loaded', this.internalItems)
-                this.serverTotal = model?.total || 0
+                this.internal_items = model.data || []
+                this.$emit('items-loaded', this.internal_items)
+                this.server_total = model.total || 0
             }).catch((err) => {
                 console.error(err)
-                this.internalItems = []
+                this.internal_items = []
                 this.$toast.error(err.message || 'خطا در بارگذاری اطلاعات')
             }).finally(() => {
-                this.internalLoading = false
+                this.internal_loading = false
             })
         },
 
@@ -720,7 +720,7 @@ export default {
                 const param = column.filterKey
                 if (!param) { return }
 
-                const value = this.appliedColumnFilters[this.getColumnKey(column)]
+                const value = this.applied_column_filters[this.getColumnKey(column)]
 
                 if (column.filterType === 'date-range') {
                     const date_filter = this.buildDateFilters(value)

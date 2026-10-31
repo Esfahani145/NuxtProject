@@ -65,7 +65,7 @@ export const actions = {
             return result
         }).catch((error) => {
             console.error(error)
-            const message = error.response?.data?.message ||
+            const message = error.response.data.message ||
                 (error.message === 'Network Error'
                     ? 'ارتباط با سرور برقرار نشد. لطفاً اتصال اینترنت خود را بررسی کنید.'
                     : error.message) ||

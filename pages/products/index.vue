@@ -50,11 +50,11 @@ export default {
         BaseHero
     },
 
-    mounted() {
-        this.$reqAPI('/product', 'post').then((res) => {
-            console.log('POST:', JSON.stringify(res.data))
-        })
-    },
+    // mounted() {
+    //     this.$reqAPI('/product', 'post').then((res) => {
+    //         console.log('POST:', JSON.stringify(res.data))
+    //     })
+    // },
 
     asyncData({ $reqAPI }) {
         let json_products = []
@@ -75,7 +75,7 @@ export default {
                 this.$toast.error(result.message || 'دریافت محصول ناموفق بود')
             }
 
-            return result.data?.model?.data || []
+            return result.data.model.data || []
         }).catch((err) => {
             console.error(err)
             return []

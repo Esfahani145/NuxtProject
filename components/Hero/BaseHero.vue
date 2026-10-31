@@ -35,26 +35,26 @@
                         </v-icon>
                         <span>پنل مدیریت</span>
                         <v-icon x-small>mdi-chevron-left</v-icon>
-                        <span>مدیریت کاربران</span>
+                        <span>مدیریت اطلاعات</span>
                         <v-icon x-small>mdi-chevron-left</v-icon>
                         <span class="user-breadcrumb-current">
-                            {{ title || 'ایجاد کاربر جدید' }}
+                            {{ title }}
                         </span>
                     </div>
 
                     <div class="d-flex align-center mb-4">
                         <div class="user-hero-icon">
                             <v-icon color="white" size="32">
-                                mdi-account-plus-outline
+                                {{ icon }}
                             </v-icon>
                         </div>
 
                         <div class="mr-4">
                             <h1 class="user-hero-title font-size-24 mb-2">
-                                {{ title || 'ایجاد کاربر جدید' }}
+                                {{ title }}
                             </h1>
                             <p class="user-hero-subtitle mb-0">
-                                {{ subtitle || 'اطلاعات موردنیاز را وارد کنید تا حساب کاربری جدید ایجاد شود.' }}
+                                {{ subtitle }}
                             </p>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                         </span>
                         <span>
                             <v-icon small color="avatar">mdi-form-select</v-icon>
-                            فرم اطلاعات کاربر
+                            فرم اطلاعات
                         </span>
                     </div>
                 </v-col>
@@ -78,7 +78,7 @@
 
                         <div class="user-illustration-main-icon">
                             <v-icon color="white" size="76">
-                                mdi-account-details-outline
+                                {{ baseIcon }}
                             </v-icon>
                         </div>
 
@@ -198,11 +198,19 @@ export default {
         },
         title: {
             type: String,
-            default: ''
+            default: 'ایجاد کاربر جدید'
         },
         subtitle: {
             type: String,
-            default: ''
+            default: 'اطلاعات موردنیاز را وارد کنید تا حساب کاربری جدید ایجاد شود'
+        },
+        icon: {
+            type: String,
+            default: 'mdi-account-plus-outline'
+        },
+        baseIcon: {
+            type: String,
+            default: 'mdi-account-details-outline'
         },
         badgeText: {
             type: String,

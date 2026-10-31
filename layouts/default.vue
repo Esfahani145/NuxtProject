@@ -52,7 +52,7 @@ export default {
     },
 
     mounted() {
-        console.log('DefaultLayout monted')
+        // console.log('DefaultLayout monted')
         this.checkAuth()
     },
 

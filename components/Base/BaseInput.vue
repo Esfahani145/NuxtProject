@@ -207,14 +207,14 @@ export default {
 
     data() {
         return {
-            showPassword: false
+            show_password: false
         }
     },
 
     computed: {
         computedType() {
             if (this.type === 'password' && this.showPasswordToggle) {
-                return this.showPassword ? 'text' : 'password'
+                return this.show_password ? 'text' : 'password'
             }
 
             return this.type
@@ -222,7 +222,7 @@ export default {
 
         computedAppendIcon() {
             if (this.type === 'password' && this.showPasswordToggle) {
-                return this.showPassword
+                return this.show_password
                     ? 'mdi-eye-outline'
                     : 'mdi-eye-off-outline'
             }
@@ -244,7 +244,7 @@ export default {
     methods: {
         handleAppendClick(event) {
             if (this.type === 'password' && this.showPasswordToggle) {
-                this.showPassword = !this.showPassword
+                this.show_password = !this.show_password
             }
 
             this.$emit('click:append', event)

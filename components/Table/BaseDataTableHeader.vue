@@ -38,19 +38,19 @@
             @click:prepend-inner="$emit('apply-filter')"
         />
 
-        <div v-else-if="column.filterable !== false && column.filterType === 'date-range'" class="date-filter-wrapper" :class="{ 'date-filter-between': dateFilterType === 'between' }" @click.stop>
+        <div v-else-if="column.filterable !== false && column.filterType === 'date-range'" class="date-filter-wrapper" :class="{ 'date-filter-between': date_filter_type === 'between' }" @click.stop>
             <v-menu 
-                v-model="showTypeMenu" 
+                v-model="show_type_menu" 
                 offset-y
                 :open-on-click="false"
                 :close-on-content-click="true"
-                :activator="typeMenuActivator"
+                :activator="type_menu_activator"
             >
                 <v-list dense>
                     <v-list-item
                         v-for="option in dateFilterOptions"
                         :key="option.value"
-                        :input-value="option.value === dateFilterType"
+                        :input-value="option.value === date_filter_type"
                         @click="handleSelectType(option.value)"
                     >
                         <v-list-item-title>{{ option.text }}</v-list-item-title>
@@ -58,7 +58,7 @@
                 </v-list>
             </v-menu>
 
-            <div v-if="dateFilterType !== 'between'" ref="singleWrapper" class="date-range-fields">
+            <div v-if="date_filter_type !== 'between'" ref="singleWrapper" class="date-range-fields">
                 <BaseDatePicker
                     ref="datePicker"
                     :value="value && value.from ? value.from : ''"
@@ -74,7 +74,7 @@
                     @keyup.enter.native="applyDateFilter"
                     @click:prepend-inner="applyDateFilter"
                     @click:append.stop="openTypeMenu"
-                    @open="showTypeMenu = false"
+                    @open="show_type_menu = false"
                 />
             </div>
 
@@ -168,10 +168,9 @@ export default {
 
     data() {
         return {
-            dateFilterType: 'equal',
-            showSelectList: false,
-            showTypeMenu: false,
-            typeMenuActivator: null
+            date_filter_type: 'equal',
+            show_type_menu: false,
+            type_menu_activator: null
         }
     },
 
@@ -180,7 +179,7 @@ export default {
             deep: true,
             handler(value) {
                 if (this.column.filterType !== 'date-range') { return }
-                this.dateFilterType = (value && value.type) ? value.type: 'equal'
+                this.date_filter_type = (value && value.type) ? value.type: 'equal'
             }
         }
     },
@@ -208,7 +207,7 @@ export default {
     mounted() {
         if (this.column.filterType !== 'date-range') { return }
         if (this.value && typeof this.value === 'object' && this.value.type) {
-            this.dateFilterType = this.value.type
+            this.date_filter_type = this.value.type
         } else {
             this.$emit('input', { type: 'equal', from: '', to: '' })
         }
@@ -216,8 +215,8 @@ export default {
 
     methods: {
         handleSelectType(type) {
-            this.showTypeMenu = false
-            this.dateFilterType = type
+            this.show_type_menu = false
+            this.date_filter_type = type
 
             const column_key = typeof this.column.value === 'function'
                 ? (this.column.key || this.column.text) 
@@ -240,7 +239,7 @@ export default {
 
         handleSingleDateInput(date) {
             this.$emit('input', {
-                type: this.dateFilterType,
+                type: this.date_filter_type,
                 from: date || '',
                 to: ''
             })
@@ -300,9 +299,9 @@ export default {
                 this.closeDatePicker()
             }
 
-            this.typeMenuActivator = this.$refs.singleWrapper
+            this.type_menu_activator = this.$refs.singleWrapper
             this.$nextTick(() => {
-                this.showTypeMenu = true
+                this.show_type_menu = true
             })
 
         },
@@ -317,7 +316,7 @@ export default {
                 ? (this.column.key || this.column.text) 
                 : this.column.value
 
-            this.dateFilterType = 'equal'
+            this.date_filter_type = 'equal'
             this.$emit('filter-type-change', {columnKey: column_key, type: 'equal'})
             this.$emit('input', {type: 'equal' ,  from: '',  to: ''})
             this.$emit('apply-filter')
@@ -336,7 +335,7 @@ export default {
                 this.$refs.toDatePicker.closeDatePicker()
             }
 
-            this.showTypeMenu = false
+            this.show_type_menu = false
         }
     }
 }

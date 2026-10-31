@@ -143,10 +143,9 @@ export default {
 
     data() {
         return {
-            datePicker: null,
+            date_picker: null,
             today: new Date().getTime(),
-            isReady: false,
-            currentYearSelected: false,
+            is_ready: false,
             position: null
         }
     },
@@ -165,15 +164,15 @@ export default {
         this.$nextTick(() => {
             this.initDatePicker()
             window.addEventListener('scroll', this.updatePosition, true)
-            this.isReady = true
+            this.is_ready = true
         })
     },
 
     beforeDestroy() {
         window.removeEventListener('scroll', this.updatePosition, true)
-        if (this.datePicker) {
+        if (this.date_picker) {
             try {
-                this.datePicker.persianDatepicker('destroy')
+                this.date_picker.persianDatepicker('destroy')
             } catch (e) {
                 console.log(e)
             }
@@ -187,9 +186,9 @@ export default {
     methods: {
         initDatePicker() {
             const input = this.$refs.datePicker.getInputElement()
-            this.datePicker = $(input)
+            this.date_picker = $(input)
 
-            this.datePicker.persianDatepicker({
+            this.date_picker.persianDatepicker({
                 format: this.format,
                 viewMode: this.viewMode,
                 observer: true,
@@ -240,7 +239,7 @@ export default {
             })
 
             if (this.value) {
-                this.datePicker.val(this.value)
+                this.date_picker.val(this.value)
             }
         },
 
@@ -253,37 +252,37 @@ export default {
         },
 
         openDatePicker() {
-            if (this.disabled || !this.isReady || !this.datePicker) { return }
-            this.datePicker.focus()
+            if (this.disabled || !this.is_ready || !this.date_picker) { return }
+            this.date_picker.focus()
 
             try {
-                this.datePicker.persianDatepicker('show')
+                this.date_picker.persianDatepicker('show')
             } catch (e) {
-                this.datePicker.trigger('focus')
-                this.datePicker.trigger('click')
+                this.date_picker.trigger('focus')
+                this.date_picker.trigger('click')
             }
         },
 
         closeDatePicker() {
-            if (!this.datePicker) { return }
+            if (!this.date_picker) { return }
             try {
-                this.datePicker.persianDatepicker('hide')
+                this.date_picker.persianDatepicker('hide')
             } catch (e) {}
         },
 
         updatePosition() {
-            if (!this.datePicker) { return }
+            if (!this.date_picker) { return }
             
             this.position = window.requestAnimationFrame(() => {
                 this.position = null
                 const datepicker = $('.datepicker-container:visible')
                 if (!datepicker.length) { return }
 
-                const input = this.datePicker[0]
+                const input = this.date_picker[0]
                 const input_rect = input.getBoundingClientRect()
 
                 datepicker.css({
-                    position: 'absolute ',
+                    position: 'absolute',
                     top: `${Math.round(input_rect.bottom + 1)}px`,
                     left: `${Math.round(input_rect.left - 48)}px`
                 })

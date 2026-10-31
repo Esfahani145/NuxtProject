@@ -101,6 +101,10 @@
                         'items-per-page-text': 'تعداد در صفحه',
                         'show-first-last-page': true
                     }"
+                    :show-add-button="true"
+                    add-button-text="افزودن محصول"
+                    add-button-icon="mdi-package-variant-plus"
+                    add-button-route="/table/ProductForm"
                     @items-loaded="products = $event"
                 >
                 </BaseDataTable>
@@ -174,23 +178,23 @@ export default {
                     width: '230px',
                     cellClass: 'product-name-cell'
                 },
-                {
-                    text: 'دسته‌بندی',
-                    value: body => {
-                        const category = body.category
-                        return category ? body.category : '_'
-                    },
-                    // 'category',
-                    filterKey: 'category',
-                    type: 'text',
-                    filterType: 'select',
-                    filterOptions: this.categoryFilterOptions,
-                    filterable: true,
-                    sortable: false,
-                    align: 'center',
-                    icon: 'mdi-shape',
-                    width: '190px'
-                },
+                // {
+                //     text: 'دسته‌بندی',
+                //     value: body => {
+                //         const category = body.category
+                //         return category ? body.category : '_'
+                //     },
+                //     // 'category',
+                //     filterKey: 'category',
+                //     type: 'text',
+                //     filterType: 'select',
+                //     filterOptions: this.categoryFilterOptions,
+                //     filterable: true,
+                //     sortable: false,
+                //     align: 'center',
+                //     icon: 'mdi-shape',
+                //     width: '190px'
+                // },
                 {
                     text: 'قیمت',
                     value: 'base_price',
@@ -220,17 +224,6 @@ export default {
                     width: '150px'
                 },
                 {
-                    text: 'برچسب',
-                    value: 'badge',
-                    filterKey: 'badge',
-                    type: 'chip',
-                    filterable: false,
-                    sortable: false,
-                    align: 'center',
-                    icon: 'mdi-tag',
-                    width: '130px'
-                },
-                {
                     text: 'عملیات',
                     value: 'actions',
                     filterKey: 'actions',
@@ -239,7 +232,9 @@ export default {
                     filterable: false,
                     sortable: false,
                     align: 'center',
-                    width: '90px'
+                    width: '90px',
+                    showEdit: true,
+                    editRoute: item => ({path: '/table/ProductForm', query: { id: String(item.id) }})
                 }
             ]
         }

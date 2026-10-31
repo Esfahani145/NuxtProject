@@ -5,9 +5,9 @@
                 <BaseHero
                     type="users"
                     variant="animated"
-                    :title="editUser ? 'ویرایش اطاعات' : 'ایجاد کاربر جدید'"
+                    :title="edit_user ? 'ویرایش اطاعات' : 'ایجاد کاربر جدید'"
                     badge-text="مدیریت کاربران"
-                    :subtitle="editUser ? 'اطلاعات کاربر را ویرایش کنید' : 'اطلاعات مورد نیاز را وارد کنید تا حساب کاربری جدید ساخته شود'"
+                    :subtitle="edit_user ? 'اطلاعات کاربر را ویرایش کنید' : 'اطلاعات مورد نیاز را وارد کنید تا حساب کاربری جدید ساخته شود'"
                 />
 
                 <div class="page-intro mb-5">
@@ -24,7 +24,7 @@
 
                     <div class="form-status">
                         <span class="status-dot"></span>
-                            {{ editUser ? 'آماده ویرایش اطلاعات' : 'آماده ثبت اطلات'}}                    
+                            {{ edit_user ? 'آماده ویرایش اطلاعات' : 'آماده ثبت اطلات'}}                    
                         </div>
                 </div>
 
@@ -102,7 +102,7 @@
 
                                 <BaseSelect
                                     v-model="credentials.gender"
-                                    :items="genderOptions"
+                                    :items="gender_options"
                                     placeholder="جنسیت را انتخاب کنید"
                                     prepend-inner-icon="mdi-human-male-female"
                                     :dense="false"
@@ -321,7 +321,7 @@
                                 class="create-submit-btn"
                             >
                                 <v-icon center small class="ml-2">mdi-account-plus-outline</v-icon>
-                                {{ editUser ? 'ذخیره تغیرات' : 'ثبت کاربر جدید'}}
+                                {{ edit_user ? 'ذخیره تغیرات' : 'ثبت کاربر جدید'}}
                             </BaseButton>
                         </div>
                     </v-card>
@@ -357,12 +357,10 @@ export default {
         return {
             valid: false,
             loading: false,
-            showPassword: false,
-            showConfirmPassword: false,
-            editUser: null,
+            edit_user: null,
             provinces: locations.locations.provinces || [],
             cities: locations.locations.cities || [],
-            genderOptions: [{ text: 'مرد', value: 'male' }, { text: 'زن', value: 'female' }],
+            gender_options: [{ text: 'مرد', value: 'male' }, { text: 'زن', value: 'female' }],
             credentials: {
                 full_name: '',
                 national_code: '',
@@ -389,12 +387,41 @@ export default {
     mounted() {
         const user_id = this.$route.query.id
         if (user_id) {
-            this.editUser = String(user_id)
-            this.handleEditUser()
+            this.edit_user = String(user_id)
+            this.fetchUser()
         }
     },
 
     methods: {
+        fetchUser() {
+            this.loading= true
+
+            return this.$reqAPI(`/user/${this.edit_user}`, 'get', {
+                prams: {
+                    id: this.edit_user
+                }
+            }).then((response) => {
+                const result = response.data
+                const model = result.data.model
+
+                if (result.status !== 200) {
+                    this.$toast.error(result.message || 'دریافت اطلاعات ناموفق بود')
+                    console.log(result.message)
+                }
+                
+                const users = model.data || []
+                this.handleEditUser(users)
+            }).catch((err) => {
+                this.$toast.error(err.message || 'خطا در بارگذاری اطلاعات')
+                this.$router.replace('/table/users')
+                console.log(err)
+            }).finally(() => {
+                this.loading = false
+                console.log(this.edit_user)
+            })
+        
+        },
+
         handleProvinceChange() {
             this.credentials.city = ''
         },
@@ -410,16 +437,16 @@ export default {
                     birth_date: this.credentials.birth_date ? this.$toGregorian(this.credentials.birth_date) : ''
                 }
 
-                if (this.editUser) {
+                if (this.edit_user) {
                     const saved_users = localStorage.getItem('users')
                     const users = saved_users ? JSON.parse(saved_users) : []
-                    const user_index = users.findIndex(user => {return String(user.national_code) === this.editUser})
+                    const user_index = users.findIndex(user => {return String(user.id) === this.edit_user})
 
                     if (user_index === -1) {
                         this.$toast.error('کاربر مورد نظر یافت نشد')
                         return
                     }
-                    
+                    console.log('USER INDEX:', user_index)
                     users.splice(user_index, 1, {...users[user_index], ...payload})
                     localStorage.setItem('users', JSON.stringify(users))
                     this.$toast.success('اطلاعات کاربر با موفقیت به روز رسانی شد')
@@ -432,20 +459,20 @@ export default {
                 this.$router.push('/table/users')
             } catch (error) {
                 this.$toast.error(error.message || 'ثبت کاربر با خطا مواجه شد')
+                console.log(error)
             } finally {
                 this.loading = false
             }
         },
 
-        handleEditUser() {
+        handleEditUser(users) {
             try {
-                const saved_users = localStorage.getItem('users')
-                const users = saved_users ? JSON.parse(saved_users) : []
-                const user = users.find(item => { return String(item.national_code) === this.editUser})
+                const user = users.find(item => { return String(item.id) === this.edit_user})
                  
                 if (!user) {
-                    this.$toast.error('گاربر مورد نظر پیدا نشد.')
+                    this.$toast.error('کاربر مورد نظر پیدا نشد')
                     this.$router.replace('/table/users')
+                    console.log('No User')
                     return
                 }
                 
@@ -457,6 +484,7 @@ export default {
                 }
             } catch(error) {
                 this.$toast.error('بارگذاری اطلاعات کاربر با خطا مواجه شد')
+                console.log('No User Info')
             }
         }
     }

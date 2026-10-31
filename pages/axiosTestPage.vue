@@ -15,7 +15,7 @@
 export default {
     data() {
         return {
-            userId: 1,
+            user_id: 1,
             form: {
                 foo: '',
                 age: ''
@@ -38,7 +38,7 @@ export default {
 
         getData() {
             this.$reqApi('/users', 'get', {
-                params: { ID: this.userId }
+                params: { ID: this.user_id }
             }).then((response) => {
                 console.log(response.data)
             }).catch((error) => {
@@ -49,7 +49,7 @@ export default {
         },
 
         putData() {
-            this.$reqApi(`/users/${this.userId}`, 'put', {
+            this.$reqApi(`/users/${this.user_id}`, 'put', {
                 data: this.form
             }).then((response) => {
                 console.log(response.data)
@@ -61,7 +61,7 @@ export default {
         },
 
         patchData() {
-            this.$reqApi(`/users/${this.userId}`, 'patch', {
+            this.$reqApi(`/users/${this.user_id}`, 'patch', {
                 data: { foo: this.form.foo }
             }).then((response) => {
                 console.log(response.data)
@@ -73,7 +73,7 @@ export default {
         },
 
         deleteData() {
-            this.$reqApi(`/api/users/${this.userId}`, 'delete').then((response) => {
+            this.$reqApi(`/api/users/${this.user_id}`, 'delete').then((response) => {
                 console.log(response.status)
             }).catch((error) => {
                 console.log(error)

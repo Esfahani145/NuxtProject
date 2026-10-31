@@ -109,7 +109,7 @@
                     :show-add-button="true"
                     add-button-text="افزودن کاربر"
                     add-button-icon="mdi-account-plus-outline"
-                    add-button-route="/login/create-user"
+                    add-button-route="/table/UserForm"
                     :items-per-page="10"
                     :footer-props="{
                         'items-per-page-options': [5, 10, 25, 50],
@@ -299,7 +299,7 @@ export default {
                     showDelete: false,
                     filterable: false,
                     align: 'center',
-                    editRoute: item => ({path: '/login/create-user', query: { id: String(item.national_code) }})
+                    editRoute: item => ({path: '/table/UserForm', query: { id: String(item.id) }})
                 }
             ]
         }

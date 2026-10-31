@@ -9,14 +9,14 @@ function parseNumericPrice(value) {
 
 function saveCartToLocalStorage(state, rootState) {
     if (process.client) {
-        const user_phone = rootState.auth?.user?.phone || 'guest_user'
+        const user_phone = rootState.auth.user.phone || 'guest_user'
         localStorage.setItem(`cart_${user_phone}`, JSON.stringify(state.cart))
     }
 }
 
 function saveFavoritesToLocalStorage(state, rootState) {
     if (process.client) {
-        const user_phone = rootState.auth?.user?.phone || 'guest_user'
+        const user_phone = rootState.auth.user.phone || 'guest_user'
         localStorage.setItem(`favorites_${user_phone}`, JSON.stringify(state.favorites))
     }
 }
@@ -122,7 +122,7 @@ export const actions = {
 
     loadUserCart({ commit, rootState }) {
         if (process.client) {
-            const user_phone = rootState.auth?.user?.phone || 'guest_user'
+            const user_phone = rootState.auth.user.phone || 'guest_user'
             const saved_cart = localStorage.getItem(`cart_${user_phone}`)
             if (saved_cart) {
                 try {
@@ -144,7 +144,7 @@ export const actions = {
 
     loadUserFavorites({ commit, rootState }) {
         if (process.client) {
-            const user_phone = rootState.auth?.user?.phone || 'guest_user'
+            const user_phone = rootState.auth.user.phone || 'guest_user'
             const saved_favorites = localStorage.getItem(`favorites_${user_phone}`)
             if (saved_favorites) {
                 try {

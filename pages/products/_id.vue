@@ -108,7 +108,7 @@ export default {
                 this.$toast.error(result.message || 'دریافت محصول ناموفق بود')
             }
 
-            const list = result.data?.model?.data || []
+            const list = result.data.model.data || []
             const item = list.find((p) => String(p.id) === id)
 
             if (!item) {

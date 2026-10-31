@@ -82,10 +82,10 @@
                 <BaseButton
                     icon
                     c-class="date-filter-icon-button"
-                    @click.stop="applyDateFilter"
+                    @click.stop="resetDateFilter"
                 >
                     <v-icon size="24">
-                        mdi-magnify
+                        mdi-filter-remove-outline
                     </v-icon>
                 </BaseButton>
 
@@ -119,10 +119,10 @@
                     <BaseButton
                         icon
                         c-class="date-filter-icon-button"
-                        @click.stop="resetDateFilter"
+                        @click.stop="applyDateFilter"
                     >
                         <v-icon size="20">
-                            mdi-filter-remove-outline
+                            mdi-magnify
                         </v-icon>
                     </BaseButton>
             </div>
@@ -238,52 +238,6 @@ export default {
             this.$emit('input', selectedValue)
         },
 
-        openCalendar() {
-            if (this.$refs.datePicker) {
-                this.$refs.datePicker.openDatePicker()
-            }
-        },
-
-        openFromCalendar() {
-            if (this.$refs.fromDatePicker) {
-                this.$refs.fromDatePicker.openDatePicker()
-            }
-        },
-
-        openToCalendar() {
-            if (this.$refs.toDatePicker) {
-                this.$refs.toDatePicker.openDatePicker()
-            }
-        },
-        
-        openTypeMenu() {
-            if (this.$refs.datePicker) {
-                this.$refs.datePicker.closeDatePicker()
-            }
-
-            this.typeMenuActivator = this.$refs.singleWrapper
-            this.$nextTick(() => {
-                this.showTypeMenu = true
-            })
-
-        },
-
-        applyDateFilter() {
-            this.$emit('apply-filter')
-        },
-
-        resetDateFilter() {
-
-            const column_key = typeof this.column.value === 'function'
-                ? (this.column.key || this.column.text) 
-                : this.column.value
-
-            this.dateFilterType = 'equal'
-            this.$emit('filter-type-change', {columnKey: column_key, type: 'equal'})
-            this.$emit('input', {type: 'equal' ,  from: '',  to: ''})
-            this.$emit('apply-filter')
-        },
-
         handleSingleDateInput(date) {
             this.$emit('input', {
                 type: this.dateFilterType,
@@ -321,6 +275,68 @@ export default {
                 from: (this.value && this.value.from) || '',
                 to: date
             })
+        },
+
+        openCalendar() {
+            if (this.$refs.datePicker) {
+                this.$refs.datePicker.openDatePicker()
+            }
+        },
+
+        openFromCalendar() {
+            if (this.$refs.fromDatePicker) {
+                this.$refs.fromDatePicker.openDatePicker()
+            }
+        },
+
+        openToCalendar() {
+            if (this.$refs.toDatePicker) {
+                this.$refs.toDatePicker.openDatePicker()
+            }
+        },
+        
+        openTypeMenu() {
+            if (this.$refs.datePicker) {
+                this.closeDatePicker()
+            }
+
+            this.typeMenuActivator = this.$refs.singleWrapper
+            this.$nextTick(() => {
+                this.showTypeMenu = true
+            })
+
+        },
+
+        applyDateFilter() {
+            this.$emit('apply-filter')
+        },
+
+        resetDateFilter() {
+
+            const column_key = typeof this.column.value === 'function'
+                ? (this.column.key || this.column.text) 
+                : this.column.value
+
+            this.dateFilterType = 'equal'
+            this.$emit('filter-type-change', {columnKey: column_key, type: 'equal'})
+            this.$emit('input', {type: 'equal' ,  from: '',  to: ''})
+            this.$emit('apply-filter')
+        },
+
+        closeDatePicker() {
+            if (this.$refs.datePicker) {
+                this.$refs.datePicker.closeDatePicker()
+            }
+
+            if (this.$refs.fromDatePicker) {
+                this.$refs.fromDatePicker.colseDatePicker()
+            }
+
+            if (this.$refs.toDatePicker) {
+                this.$refs.toDatePicker.closeDatePicker()
+            }
+
+            this.showTypeMenu = false
         }
     }
 }

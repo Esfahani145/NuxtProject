@@ -15,12 +15,10 @@ function parseNumericPrice(value) {
     return parseInt(only_digits, 10) || 0
 }
 
-
 function formatPrice(value) {
     const price = parseNumericPrice(value)
     return price.toLocaleString('fa-IR')
 }
-
 
 function getProductId(product) {
     if (!product) {
@@ -30,11 +28,26 @@ function getProductId(product) {
     return (product.id)
 }
 
+function normalizeValue(value) {
+    if (value === undefined || value === null) { return '' }
+    return String(value).trim().toLocaleLowerCase()
+}
+
+function normalizeDateValue(value) {
+    if (value === undefined || value === null) { return '' }
+
+    return String(value)
+        .replace(/[۰-۹]/g, digit => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
+        .replace(/-/g, '/')
+        .trim()
+}
 
 export default function (_, inject) {
     inject('helper', {
         parseNumericPrice,
         formatPrice,
-        getProductId
+        getProductId,
+        normalizeValue,
+        normalizeDateValue
     })
 }

@@ -145,7 +145,6 @@ export default {
                     key: 'created_date',
                     filterKey: 'created_at',
                     value: (body => this.$toJalali(body.created_at, '', 'jYYYY/jMM/jDD') || '_'),
-                    filterValue: body => this.$toJalali(body.created_at, '', 'jYYYY/jMM/jDD'),
                     sortValue: body => body.created_at,
                     filterType: 'date-range',
                     filterable: true,

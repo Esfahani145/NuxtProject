@@ -146,7 +146,8 @@ export default {
             datePicker: null,
             today: new Date().getTime(),
             isReady: false,
-            currentYearSelected: false
+            currentYearSelected: false,
+            position: null
         }
     },
 
@@ -163,15 +164,23 @@ export default {
     mounted() {
         this.$nextTick(() => {
             this.initDatePicker()
+            window.addEventListener('scroll', this.updatePosition, true)
             this.isReady = true
         })
     },
 
     beforeDestroy() {
+        window.removeEventListener('scroll', this.updatePosition, true)
         if (this.datePicker) {
             try {
                 this.datePicker.persianDatepicker('destroy')
-            } catch (e) {}
+            } catch (e) {
+                console.log(e)
+            }
+        }
+
+        if (this.position) {
+            window.cancelAnimationFrame(this.position)
         }
     },
 
@@ -224,6 +233,9 @@ export default {
                 },
                 onShow: () => {
                     this.$emit('open')
+                    this.$nextTick(() => {
+                        this.updatePosition()
+                    })
                 }
             })
 
@@ -257,6 +269,25 @@ export default {
             try {
                 this.datePicker.persianDatepicker('hide')
             } catch (e) {}
+        },
+
+        updatePosition() {
+            if (!this.datePicker) { return }
+            
+            this.position = window.requestAnimationFrame(() => {
+                this.position = null
+                const datepicker = $('.datepicker-container:visible')
+                if (!datepicker.length) { return }
+
+                const input = this.datePicker[0]
+                const input_rect = input.getBoundingClientRect()
+
+                datepicker.css({
+                    position: 'fixed',
+                    top: `${Math.round(input_rect.bottom + 1)}px`,
+                    left: `${Math.round(input_rect.left - 48)}px`
+                })
+            })
         }
     }
 }
@@ -308,6 +339,7 @@ export default {
 .base-date-picker-input ::v-deep .v-input__icon--clear {
     order: -1;
 }
+
 </style>
 
 <style>
@@ -315,5 +347,10 @@ export default {
     width: 180px !important;
     border-radius: 5px !important;
     overflow: hidden;
+}
+
+
+.datepicker-container {
+    z-index: 5 !important;
 }
 </style>

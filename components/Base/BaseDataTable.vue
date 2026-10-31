@@ -84,6 +84,7 @@
 
             <template v-for="column in filterableColumns" v-slot:[`header.${getColumnKey(column)}`]>
                 <BaseDataTableHeader
+                    ref="tableHeader"
                     :key="getColumnKey(column)"
                     :column="column"
                     :value="columnFilterValues[getColumnKey(column)]"
@@ -419,9 +420,9 @@ export default {
                         if (!filter_value || (!filter_value.from && !filter_value.to)) { return true }
                         const item_value = this.getColumnValue(item, column)
                         if (item_value === undefined || item_value === null) { return false }
-                        const item_date = this.normalizeDateValue(item_value)
-                        const normalized_filter_from = this.normalizeDateValue(filter_value.from)
-                        const normalized_filter_to = this.normalizeDateValue(filter_value.to)
+                        const item_date = this.$helper.$normalizeDateValue(item_value)
+                        const normalized_filter_from = this.$helper.normalizeDateValue(filter_value.from)
+                        const normalized_filter_to = this.$helper.normalizeDateValue(filter_value.to)
                         const filter_type = filter_value.type || ''
 
                         if (filter_type === 'equal') {
@@ -450,8 +451,8 @@ export default {
                     if (filter_value === undefined || filter_value === null || String(filter_value).trim() === '') { return true }
                     const item_value = this.getColumnValue(item, column)
                     if (item_value === undefined || item_value === null) { return false }
-                    const normalized_item_value = this.normalizeValue(item_value)
-                    const normalized_filter_value = this.normalizeValue(filter_value)
+                    const normalized_item_value = this.$helper.normalizeValue(item_value)
+                    const normalized_filter_value = this.$helper.normalizeValue(filter_value)
 
                     if (column.filterType === 'select') {
                         return item_value === filter_value
@@ -556,6 +557,10 @@ export default {
         }
     },
 
+    mounted() {
+        this.fetchItems()
+    },
+
     methods: {
         getColumnKey(column) {
             if (typeof column.value === 'function') {
@@ -584,20 +589,6 @@ export default {
             this.appliedColumnFilters = { ...this.columnFilterValues }
             this.tableOptions.page = 1
             if (this.url) { this.fetchItems() }
-        },
-
-        normalizeValue(value) {
-            if (value === undefined || value === null) { return '' }
-            return String(value).trim().toLocaleLowerCase()
-        },
-
-        normalizeDateValue(value) {
-            if (value === undefined || value === null) { return '' }
-
-            return String(value)
-                .replace(/[۰-۹]/g, digit => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
-                .replace(/-/g, '/')
-                .trim()
         },
 
         closeAction() {
@@ -659,6 +650,10 @@ export default {
             if (this.url) {
                 await this.fetchItems()
             }
+
+            this.$refs.tableHeader?.forEach(item => {
+                item.closeDatePicker()
+            })
         },
 
         goToPage() {
@@ -687,7 +682,7 @@ export default {
             const payload = {
                 filters: this.buildFilters(),
                 paginate: true,
-                paginate_num: this.tableOptions.itemsPerPage,
+                // paginate_num: this.tableOptions.itemsPerPage,
                 sortBy: 'created_at',
                 orderBy: 'DESC',
                 page: this.tableOptions.page,
@@ -738,9 +733,14 @@ export default {
                     return
                 }
 
+                // let op = '='
+                // if(column.filterType === 'text' || column.filterType === 'number') {
+                //     op = 'LIKE'
+                // }
+                
                 filters[param] = {
                     value,
-                    op: column.filterOp || (column.filterType === 'text' ? 'LIKE' : '=')
+                    op: column.filterType === 'text' ? 'LIKE' : '='
                 }
             })
 
@@ -750,15 +750,14 @@ export default {
         buildDateFilters(value) {
             if (!value || !value.from) { return null }
 
-            const from = this.$toGregorian(value.from)
-            if (value.type === 'after') { return { value: from, op: '>=' } }
-            if (value.type === 'before') { return { value: from, op: '<=' } }
-            return { value: from, op: 'LIKE' }
+            const day = this.$toGregorian(value.from)
+            if (!day) {
+                return null
+            }
+            if (value.type === 'after') { return { value: `${day} 00:00:00`, op: '>=' } }
+            if (value.type === 'before') { return { value: `${day} 00:00:00`, op: '<=' } }
+            return { value: `${day}`, op: 'LIKE' }
         }
-    },
-
-    mounted() {
-        this.fetchItems()
     }
 }
 </script>

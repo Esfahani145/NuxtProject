@@ -747,3 +747,13 @@ html::-webkit-scrollbar-thumb:hover {
 .opacity-70 { opacity: 0.7; }
 .opacity-80 { opacity: 0.8; }
 .opacity-90 { opacity: 0.9; }
+
+.datepicker-plot-area {
+    width: 180px !important;
+    border-radius: 5px !important;
+    overflow: hidden;
+}
+
+.datepicker-container {
+    z-index: 5 !important;
+}

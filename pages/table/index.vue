@@ -7,79 +7,26 @@
                         <v-icon color="accent" size="26">mdi-package-variant-closed</v-icon>
                     </div>
                     <div>
-                        <h1 class="font-weight-bold mb-1 products-page-title">
+                        <h1 class="font-weight-bold mb-1 primary--text">
                             مدیریت محصولات
                         </h1>
-                        <p class="mb-0 products-page-subtitle">
+                        <p class="mb-0 span--text">
                             مشاهده، جست‌وجو و مدیریت محصولات سامانه
                         </p>
                     </div>
                 </div>
-                <!-- <span class="font-weight-bold grey--text text--darken-2 mt-2 mt-sm-0">
-                    تعداد محصولات: {{ products.length }}
-                </span> -->
             </div>
-
-            <!-- <v-row class="mb-4" dense>
-                <v-col cols="12" sm="4">
-                    <v-card outlined class="white-stat-card pa-4 rounded-lg" height="100%">
-                        <div class="d-flex align-center">
-                            <v-avatar color="blue lighten-5" size="48">
-                                <v-icon color="accent">mdi-package-variant</v-icon>
-                            </v-avatar>
-                            <div class="mr-3">
-                                <div class="stat-label">کل محصولات</div>
-                                <div class="font-weight-bold stat-value">
-                                    {{ products.length }}
-                                </div>
-                            </div>
-                        </div>
-                    </v-card>
-                </v-col>
-
-                <v-col cols="12" sm="4">
-                    <v-card outlined class="white-stat-card pa-4 rounded-lg" height="100%">
-                        <div class="d-flex align-center">
-                            <v-avatar color="green lighten-5" size="48">
-                                <v-icon color="success">mdi-check-circle-outline</v-icon>
-                            </v-avatar>
-                            <div class="mr-3">
-                                <div class="stat-label">محصولات فعال</div>
-                                <div class="font-weight-bold stat-value">
-                                    {{ activeProductsCount }}
-                                </div>
-                            </div>
-                        </div>
-                    </v-card>
-                </v-col>
-
-                <v-col cols="12" sm="4">
-                    <v-card outlined class="white-stat-card pa-4 rounded-lg" height="100%">
-                        <div class="d-flex align-center">
-                            <v-avatar color="red lighten-5" size="48">
-                                <v-icon color="error">mdi-close-circle-outline</v-icon>
-                            </v-avatar>
-                            <div class="mr-3">
-                                <div class="stat-label">محصولات غیرفعال</div>
-                                <div class="font-weight-bold stat-value">
-                                    {{ inactiveProductsCount }}
-                                </div>
-                            </div>
-                        </div>
-                    </v-card>
-                </v-col>
-            </v-row> -->
 
             <v-card outlined class="white-detail-card rounded-lg">
                 <div class="d-flex align-center justify-space-between flex-wrap pa-4">
                     <div>
                         <div class="d-flex align-center mb-1">
                             <v-icon color="accent" class="ml-2">mdi-view-list</v-icon>
-                            <h2 class="font-weight-bold mb-0 products-table-title">
+                            <h2 class="font-weight-bold mb-0 products-table-title primary--text">
                                 جدول محصولات
                             </h2>
                         </div>
-                        <p class="mb-0 products-page-subtitle">
+                        <p class="mb-0 span--text">
                             فهرست محصولات و اطلاعات مربوط به آن‌ها
                         </p>
                     </div>
@@ -104,7 +51,7 @@
                     :show-add-button="true"
                     add-button-text="افزودن محصول"
                     add-button-icon="mdi-package-variant-plus"
-                    add-button-route="/table/ProductForm"
+                    add-button-route="/table/insert"
                     @items-loaded="products = $event"
                 >
                 </BaseDataTable>
@@ -241,31 +188,3 @@ export default {
     },
 }
 </script>
-
-<style scoped>
-.products-page-title,
-.products-table-title {
-    color: #0f172a;
-}
-
-.products-page-subtitle,
-.stat-label {
-    color: #64748b;
-}
-
-.stat-value {
-    color: #0f172a;
-    line-height: 1.5;
-}
-
-.product-view-description {
-    color: #475569;
-    line-height: 2;
-}
-
-.product-view-price {
-    color: #0f172a;
-    font-size: 18px;
-    font-weight: 800;
-}
-</style>

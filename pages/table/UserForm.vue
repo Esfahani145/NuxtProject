@@ -12,10 +12,10 @@
 
                 <div class="page-intro mb-5">
                     <div>
-                        <h2 class="intro-title font-size-20 mb-1">
+                        <h2 class="primary--text font-weight-bold font-size-20 mb-1">
                             فرم اطلاعات کاربر
                         </h2>
-                        <p class="intro-description mb-0">
+                        <p class="span--text mb-0">
                             فیلدهای دارای علامت
                             <span class="required-mark">*</span>
                             الزامی هستند.
@@ -37,8 +37,8 @@
                                 </v-icon>
                             </div>
 
-                            <div class="section-heading-text">
-                                <h3 class="mb-1">اطلاعات هویتی</h3>
+                            <div>
+                                <h3 class="mb-1 primary--text font-size-16 font-weight-black">اطلاعات هویتی</h3>
                                 <p class="mb-0">
                                     مشخصات فردی و اطلاعات شناسایی کاربر
                                 </p>
@@ -121,8 +121,8 @@
                                 </v-icon>
                             </div>
 
-                            <div class="section-heading-text">
-                                <h3 class="mb-1">اطلاعات تماس</h3>
+                            <div>
+                                <h3 class="mb-1 primary--text font-size-16 font-weight-black">اطلاعات تماس</h3>
                                 <p class="mb-0">راه‌های ارتباطی با کاربر</p>
                             </div>
                         </div>
@@ -173,8 +173,8 @@
                                 </v-icon>
                             </div>
 
-                            <div class="section-heading-text">
-                                <h3 class="mb-1">اطلاعات محل سکونت</h3>
+                            <div>
+                                <h3 class="mb-1 primary--text font-size-16 font-weight-black">اطلاعات محل سکونت</h3>
                                 <p class="mb-0">استان، شهر و نشانی محل سکونت کاربر</p>
                             </div>
                         </div>
@@ -240,9 +240,9 @@
                             </v-icon>
                             </div>
 
-                            <div class="section-heading-text">
-                                <h3 class="mb-1">اطلاعات حساب کاربری</h3>
-                                <p class="mb-0">اطلاعات ورود به سامانه</p>
+                            <div>
+                                <h3 class="mb-1 primary--text font-size-16 font-weight-black">اطلاعات حساب کاربری</h3>
+                                <p class="mb-0 span--text font-size-13 ">اطلاعات ورود به سامانه</p>
                             </div>
                         </div>
 
@@ -396,7 +396,7 @@ export default {
         fetchUser() {
             this.loading= true
 
-            return this.$reqAPI('/user', 'get', {
+            return this.$reqAPI('/user', {
                 data: {
                     filters: {
                         id: this.edit_user
@@ -408,7 +408,6 @@ export default {
 
                 if (result.status !== 200) {
                     this.$toast.error(result.message || 'دریافت اطلاعات ناموفق بود')
-                    // console.log(result.message)
                 }
                 
                 const users = model.data || []
@@ -424,6 +423,29 @@ export default {
             })
         
         },
+
+
+    //     return this.$reqAPI('/user', 'post', {
+    //         data: {
+    //             filters: {
+    //                 id: this.edit_user
+    //             }
+    //         }
+    //     }).then((response) => {
+    //         console.log('Response:', response)
+
+    //         const result = response.data
+    //         const model = result.data.model
+    //         const users = model.data || []
+
+    //         this.handleEditUser(users)
+    //     }).catch((err) => {
+    //         console.log('API Error:', err)
+    //         this.$toast.error(err.message || 'خطا در بارگذاری اطلاعات')
+    //     }).finally(() => {
+    //         this.loading = false
+    //     })
+    // }
 
         handleProvinceChange() {
             this.credentials.city = ''
@@ -505,15 +527,6 @@ export default {
     gap: 12px;
 }
 
-.intro-title {
-    color: #0f172a;
-    font-weight: 800;
-}
-
-.intro-description {
-    color: #64748b;
-}
-
 .form-status {
     gap: 8px;
     padding: 8px 12px;
@@ -548,16 +561,6 @@ export default {
     gap: 8px;
     padding: 20px 0;
     color: #94a3b8;
-}
-
-@keyframes float-icon {
-    0%,
-    100% {transform: translateY(0);}
-    50% {transform: translateY(-6px);}
-}
-
-@keyframes rotate-orbit {
-    to {transform: rotate(360deg);}
 }
 
 .actions-description {
@@ -595,18 +598,6 @@ export default {
     display: flex;
     align-items: center;
     gap: 12px;
-}
-
-.section-heading-text h3 {
-    color: #0f172a;
-    font-size: 16px;
-    font-weight: 800;
-}
-
-.section-heading-text p {
-    color: #64748b;
-    font-size: 13px;
-    line-height: 1.8;
 }
 
 .form-section .v-divider {

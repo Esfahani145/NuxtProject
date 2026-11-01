@@ -19,7 +19,7 @@
                 <v-col cols="12" md="6" class="auth-field">
                     <label class="form-label">
                         نام و نام خانوادگی
-                        <span class="required-mark">*</span>
+                        <span class="required--text">*</span>
                     </label>
 
                     <BaseInput
@@ -34,7 +34,7 @@
                 <v-col cols="12" md="6" class="auth-field">
                     <label class="form-label">
                         کد ملی
-                        <span class="required-mark">*</span>
+                        <span class="required--text">*</span>
                     </label>
 
                     <BaseInput
@@ -52,13 +52,11 @@
                 <v-col cols="12" md="6" class="auth-field">
                     <label class="form-label">
                         تاریخ تولد
-                        <span class="required-mark">*</span>
                     </label>
 
                     <BaseDatePicker
                         v-model="credentials.birth_date"
                         placeholder="انتخاب تاریخ تولد"
-                        rules="required"
                         class="light-input"
                     />
                 </v-col>
@@ -66,7 +64,6 @@
                 <v-col cols="12" md="6" class="auth-field">
                     <label class="form-label">
                         جنسیت
-                        <span class="required-mark">*</span>
                     </label>
 
                     <BaseSelect
@@ -75,7 +72,6 @@
                         :dense="false"
                         placeholder="انتخاب جنسیت"
                         prepend-inner-icon="mdi-account-group-outline"
-                        rules="required"
                         class="light-input"
                     />
                 </v-col>
@@ -102,7 +98,7 @@
                 <v-col cols="12" md="6" class="auth-field">
                     <label class="form-label">
                         شماره همراه
-                        <span class="required-mark">*</span>
+                        <span class="required--text">*</span>
                     </label>
 
                     <BaseInput
@@ -153,7 +149,6 @@
                 <v-col cols="12" md="6" class="auth-field">
                     <label class="form-label">
                         استان
-                        <span class="required-mark">*</span>
                     </label>
 
                     <BaseAutocomplete
@@ -161,7 +156,6 @@
                         :items="provinces"
                         placeholder="انتخاب استان"
                         prepend-inner-icon="mdi-map-marker-outline"
-                        rules="required"
                         clearable
                         class="light-input"
                     />
@@ -170,7 +164,6 @@
                 <v-col cols="12" md="6" class="auth-field">
                     <label class="form-label">
                         شهر
-                        <span class="required-mark">*</span>
                     </label>
 
                     <BaseAutocomplete
@@ -178,7 +171,6 @@
                         :items="filteredCities"
                         placeholder="ابتدا استان را انتخاب کنید"
                         prepend-inner-icon="mdi-city-variant-outline"
-                        rules="required"
                         :disabled="!credentials.province"
                         clearable
                         hide-details="auto"
@@ -189,7 +181,6 @@
                 <v-col cols="12" class="auth-field">
                     <label class="form-label">
                         آدرس محل سکونت
-                        <span class="required-mark">*</span>
                     </label>
 
                     <BaseTextarea
@@ -224,7 +215,7 @@
                 <v-col cols="12" md="6" class="auth-field">
                     <label class="form-label">
                         رمز عبور
-                        <span class="required-mark">*</span>
+                        <span class="required--text">*</span>
                     </label>
 
                     <BaseInput
@@ -241,7 +232,7 @@
                 <v-col cols="12" md="6" class="auth-field">
                     <label class="form-label">
                         تکرار رمز عبور
-                        <span class="required-mark">*</span>
+                        <span class="required--text">*</span>
                     </label>
 
                     <BaseInput
@@ -513,10 +504,6 @@ export default {
     color: #334155;
     margin-bottom: 4px;
     display: block;
-}
-
-.required-mark {
-    color: #ef4444;
 }
 
 .security-note {

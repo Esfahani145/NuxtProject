@@ -14,10 +14,10 @@
 
                 <div class="page-intro mb-5">
                     <div>
-                        <h2 class="intro-title font-size-20 mb-1">
+                        <h2 class="font-weight-black primary--text font-size-20 mb-1">
                             فرم اطلاعات محصول
                         </h2>
-                        <p class="intro-description mb-0">
+                        <p class="soan--text mb-0">
                             فیلدهای دارای علامت
                             <span class="required-mark">*</span>
                             الزامی هستند.
@@ -39,7 +39,7 @@
                                 </v-icon>
                             </div>
 
-                            <div class="section-heading-text">
+                            <div class="font-size-16 primary--text ">
                                 <h3 class="mb-1">اطلاعات محصول</h3>
                             </div>
                         </div>
@@ -278,15 +278,6 @@ export default {
     gap: 12px;
 }
 
-.intro-title {
-    color: #0f172a;
-    font-weight: 800;
-}
-
-.intro-description {
-    color: #64748b;
-}
-
 .form-status {
     gap: 8px;
     padding: 8px 12px;
@@ -353,7 +344,6 @@ export default {
 .actions-buttons ::v-deep .v-btn {
     min-height: 44px;
     border-radius: 8px;
-    font-family: 'Vazirmatn', sans-serif;
     font-weight: 700;
 }
 
@@ -368,18 +358,6 @@ export default {
     display: flex;
     align-items: center;
     gap: 12px;
-}
-
-.section-heading-text h3 {
-    color: #0f172a;
-    font-size: 16px;
-    font-weight: 800;
-}
-
-.section-heading-text p {
-    color: #64748b;
-    font-size: 13px;
-    line-height: 1.8;
 }
 
 .form-section .v-divider {

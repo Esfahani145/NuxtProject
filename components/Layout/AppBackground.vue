@@ -30,7 +30,6 @@ export default {
 </script>
 
 <style scoped>
-
 .clean-tech-bg {
     position: relative;
     background-color: #eef2f7;

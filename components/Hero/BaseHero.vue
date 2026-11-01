@@ -133,7 +133,7 @@
                         {{ type === 'products' ? 'mdi-shield-check' : 'mdi-newspaper-variant-outline' }}
                     </v-icon>
 
-                    <span class="badge-text font-weight-bold">
+                    <span class="hero--text font-weight-bold">
                         {{
                             badgeText || (type === 'products' ? 'سرویس‌های ابری و زیرساخت' : 'اطلاع‌رسانی و رویدادها')
                         }}
@@ -232,10 +232,6 @@ export default {
 .badge-chip {
     background: rgba(59, 130, 246, 0.15) !important;
     border: 1px solid rgba(96, 165, 250, 0.3) !important;
-}
-
-.badge-text {
-    color: #60a5fa !important;
 }
 
 .hero-title {

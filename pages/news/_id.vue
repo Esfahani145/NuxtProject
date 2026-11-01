@@ -30,7 +30,7 @@
                                     {{ news_item.category || 'اطلاعیه' }}
                                 </v-chip>
 
-                                <div class="d-flex align-center text-slate font-size-12">
+                                <div class="d-flex align-center span--text font-size-12">
                                     <v-icon small color="span" class="ml-1">mdi-calendar-month-outline</v-icon>
                                     <span class="ml-4">{{ news_item.date }}</span>
                                     <v-icon small color="span" class="ml-1">mdi-clock-outline</v-icon>
@@ -38,7 +38,7 @@
                                 </div>
                             </div>
 
-                            <h1 class="news-title font-weight-black text-md mb-6">
+                            <h1 class="news-title primary--text font-weight-black text-md mb-6">
                                 {{ news_item.title }}
                             </h1>
 
@@ -49,7 +49,7 @@
                             </div>
 
                             <div class="mt-8 pt-6 border-t d-flex font-size-12">
-                                <span class="text-slate">منبع: {{ news_item.source }}</span>
+                                <span class="span--text">منبع: {{ news_item.source }}</span>
                             </div>
                         </div>
                     </v-card>
@@ -82,16 +82,11 @@ export default {
 
 <style scoped>
 .news-title {
-    color: #0f172a !important;
     line-height: 1.4;
 }
 
 .news-content {
     color: #334155 !important;
     line-height: 1.9;
-}
-
-.text-slate {
-    color: #64748b !important;
 }
 </style>

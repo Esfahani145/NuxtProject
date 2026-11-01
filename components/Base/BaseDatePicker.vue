@@ -338,18 +338,4 @@ export default {
 .base-date-picker-input ::v-deep .v-input__icon--clear {
     order: -1;
 }
-
-</style>
-
-<style>
-.datepicker-plot-area {
-    width: 180px !important;
-    border-radius: 5px !important;
-    overflow: hidden;
-}
-
-
-.datepicker-container {
-    z-index: 5 !important;
-}
 </style>

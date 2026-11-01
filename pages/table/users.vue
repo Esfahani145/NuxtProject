@@ -13,68 +13,7 @@
                         </p>
                     </div>
                 </div>
-
-                <!-- <span class="font-weight-bold grey--text text--darken-2 mt-2 mt-sm-0">
-                    تعداد کاربران: {{ users.length }}
-                </span> -->
-
             </div>
-
-            <!-- <v-row dense class="mb-6">
-                <v-col cols="12" sm="4">
-                    <v-card outlined class="white-stat-card pa-4 rounded-lg" height="100%">
-                        <div class="d-flex align-center">
-                            <div class="section-icon ml-3">
-                                <v-icon color="primary">mdi-account-multiple-outline</v-icon>
-                            </div>
-                            <div>
-                                <div class="grey--text text--darken-1">
-                                    کل کاربران
-                                </div>
-                                <div class="font-weight-bold slate-dark--text">
-                                    {{ users.length }}
-                                </div>
-                            </div>
-                        </div>
-                    </v-card>
-                </v-col>
-
-                <v-col cols="12" sm="4">
-                    <v-card outlined class="white-stat-card pa-4 rounded-lg" height="100%">
-                        <div class="d-flex align-center">
-                            <div class="section-icon ml-3">
-                                <v-icon color="indigo">mdi-shield-account-outline</v-icon>
-                            </div>
-                            <div>
-                                <div class="grey--text text--darken-1">
-                                    کاربران دارای نقش
-                                </div>
-                                <div class="font-weight-bold slate-dark--text">
-                                    {{ users.filter(user => user.role).length }}
-                                </div>
-                            </div>
-                        </div>
-                    </v-card>
-                </v-col>
-
-                <v-col cols="12" sm="4">
-                    <v-card outlined class="white-stat-card pa-4 rounded-lg" height="100%">
-                        <div class="d-flex align-center">
-                            <div class="section-icon ml-3">
-                                <v-icon color="teal">mdi-email-outline</v-icon>
-                            </div>
-                            <div>
-                                <div class="grey--text text--darken-1">
-                                    کاربران دارای ایمیل
-                                </div>
-                                <div class="font-weight-bold slate-dark--text">
-                                    {{ users.filter(user => user.email).length }}
-                                </div>
-                            </div>
-                        </div>
-                    </v-card>
-                </v-col>
-            </v-row> -->
 
             <v-card outlined class="white-detail-card rounded-lg">
                 <div class="d-flex align-center justify-space-between flex-wrap pa-4">

@@ -102,10 +102,11 @@ export default {
           span: '#64748b',
           warning: '#d97706',
           error: '#dc2626',
+          required: '#ef4444',
           success: '#16a34a',
           green: '#059669',
           avatar: '#eff6ff',
-          test: '#445c83'
+          test: '#3b82f6  ',
         }
       }
     }

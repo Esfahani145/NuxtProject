@@ -240,5 +240,4 @@ export default {
 .border-top-light {
     border-top: 1px solid #f1f5f9;
 }
-
 </style>

@@ -70,10 +70,10 @@
             <div class="auth-card-glass pa-8">
                 <div class="d-flex align-center justify-space-between mb-2">
                     <div>
-                        <h2 class="auth-card-title font-weight-black mb-1">
+                        <h2 class="font-size-20 font-weight-black mb-1 primary--text">
                             {{ signup ? 'ایجاد حساب کاربری' : 'ورود به حساب کاربری' }}
                         </h2>
-                        <p class="auth-card-subtitle mb-0">
+                        <p class="span--text font-size-12 mb-0">
                             {{ signup ? 'برای ثبت‌نام اطلاعات خود را وارد کنید.' : 'برای ادامه، اطلاعات حساب کاربری خود را وارد کنید.' }}
                         </p>
                     </div>
@@ -102,7 +102,7 @@
 
                 <div class="footer-help text-center mt-5 pt-2">
                     <span class="grey--text text--darken-1 font-size-12">نیاز به راهنمایی دارید؟ </span>
-                    <a href="#" class="help-link font-weight-bold font-size-12" @click.prevent="$toast.info('لطفاً با پشتیبانی سیستم تماس بگیرید')">
+                    <a href="#" class="accent--text font-weight-bold font-size-12" @click.prevent="$toast.info('لطفاً با پشتیبانی سیستم تماس بگیرید')">
                         <v-icon size="16" color="blue darken-1" class="ml-1">mdi-headset</v-icon>
                         تماس با پشتیبانی فنی
                     </a>
@@ -301,16 +301,6 @@ export default {
     overflow: hidden;
 }
 
-.auth-card-title {
-    font-size: 20px;
-    color: #0f172a;
-}
-
-.auth-card-subtitle {
-    font-size: 12px;
-    color: #64748b;
-}
-
 .auth-form-wrapper {
     flex: 0 1 auto;
     overflow-y: auto;
@@ -334,59 +324,7 @@ export default {
     background: rgba(37, 99, 235, 0.6);
 }
 
-.divider-or {
-    position: relative;
-    flex-shrink: 0;
-}
-
-.divider-or::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: #cbd5e1;
-    z-index: 1;
-}
-
-.divider-or span {
-    position: relative;
-    z-index: 2;
-    background: rgba(230, 238, 248, 0.95);
-    padding: 0 12px;
-    color: #64748b;
-    font-size: 12px;
-}
-
-.signup-box {
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px dashed #93c5fd;
-    border-radius: 12px;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.signup-box:hover {
-    background: #fff;
-}
-
-.signup-box-title {
-    font-size: 13px;
-    color: #1e293b;
-}
-
-.signup-box-sub {
-    font-size: 11px;
-    color: #64748b;
-}
-
 .footer-help {
     flex-shrink: 0;
-}
-
-.help-link {
-    color: #2563eb;
-    text-decoration: none;
 }
 </style>

@@ -424,29 +424,6 @@ export default {
         
         },
 
-
-    //     return this.$reqAPI('/user', 'post', {
-    //         data: {
-    //             filters: {
-    //                 id: this.edit_user
-    //             }
-    //         }
-    //     }).then((response) => {
-    //         console.log('Response:', response)
-
-    //         const result = response.data
-    //         const model = result.data.model
-    //         const users = model.data || []
-
-    //         this.handleEditUser(users)
-    //     }).catch((err) => {
-    //         console.log('API Error:', err)
-    //         this.$toast.error(err.message || 'خطا در بارگذاری اطلاعات')
-    //     }).finally(() => {
-    //         this.loading = false
-    //     })
-    // }
-
         handleProvinceChange() {
             this.credentials.city = ''
         },

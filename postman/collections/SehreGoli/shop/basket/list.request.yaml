@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{host}}/basket"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: |-
+    {
+        "filters":{
+            "id" : "55516e3c-f966-449d-9c6a-dbb3021b4413"
+        }
+    }
+order: 8000

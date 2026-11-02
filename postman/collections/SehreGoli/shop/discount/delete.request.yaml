@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{host}}/discount/delete"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: "{\r
+
+    \    \"id\": \"22f3e09f-2a2e-4abf-9ca7-18d08a7e489d\"\r
+
+    }"
+order: 6000

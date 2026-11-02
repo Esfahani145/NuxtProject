@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{host}}/discount/check-code"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: code
+      value: code-test-1
+order: 2000

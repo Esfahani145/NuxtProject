@@ -1,0 +1,33 @@
+$kind: http-request
+url: "{{host}}/comment/update"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: ""
+    - type: text
+      key: content
+      value: نظر من در مورد این محصول این است که ...
+      description: "*"
+    - type: text
+      key: user_id
+      value: 56194f1c-1398-44f0-87cd-c34d2356eeaf
+    - type: text
+      key: target_id
+      value: 05144971-f103-4803-a188-e96981c5493d
+      description: "*"
+    - type: text
+      key: target_type
+      value: post
+      description: "* post,product"
+    - type: text
+      key: parent_comment_id
+      value: aae8e20c-ac04-46b7-b3c8-206ddbbee11b
+    - type: text
+      key: confirmed
+      value: ""
+order: 6000

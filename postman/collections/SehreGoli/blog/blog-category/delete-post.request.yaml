@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{host}}/blog-category/delete-post"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: category_id
+      value: feea7bbb-e5c1-4891-b8ac-8cf8bc1a200a
+      description: "*"
+    - type: text
+      key: post_id
+      value: 592a9bef-540c-4508-8d6e-196c1afea539
+      description: "*"
+order: 5000

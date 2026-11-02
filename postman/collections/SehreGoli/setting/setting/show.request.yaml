@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{host}}/setting/show"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: 1ab4ba37-cf14-4ff8-bfe4-a2250c7c0495
+order: 2000

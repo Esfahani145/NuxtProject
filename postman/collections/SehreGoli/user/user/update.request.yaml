@@ -1,0 +1,45 @@
+$kind: http-request
+url: "{{host}}/user/update"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: "{\r
+
+    \    \"id\":\"56194f1c-1398-44f0-87cd-c34d2356eeaf\",\r
+
+    \    \"username\":\"09111111111\",\r
+
+    \    \"first_name\":\"حسن ژاله\",\r
+
+    \    \"gender\":\"male\",\r
+
+    \    \"biography\":\"با ۳۲ سال سن از کشاورزان منطقه هلیلان استان ایلام هستم که در سال ۱۴۰۱ یک ایستگاه پمپاژ از رودخانه سیمره به طول ۴ کیلومتر احداث نمودم.\",\r
+
+    \    \"points\":0,\r
+
+    \    \"avatar\":\"upload/126224/RxZJmfczJsW9cCIpGBO5S6Qkxh0zs55EWmId1cJK.png\",\r
+
+    \    \"person_type\":\"real\",\r
+
+    \    \"status\":\"active\",\r
+
+    \    \"notification_status\":\"all\",\r
+
+    \    \"role_id\":[\"5246f14d-1906-4e34-a412-8fb689d20f23\"],\r
+
+    \    \"keywords\":[],\r
+
+    \    \"extra_infos\":[\r
+
+    \        {\"key\":\"f5066cfd-3712-4d3b-b1b5-7cbd3a24ca70\",\"value\":\"user_category\"}\r
+
+    \    ],\r
+
+    \    \"country_division_id\":\"967cc7a2-c5ef-4299-9e81-d594dedfbc91\",\r
+
+    \    \"password\":\"123456\"\r
+
+    }"
+order: 3000

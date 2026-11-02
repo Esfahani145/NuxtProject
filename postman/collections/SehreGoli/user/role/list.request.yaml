@@ -1,0 +1,6 @@
+$kind: http-request
+url: "{{host}}/role"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+order: 1000

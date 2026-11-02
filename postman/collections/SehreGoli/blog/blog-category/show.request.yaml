@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{host}}/blog-category/show"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: 89a23ac0-4f5c-4daa-a89b-b8cdfd446880
+order: 1000

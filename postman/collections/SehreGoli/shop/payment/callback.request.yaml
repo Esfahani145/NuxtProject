@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{host}}/payment/callback"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: Authority
+      value: A00000000000000000000000000384636893
+      description: for zarinpan
+    - type: text
+      key: trackId
+      value: ""
+      description: for zibal
+      disabled: true
+order: 1000

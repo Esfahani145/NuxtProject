@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{host}}/report/search"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: text
+      value: زرد
+    - type: text
+      key: app_id
+      value: "1234"
+order: 1000

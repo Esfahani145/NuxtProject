@@ -1,0 +1,23 @@
+$kind: http-request
+url: "{{host}}/user/searchByRole"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: "{\r
+
+    \    \"role_id\": [\r
+
+    \        \"bbab55a5-6343-4861-aabf-f07de5622976\"\r
+
+    \    ],\r
+
+    \    \"filter\":{\r
+
+    \        \"name\":{\"op\":\"LIKE\",\"value\":\"پزش\"}\r
+
+    \    }\r
+
+    }"
+order: 6000

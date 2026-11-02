@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{host}}/contact-us"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: |-
+    {
+        "filter":{
+            "name":{"op":"LIKE","value":"ارغوان"}
+        }
+    }
+order: 1000

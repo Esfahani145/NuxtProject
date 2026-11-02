@@ -1,0 +1,35 @@
+$kind: http-request
+url: "{{host}}/product-media/update"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: bf93426e-277b-43bb-a8c3-81e1b7551814
+      description: "*"
+    - type: text
+      key: file_path
+      value: /upload/file.png
+      description: "*"
+    - type: text
+      key: product_id
+      value: d1ebe7f9-b758-4836-80a3-2f65ee1ee7f6
+      description: "*"
+    - type: text
+      key: alt
+      value: تصویر 2
+    - type: text
+      key: type
+      value: video
+      description: image , video
+    - type: text
+      key: status
+      value: hidden
+      description: active , hidden
+    - type: text
+      key: sort
+      value: "1"
+order: 4000

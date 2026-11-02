@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{host}}/contact-us/show"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: 61d46b5b-73be-4b63-9959-58abded648e4
+order: 4000

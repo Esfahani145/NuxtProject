@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{host}}/wholesell-price/show"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: 75fe216c-467c-4a7a-aee1-fae66ee3abca
+      disabled: true
+    - type: text
+      key: slug
+      value: Jujube-sugar
+      description: اولویت یافتن محصول با id است و اگر id خالی بود با slug پیدا می کند
+order: 1000

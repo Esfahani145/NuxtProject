@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{host}}/product-description/show"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: 7ba84a0e-1165-4dbf-8201-3c770cfd84a2
+order: 1000

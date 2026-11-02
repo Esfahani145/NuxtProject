@@ -1,0 +1,30 @@
+$kind: http-request
+url: "{{host}}/blog-category/insert"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: title
+      value: زیر دسته 2
+      description: "*"
+    - type: text
+      key: slug
+      value: sub-category-2
+      description: "*"
+    - type: text
+      key: seo_description
+      value: این دسته بندی کاربردی است
+    - type: text
+      key: category_status
+      value: active
+      description: active , hidden
+    - type: text
+      key: parent_category_id
+      value: fd63af2d-88f1-44ce-b231-af31af9aaeeb
+    - type: text
+      key: sort
+      value: "1"
+order: 3000

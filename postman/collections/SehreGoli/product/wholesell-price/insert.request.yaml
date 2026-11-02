@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{host}}/wholesell-price/insert"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: name
+      value: زعفران سرگل
+      description: "* نام محصول"
+    - type: text
+      key: price
+      value: "150000"
+      description: "*قیمت عمده محصول"
+order: 3000

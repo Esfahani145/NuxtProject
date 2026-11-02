@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{host}}/country_division/insert"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\": \"test\",\r
+
+    \    \"action_id\": [\"e5cf1ab5-3ef0-41dd-897f-3194ae4c3706\"]\r
+
+    }"
+order: 2000

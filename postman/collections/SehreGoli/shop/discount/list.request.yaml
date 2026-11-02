@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{host}}/discount"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: |-
+    {
+        "filters":{
+            "code":{"op":"!=","value":null}
+        }
+    }
+order: 3000

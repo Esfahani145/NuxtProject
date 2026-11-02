@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{host}}/product/show"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: 3375163e-d013-4e7b-95da-628fe2b39e21
+    - type: text
+      key: slug
+      value: Jujube-sugar
+      description: اولویت یافتن محصول با id است و اگر id خالی بود با slug پیدا می کند
+      disabled: true
+order: 1000

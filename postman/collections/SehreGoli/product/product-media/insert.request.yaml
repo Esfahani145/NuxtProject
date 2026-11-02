@@ -1,0 +1,31 @@
+$kind: http-request
+url: "{{host}}/product-media/insert"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: file_path
+      value: /upload/file.png
+      description: "*"
+    - type: text
+      key: product_id
+      value: d1ebe7f9-b758-4836-80a3-2f65ee1ee7f6
+      description: "*"
+    - type: text
+      key: alt
+      value: تصویر 2
+    - type: text
+      key: type
+      value: image
+      description: image , video
+    - type: text
+      key: status
+      value: active
+      description: active , hidden
+    - type: text
+      key: sort
+      value: "1"
+order: 3000

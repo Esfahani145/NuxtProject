@@ -1,0 +1,55 @@
+$kind: http-request
+url: "{{host}}/discount/update"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: 22f3e09f-2a2e-4abf-9ca7-18d08a7e489d
+    - type: text
+      key: combination_id
+      value: 1a509d6a-675f-47e1-9613-76d87f58ebf3
+      description: "* ای دی تنوع"
+    - type: text
+      key: discount
+      value: "10"
+      description: "* مقدار تخفیف (می تواند درصد باشد یا مقدار تومان تخفیف)"
+    - type: text
+      key: starts_at
+      value: 2020-11-03 12:00:00
+      description: "* تاریخ و زمان شروع تخفیف"
+    - type: text
+      key: ends_at
+      value: 2020-11-06 12:00:00
+      description: "* تاریخ و زمان اتمام تخفیف"
+    - type: text
+      key: code
+      value: my-code
+      description: کد تخفیف (اگر این فیلد خالی باشد تخفیف روی تمامی خرید های این محصول اعمال می شود و اگر پر باشد فقط در صورت وارد کردن کد تخفیف اعمال می شود)
+    - type: text
+      key: code_max_discount
+      value: "10000"
+      description: سقف تخفیف برای کد تخفیف های درصدی
+    - type: text
+      key: code_user_max_usage
+      value: "1"
+      description: حداکثر تعداد استفاده کاربر از کد تخفیف
+    - type: text
+      key: code_total_max_usage
+      value: "2"
+      description: حداکثر استفاده کل از کد تخفیف
+    - type: text
+      key: code_send_free
+      value: "1"
+      description: ویژگی ارسال رایگان برای کد تخفیف
+    - type: text
+      key: type
+      value: percent
+      description: "* amount , percent"
+    - type: text
+      key: sort
+      value: ""
+order: 5000

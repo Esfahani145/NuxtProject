@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{host}}/product-price-change-log"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: |-
+    {
+        "filters":{
+            "type" : "default",
+            "product_id" : "d1ebe7f9-b758-4836-80a3-2f65ee1ee7f6"
+        }
+    }
+    // this filter is used to get product main price change log
+examples: ./.resources/list.resources/examples
+order: 1000

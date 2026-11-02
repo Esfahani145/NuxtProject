@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{host}}/wholesell-price/delete"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: f9b43cf2-26db-4ee1-85be-04194fe819e0
+order: 5000

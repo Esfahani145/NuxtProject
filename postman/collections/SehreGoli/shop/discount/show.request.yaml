@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{host}}/discount/show"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: 22f3e09f-2a2e-4abf-9ca7-18d08a7e489d
+order: 1000

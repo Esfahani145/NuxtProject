@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{host}}/basket/send-link"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: basket_id
+      value: f332ad0f-feb1-4bec-91a5-642313288561
+      description: "*"
+order: 6000

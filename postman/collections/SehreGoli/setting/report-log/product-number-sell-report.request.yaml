@@ -1,0 +1,29 @@
+$kind: http-request
+url: "{{host}}/report/product-number-sell-report"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: start_datetime
+      value: 2022-10-18 08:13:20
+      description: فیلتر با بازه زمانی شروع
+      disabled: true
+    - type: text
+      key: end_datetime
+      value: ""
+      description: فیلتر با بازه زمانی پایان
+      disabled: true
+    - type: text
+      key: product_id
+      value: ""
+      description: فیلتر روی ای دی محصول
+      disabled: true
+    - type: text
+      key: product_name
+      value: ""
+      description: جست و جو با نام محصول
+      disabled: true
+order: 7000

@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{host}}/product-category/delete"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: f64657cc-f66d-49e6-b009-45a473b07d38
+order: 7000

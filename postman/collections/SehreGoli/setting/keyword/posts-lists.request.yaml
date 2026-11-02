@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{host}}/keyword/posts-list"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: keyword
+      value: powerful
+    - type: text
+      key: row_number
+      value: ""
+      disabled: true
+order: 3000

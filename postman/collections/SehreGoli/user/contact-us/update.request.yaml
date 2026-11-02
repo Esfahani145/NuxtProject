@@ -1,0 +1,27 @@
+$kind: http-request
+url: "{{host}}/contact-us/update"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: 61d46b5b-73be-4b63-9959-58abded648e4
+    - type: text
+      key: name
+      value: سینا بهمنش
+    - type: text
+      key: phone
+      value: "09159654199"
+    - type: text
+      key: email
+      value: ""
+    - type: text
+      key: subject
+      value: پیشنهاد اصلاح ظاهر سایت
+    - type: text
+      key: content
+      value: لطفا این باکس رای چت رو کلا حذف کنید یا کاری کنید خودکار باز نشه :)
+order: 3000

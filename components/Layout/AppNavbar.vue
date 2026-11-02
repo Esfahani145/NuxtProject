@@ -38,14 +38,14 @@
                         </v-list-item-title>
                     </v-list-item>
 
-                    <v-list-group prepend-icon="mdi-table" :value="$route.path.startsWith('/table')">
+                    <v-list-group prepend-icon="mdi-table" :value="$route.path.startsWith('/productsTable')">
                         <template v-slot:activator>
                             <v-list-item-title class="font-weight-bold">
                                 جدول اطلاعات
                             </v-list-item-title>
                         </template>
 
-                        <v-list-item  to="/table" exact active-class="blue lighten-5 blue--text text--darken-2">
+                        <v-list-item  to="/productsTable" exact active-class="blue lighten-5 blue--text text--darken-2">
                             <v-list-item-icon>
                                 <v-icon>mdi-package-variant</v-icon>
                             </v-list-item-icon>
@@ -55,7 +55,7 @@
                             </v-list-item-title>
                         </v-list-item>
 
-                        <v-list-item to="/table/users" exact active-class="blue lighten-5 blue--text text--darken-2">
+                        <v-list-item to="/users" exact active-class="blue lighten-5 blue--text text--darken-2">
                             <v-list-item-icon>
                                 <v-icon>mdi-account-group-outline</v-icon>
                             </v-list-item-icon>
@@ -147,7 +147,7 @@
                             <BaseButton
                                 text
                                 v-bind="attrs"
-                                :class="{ 'active-link': $route.path.startsWith('/table') }"
+                                :class="{ 'active-link': $route.path.startsWith('/productsTable') }"
                                 c-class="mx-1 rounded-lg"
                                 v-on="on"
                             >
@@ -162,9 +162,9 @@
                         </template>
 
                         <v-list dense>
-                            <v-list-item to="/table" exact>
+                            <v-list-item to="/productsTable" exact>
                                 <v-list-item-icon>
-                                    <v-icon>mdi-package-variant</v-icon>
+                                   <v-icon>mdi-package-variant</v-icon>
                                 </v-list-item-icon>
 
                                 <v-list-item-title>
@@ -172,7 +172,7 @@
                                 </v-list-item-title>
                             </v-list-item>
 
-                            <v-list-item to="/table/users" exact>
+                            <v-list-item to="/users" exact>
                                 <v-list-item-icon>
                                     <v-icon>mdi-account-group-outline</v-icon>
                                 </v-list-item-icon>

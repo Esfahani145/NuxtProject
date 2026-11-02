@@ -1,0 +1,37 @@
+$kind: http-request
+url: "{{host}}/product-category/update"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: f64657cc-f66d-49e6-b009-45a473b07d38
+      description: "*"
+    - type: text
+      key: title
+      value: دسته تست 3
+      description: "*"
+    - type: text
+      key: slug
+      value: category-3
+      description: "*"
+    - type: text
+      key: seo_description
+      value: ""
+    - type: text
+      key: category_status
+      value: active
+      description: active , hidden
+    - type: text
+      key: parent_category_id
+      value: ""
+    - type: text
+      key: main_pic_path
+      value: ""
+    - type: text
+      key: sort
+      value: "1"
+order: 6000

@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{host}}/mixture/products-list"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: mixture_type_id
+      value: 3bbae1ab-5a2c-47d1-8d20-55bc541eeb92
+order: 1000

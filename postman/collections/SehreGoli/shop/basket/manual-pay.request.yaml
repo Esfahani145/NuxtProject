@@ -1,0 +1,37 @@
+$kind: http-request
+url: "{{host}}/basket/manual-pay"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: user_id
+      value: 30b0f812-ca66-42db-9848-7fc5a336d377
+      description: "*"
+    - type: text
+      key: kind_set
+      value: bank
+      description: "* cardToCard , check , naghd , pos , bank"
+    - type: text
+      key: status
+      value: unpayed
+      description: "* payed , wait , unpayed , reject , cancled (در پرداخت غیرآنلاین استفاده می شود)"
+    - type: text
+      key: code
+      value: ""
+      description: کد نخفیف کاربر
+    - type: text
+      key: reciept_file_path
+      value: test_file.png
+      description: مسیر فایل رسید (در پرداخت غیرآنلاین استفاده می شود)
+    - type: text
+      key: paid_date
+      value: ""
+      description: تاریخ-زمان پرداخت (در پرداخت غیرآنلاین استفاده می شود | اگر خالی باشد زمان حال می خورد)
+    - type: text
+      key: description
+      value: ""
+      description: توضیحات اختیاری که در پرداخت ثبت می شود
+order: 5000

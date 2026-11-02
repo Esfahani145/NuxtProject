@@ -1,0 +1,28 @@
+$kind: http-request
+url: "{{host}}/product-variation-combination/limited-update"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: 86ca49eb-44dd-4295-ba93-6d593880b465
+      description: "*"
+    - type: text
+      key: price
+      value: "67500"
+      description: "*"
+    - type: text
+      key: discounted_price
+      value: "62000"
+    - type: text
+      key: weight
+      value: "1700"
+      description: "* وزن به گرم"
+    - type: text
+      key: stock
+      value: "1"
+      description: در صورتی که فروش جزیی باشد این مورد باید ارسال شود در غیر این صورت اهمیت ندارد
+order: 4000

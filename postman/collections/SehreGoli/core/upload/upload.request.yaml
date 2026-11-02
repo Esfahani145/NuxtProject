@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{host}}/upload/insert"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: file
+      key: file
+      src:
+        - /home/sina/Pictures/Cheongbyeok-Bridge-Korea_1428142517s11.jpg
+    - type: text
+      key: alt
+      value: beautiful
+order: 1000

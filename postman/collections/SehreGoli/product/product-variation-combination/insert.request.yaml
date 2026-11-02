@@ -1,0 +1,53 @@
+$kind: http-request
+url: "{{host}}/product-variation-combination/insert"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: sort
+      value: "1"
+    - type: text
+      key: price
+      value: "67500"
+      description: "*"
+    - type: text
+      key: discounted_price
+      value: "1000"
+      description: قیمت با تخفیف
+    - type: text
+      key: weight
+      value: "1000"
+      description: "* وزن به گرم"
+    - type: text
+      key: variation1
+      value: 98717220-5cea-4a1e-ac5b-df4a2acdb1e3
+    - type: text
+      key: variation2
+      value: ""
+    - type: text
+      key: variation3
+      value: ""
+    - type: text
+      key: min
+      value: "1"
+      description: min for whole sell
+    - type: text
+      key: max
+      value: "10"
+      description: "* max for whole_sell / stock for single sell"
+    - type: text
+      key: type
+      value: whole_sell
+      description: "* single_sell , whole_sell"
+    - type: text
+      key: product_id
+      value: c43a8990-afcb-46b4-ab19-20cdefa37089
+      description: "*"
+    - type: text
+      key: is_default
+      value: "0"
+      description: 1:true , 0:false
+order: 2000

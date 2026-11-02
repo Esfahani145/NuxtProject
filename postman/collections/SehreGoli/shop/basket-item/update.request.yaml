@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{host}}/basket-item/update"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: 49ef07a1-20d7-4326-a914-46d956ec085c
+      description: "*"
+    - type: text
+      key: number
+      value: "1"
+      description: "*"
+    - type: text
+      key: sort
+      value: "1"
+order: 2000

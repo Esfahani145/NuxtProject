@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{host}}/product-variation-combination"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: |-
+    {
+        "filters":{
+            // "categories_id" : ["cacfb0a0-c056-4780-a4fd-9870df991f71"],
+            // "product_name" : {"op":"LIKE" , "value":"زرد%"}
+        }
+    }
+order: 1000

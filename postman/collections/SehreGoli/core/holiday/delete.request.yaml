@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{host}}/holiday/delete"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: "{\r
+
+    \    \"id\": \"a4c20ee3-8fb4-4b15-af62-6cddf803ae48\"\r
+
+    }"
+order: 5000

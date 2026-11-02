@@ -1,0 +1,13 @@
+# Use this workspace to collaborate
+workspace:
+  id: 13b33d05-9d6d-4afd-83e1-c4e34f004736
+
+cloudResources:
+  collections:
+    ../postman/collections/SehreGoli: f749998f-fd5a-4686-860b-97c54d7b884d
+
+# All resources in the `postman/` folder are automatically registered in Local View.
+# Point to additional files outside the `postman/` folder to register them individually. Example:
+#localResources:
+#  collections:
+#    - ../tests/E2E Test Collection/

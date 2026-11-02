@@ -1,0 +1,32 @@
+$kind: http-request
+url: "{{host}}/basket-item/insert"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: number
+      value: "1"
+      description: "*"
+    - type: text
+      key: product_varcomb_id
+      value: 6b997d95-6235-4853-8bc1-4e35ebbb8583
+      description: "*"
+    - type: text
+      key: user_id
+      value: ""
+      description: "*"
+    - type: text
+      key: sort
+      value: "1"
+    - type: text
+      key: app_id
+      value: "1425"
+      description: client generated token for un-logged-in users
+    - type: text
+      key: manual_add
+      value: "0"
+      description: 0 for online buy and 1 for admin manual pay registeration
+order: 1000

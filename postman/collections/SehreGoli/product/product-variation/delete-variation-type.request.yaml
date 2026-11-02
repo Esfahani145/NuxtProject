@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{host}}/product-variation/delete-variation-type"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: product_id
+      value: 3375163e-d013-4e7b-95da-628fe2b39e21
+    - type: text
+      key: variation_type_id
+      value: 19212d71-4063-4353-8f5f-855df7324f1a
+      description: ای دی نوع تنوع
+    - type: text
+      key: confirm
+      value: "0"
+      description: اگر 0 باشد صرفا آمار می دهد و حذف نمی کند و اگر 1 باشد حذف هم می کند
+order: 5000

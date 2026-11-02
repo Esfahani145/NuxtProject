@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{host}}/blog-category/add-post"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: category_id
+      value: ca5d551e-ebda-4491-82c6-eebcac063781
+      description: "*"
+    - type: text
+      key: post_id
+      value: 79b5ac96-ae33-4d92-83c1-2e8ada66d172
+      description: "*"
+order: 4000

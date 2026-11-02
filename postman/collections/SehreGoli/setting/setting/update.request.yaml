@@ -1,0 +1,29 @@
+$kind: http-request
+url: "{{host}}/setting/update"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: c2e7e8e1-a26a-43b3-ace4-b2e9226856a1
+    - type: text
+      key: key
+      value: main_setting
+      description: "*"
+    - type: text
+      key: value
+      value: '{"logo":"upload/126222/n4cL4Rv0CMjsYlci4dgu4BGcWb6k9eTh5M9HNDRf.jpg","footer_text":null,"phone":null,"email":null,"address":null,"instagram":null,"facebook":null,"pintrest":null,"whatsup":null,"youtube":null,"aparat":null,"enamad":null,"samandehi":"1212","etehadieh":"121221"}'
+      description: "*"
+    - type: text
+      key: landing_page_needed
+      value: "1"
+    - type: text
+      key: category
+      value: main_setting
+    - type: text
+      key: sort
+      value: ""
+order: 4000

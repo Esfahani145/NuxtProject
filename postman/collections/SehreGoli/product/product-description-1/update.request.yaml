@@ -1,0 +1,32 @@
+$kind: http-request
+url: "{{host}}/product-description/update"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: 6d4e6e59-0bb6-4ea6-a365-834bb3e1f1c9
+      description: "*"
+    - type: text
+      key: product_id
+      value: d1ebe7f9-b758-4836-80a3-2f65ee1ee7f6
+      description: "*"
+    - type: text
+      key: description
+      value: کفشی راحت و زیبا در رنگ های متنوع
+      description: "*"
+    - type: text
+      key: seo_description
+      value: کفشی زیبا
+    - type: text
+      key: specefics_table
+      value: '{"field 1":"value 1","field 2":"value 2"}'
+      description: image , video
+    - type: text
+      key: sort
+      value: "1"
+      description: active , hidden
+order: 4000

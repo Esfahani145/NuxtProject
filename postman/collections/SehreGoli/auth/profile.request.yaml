@@ -1,0 +1,41 @@
+$kind: http-request
+url: "{{host}}/user/profile"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: first_name
+      value: my name
+      disabled: true
+    - type: text
+      key: last_name
+      value: ""
+      disabled: true
+    - type: text
+      key: password
+      value: "123456"
+      disabled: true
+    - type: text
+      key: avatar
+      value: 1.png
+      disabled: true
+    - type: text
+      key: phone
+      value: "09333333333"
+    - type: text
+      key: email
+      value: email@email.com
+    - type: text
+      key: country_division_id
+      value: cde3f369-593a-4ee6-bd26-cc7b9d1d84bd
+    - type: text
+      key: address
+      value: خیابان کمال
+    - type: text
+      key: ""
+      value: ""
+      disabled: true
+order: 8000

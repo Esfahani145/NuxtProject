@@ -1,0 +1,95 @@
+$kind: http-request
+url: "{{host}}/product/update"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: a61eb75f-ec8a-42db-84ee-6d1202b3b16b
+      description: "*"
+    - type: text
+      key: name
+      value: تست
+      description: "*"
+    - type: text
+      key: slug
+      value: test
+      description: "*"
+    - type: text
+      key: code
+      value: ""
+      description: "*"
+    - type: text
+      key: status
+      value: active
+      description: draft , active , hidden , unavailable
+    - type: text
+      key: has_whole_sell
+      value: "1"
+      description: 1 , 0
+    - type: text
+      key: has_single_sell
+      value: "1"
+      description: 1 , 0
+    - type: text
+      key: tracking_code
+      value: ""
+    - type: text
+      key: main_picture_path
+      value: upload/126222/pqFu0U5VaZ9x4qZpQBREEpV2ebGL1kUA67iWSltB.jpg
+      description: "*"
+    - type: text
+      key: sort
+      value: "1"
+      description: "*"
+    - type: text
+      key: mixturable
+      value: "1"
+      description: 1:true , 0:false قابلیت استفاده در ابزار های ترکیب ساز دارد یا خیر
+    - type: text
+      key: base_whole_sell_unit
+      value: کیلوگرم
+      description: واحد فروش کلی
+    - type: text
+      key: categories[]
+      value: cacfb0a0-c056-4780-a4fd-9870df991f71
+    - type: text
+      key: categories[]
+      value: ""
+      disabled: true
+    - type: text
+      key: keywords[]
+      value: ادویه
+    - type: text
+      key: medias[]
+      value: ""
+      description: '{"file_path":"مسیر ذخیره فایل","alt":"توضیحات","type":"image","status":"active"}'
+      disabled: true
+    - type: text
+      key: mixture_ids[]
+      value: 1ab4ba37-cf14-4ff8-bfe4-a2250c7c0495
+      description: لیست ای دی ترکیب ساز هایی که محصول در آنها استفاده می شود
+    - type: text
+      key: description
+      value: هل سبز از ادویه های دارای رایحه قوی می باشد که در فرهنگ ایرانی همراه با چای استفاده می شود
+    - type: text
+      key: seo_description
+      value: فروش هل سبز محلی
+    - type: text
+      key: specefics_table
+      value: '{"سال تولید":"1398"}'
+    - type: text
+      key: additional_description
+      value: '{"تست":"تست"}'
+      description: موارد منع مصرف بصورت جیسون
+    - type: text
+      key: excerpt_description
+      value: این محصول عالی است
+      description: توضیحات مختصر محصول
+    - type: text
+      key: ""
+      value: ""
+order: 4000

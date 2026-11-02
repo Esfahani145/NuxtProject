@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{host}}/upload/show"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: id
+      value: 30743c81-b2dc-4455-9aa0-a4453b850a55
+order: 5000

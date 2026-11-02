@@ -1,0 +1,27 @@
+$kind: http-request
+url: "{{host}}/comment/insert"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: content
+      value: نظر من در مورد این محصول این است که ...
+      description: "*"
+    - type: text
+      key: user_id
+      value: 56194f1c-1398-44f0-87cd-c34d2356eeaf
+    - type: text
+      key: target_id
+      value: 03d082db-e2bd-4419-a561-26f0c34aa894
+      description: "*"
+    - type: text
+      key: target_type
+      value: product
+      description: "* post,product"
+    - type: text
+      key: parent_comment_id
+      value: ""
+order: 3000

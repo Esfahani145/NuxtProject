@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{host}}/basket/pay-by-link"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: |-
+    {
+        "link_id" : "ei351122",
+        "terminal" : "zarinapl"
+    }
+order: 4000

@@ -106,7 +106,6 @@
                 />
             </template>
 
-
             <template v-slot:footer="slotProps">
                 <BaseDataTableFooter
                     v-bind="footerProps"
@@ -201,7 +200,7 @@ export default {
         },
         loadingText: {
             type: String,
-            default: '$vuetify.dataIterator.loadingText'
+            default: 'در حال بارگذاری اطلاعات ...'
         },
         noDataText: {
             type: String,
@@ -323,22 +322,6 @@ export default {
             type: Boolean,
             default: false
         },
-        showClearFiltersButton: {
-            type: Boolean,
-            default: false
-        },
-        showColumnClearButtons: {
-            type: Boolean,
-            default: false
-        },
-        reloadHandler: {
-            type: Function,
-            default: null
-        },
-        showAddButton: {
-            type: Boolean,
-            default: false
-        },
         addButtonColor: {
             type: String,
             default: 'primary'
@@ -349,13 +332,13 @@ export default {
         },
         addButtonText: {
             type: String,
-            default: 'add'
+            default: 'جدید'
         },
         addButtonDisabled: {
             type: Boolean,
             default: false
         },
-        addButtonRoute: {
+        createUrl: {
             type: [String, Object],
             default: ''
         },
@@ -380,7 +363,7 @@ export default {
             internal_loading: false,
             table_options: {
                 page: 1,
-                items_per_page: 10,
+                items_per_page: this.footerProps.itemsPerPage,
             },
             server_total: 0
         }
@@ -389,10 +372,6 @@ export default {
     computed: {
         filterableColumns() {
             return this.columns.filter(column => column.filterable !== false)
-        },
-
-        rendererColumns() {
-            return this.columns.filter(column => column.type || typeof column.value === 'function')
         },
 
         filteredItems() {
@@ -475,6 +454,14 @@ export default {
             })
         },
 
+        rendererColumns() {
+            return this.columns.filter(column => column.type || typeof column.value === 'function')
+        },
+
+        reloadColumnKey() {
+            return '__table_reload__'
+        },
+
         tableColumns() {
             const reload_column = {
                 text: '',
@@ -511,11 +498,7 @@ export default {
                 class: 'add-column-header',
                 cellClass: 'add-column-cell'
             }
-            return this.showAddButton ? [reload_column, ...columns, add_column] : [reload_column, ...columns]
-        },
-
-        reloadColumnKey() {
-            return '__table_reload__'
+            return this.hasAddButton ? [reload_column, ...columns, add_column] : [reload_column, ...columns]
         },
 
         addColumnKey() {
@@ -555,6 +538,10 @@ export default {
                         display: display === undefined || display === null || display === '' ? '-' : display
                     }
                 })
+        },
+
+        hasAddButton() {
+            return Boolean(this.createUrl)
         }
     },
 
@@ -659,14 +646,14 @@ export default {
 
         goToPage() {
             if (this.addButtonDisabled) { return }
-            this.$router.push(this.addButtonRoute)
+            this.$router.push(this.createUrl)
         },
 
         updateTableOptions(slotProps, options) {
             if (this.url) {
                 this.table_options = {
                     page: options.page,
-                    items_per_page: options.items_per_page
+                    items_per_page: options.itemsPerPage
                 }
                 this.fetchItems()
                 return
@@ -705,7 +692,6 @@ export default {
                 this.$emit('items-loaded', this.internal_items)
                 this.server_total = model.total || 0
             }).catch((err) => {
-                console.error(err)
                 this.internal_items = []
                 this.$toast.error(err.message || 'خطا در بارگذاری اطلاعات')
             }).finally(() => {

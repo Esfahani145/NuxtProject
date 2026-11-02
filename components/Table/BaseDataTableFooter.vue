@@ -95,7 +95,11 @@ export default {
         },
         itemsPerPageOptions: { 
             type: Array, 
-            default: undefined
+            default: () => [5, 10, 25, 50]
+        },
+        itemsPerPage: {
+            type: Number,
+            default: 10
         },
         itemsPerPageText: { 
             type: String, 

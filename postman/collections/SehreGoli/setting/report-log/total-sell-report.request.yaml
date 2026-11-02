@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{host}}/report/total-sell-report"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: text
+      key: start_datetime
+      value: ""
+      disabled: true
+    - type: text
+      key: end_datetime
+      value: ""
+      disabled: true
+order: 6000

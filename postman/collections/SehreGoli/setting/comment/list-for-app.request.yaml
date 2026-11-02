@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{host}}/comment/list/app"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: |-
+    {
+        "filters":{
+            "author_first_name" : "دیر"
+        }
+    }
+order: 1000

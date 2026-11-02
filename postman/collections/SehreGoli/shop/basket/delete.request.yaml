@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{host}}/basket/delete"
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: "{\r
+
+    \    \"id\": \"13949b67-6847-4c6f-a5fb-5f21bb778d41\"\r
+
+    }"
+order: 11000

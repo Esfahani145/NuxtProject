@@ -113,6 +113,38 @@
                                     class="light-input"
                                 />
                             </v-col>
+
+                            <v-col cols="12" md="6">
+                                <label class="form-label">
+                                    کد اختصاصی محصول
+                                    <span class="required-mark">*</span>
+                                </label>
+
+                                <BaseInput
+                                    v-model="credentials.code"
+                                    placeholder="کد اختصاصی محصول را وارد کنید"
+                                    prepend-inner-icon="mdi-package-variant"
+                                    :dense="false"
+                                    dir="rtl"
+                                    rules="required"
+                                    class="light-input"
+                                />
+                            </v-col>
+
+                            <v-col cols="12" md="6">
+                                <label class="form-label">
+                                    ترتیب نمایش محصول
+                                </label>
+
+                                <BaseInput
+                                    v-model="credentials.sort"
+                                    placeholder="ترتیب نمایش محصول را وارد کنید"
+                                    prepend-inner-icon="mdi-package-variant"
+                                    :dense="false"
+                                    dir="rtl"
+                                    class="light-input"
+                                />
+                            </v-col>
                         </v-row>
                     </v-card>
 
@@ -181,6 +213,8 @@ export default {
                 name: '',
                 base_price: '',
                 has_stock_count: '',
+                sort: '',
+                code: '',
                 // main_picture_path: '',
                 // status: 'active',
                 // sort: ''
@@ -211,7 +245,6 @@ export default {
                 if (result.status !== 200) {
                     this.$toast.error(result.message || 'دریافت اطلاعات ناموفق بود')
                 }
-
                 const products = result.data.model.data || []
                 const product = products.find(item => String(item.id) === this.edit_item)
 
@@ -230,17 +263,18 @@ export default {
 
         handleSubmit() {
             this.loading = true
-
             const payload = { 
                 name: this.credentials.name,
-                // slug: this.credentials.name.replace(/\s+/g, '-'),
-                slug: "safron",
-                code: '150',
-                base_price: Number(this.credentials.base_price),
+                slug: this.credentials.name.replace(/\s+/g, '-'),
+                code: this.credentials.code, 
+                base_price: (this.credentials.base_price),
                 has_stock_count: Number(this.credentials.has_stock_count),
                 status: 'active',
-                sort: 12,
-                main_picture_path: "upload/126321/o9g7D1kZfaVC3tDme7Ih26QKnKMmhwrhdjHL5uzC.jpg"
+                sort: this.credentials.sort,
+                main_picture_path: "upload/126321/o9g7D1kZfaVC3tDme7Ih26QKnKMmhwrhdjHL5uzC.jpg",
+                has_single_sell: 1,
+                has_whole_sell: 1,
+                mixturable: 0
             }
 
             if (this.edit_item) {

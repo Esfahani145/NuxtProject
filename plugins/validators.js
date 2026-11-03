@@ -9,7 +9,16 @@ const rules_map = {
     persian_address: (value) => !value || /^[\u0600-\u06FF0-9۰-۹\s‌،,./-]+$/.test(String(value)) || 'آدرس فقط می‌تواند شامل حروف فارسی باشد',
     password: (value) => !value || /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/.test(String(value)) || 'رمز عبور باید حداقل ۸ کاراکتر و شامل حروف بزرگ، حروف کوچک، عدد و کاراکتر ویژه باشد',
     confirm_password: (value, rule_context) => !value || value === rule_context.password || 'تکرار رمز عبور صحیح نیست',
-    price: (value) => !value || (/^[0-9۰-۹]+$/.test(String(value)) && Number(value) > 0) || 'فقط عدد بزرگ‌تر از صفر مجاز است',
+    price: (value) => {
+        if (!value) return true
+
+        const numericValue = String(value)
+            .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+            .replace(/[٬,،]/g, '')
+
+        return (/^\d+$/.test(numericValue) && Number(numericValue) > 0)
+            || 'فقط عدد بزرگ‌تر از صفر مجاز است'
+    },
 }
 
 export default (context, inject) => {

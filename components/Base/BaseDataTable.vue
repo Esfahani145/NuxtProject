@@ -55,11 +55,19 @@
                         title="بارگذاری مجدد"
                         aria-label="بارگذاری مجدد جدول"
                         @click.stop="reloadTable"
-                    >
-                        <v-icon small>
-                            mdi-refresh
-                        </v-icon>
-                    </BaseButton>
+                        icon-name="mdi-refresh"
+                    />
+
+                    <BaseButton
+                        icon
+                        small
+                        color="error"
+                        c-class="table-icon-button"
+                        title="حذف همه فیلترها"
+                        aria-label="حذف همه فیلترها"
+                        @click.stop="reloadTable"
+                        icon-name="mdi-filter-remove-outline"
+                    />
                 </div>
             </template>
 
@@ -68,17 +76,25 @@
                     <BaseButton
                         icon
                         small
+                        color="success"
+                        c-class="table-icon-button"
+                        title="اعمال فیلترها"
+                        aria-label="اعمال فیلترها"
+                        @click.stop="applyColumnFilters"
+                        icon-name="mdi-filter-check-outline"
+                    />
+
+                    <BaseButton
+                        icon
+                        small
                         :color="addButtonColor"
                         :disabled="addButtonDisabled"
                         c-class="table-icon-button"
                         :title="addButtonText"
+                        icon-name="mdi-plus"
                         aria-label="افزودن مورد جدید"
                         @click.stop="goToPage"
-                    >
-                        <v-icon small>
-                            {{ addButtonIcon }}
-                        </v-icon>
-                    </BaseButton>
+                    />
                 </div>
             </template>
 
@@ -116,42 +132,78 @@
             </template>
         </v-data-table>
 
-        <v-dialog v-model="action_dialog" max-width="700">
+        <v-dialog v-model="action_dialog" max-width="700" persistent>
             <v-card v-if="selected_item">
-                <v-card-title class="font-weight-bold">
-                    {{ viewTitle }}
-                </v-card-title>
-                <v-card-text>
-                    <v-img
-                        v-if="viewImage"
-                        :src="viewImage"
-                        max-height="200"
-                        contain
-                        class="mb-4"
-                    />
-                    <v-list dense class="pa-0">
-                        <v-list-item
-                            v-for="row in viewRows"
-                            :key="row.key"
-                            class="px-0"
-                        >
-                            <v-list-item-icon class="ml-2 mr-0">
-                                <v-icon color="success" small>mdi-check-circle-outline</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-content>
-                                <v-list-item-subtitle> {{ row.label }}</v-list-item-subtitle>
-                                <v-list-item-title class="font-weight-bold">{{ row.display }}</v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
-                    </v-list>
-                </v-card-text>
+                <template v-if="dialog_type === 'view'">
+                    <v-card-title class="font-weight-bold">
+                        {{ viewTitle }}
+                    </v-card-title>
 
-                <v-card-actions class="px-4 pb-4">
-                    <v-spacer />
-                    <BaseButton color="primary" @click="closeAction">
-                        بستن
-                    </BaseButton>
-                </v-card-actions>
+                        <v-card-text>
+                            <v-img
+                                v-if="viewImage"
+                                :src="viewImage"
+                                max-height="200"
+                                contain
+                                class="mb-4"
+                            />
+                            <v-list dense class="pa-0">
+                                <v-list-item
+                                    v-for="row in viewRows"
+                                    :key="row.key"
+                                    class="px-0"
+                                >
+                                    <v-list-item-icon class="ml-2 mr-0">
+                                        <v-icon color="success" small>mdi-check-circle-outline</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-subtitle> {{ row.label }}</v-list-item-subtitle>
+                                        <v-list-item-title class="font-weight-bold">{{ row.display }}</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-list>
+                        </v-card-text>
+
+                    <v-card-actions class="px-4 pb-4">
+                        <v-spacer />
+                        <BaseButton color="primary" @click="closeAction">
+                            بستن
+                        </BaseButton>
+                    </v-card-actions>
+                </template>
+
+                <template v-else-if="dialog_type === 'delete'">
+                    <v-card-title class="font-weight-bold">
+                        تأیید حذف
+                    </v-card-title>
+
+                    <v-card-text>
+                        آیا از حذف این مورد اطمینان دارید؟
+                        این عملیات قابل بازگشت نیست.
+                    </v-card-text>
+
+                    <v-card-actions class="px-4 pb-4">
+                        <v-spacer />
+
+                        <BaseButton
+                            color="grey"
+                            text
+                            :disabled="delete_loading"
+                            @click="closeAction"
+                        >
+                            انصراف
+                        </BaseButton>
+
+                        <BaseButton
+                            color="error"
+                            :loading="delete_loading"
+                            :disabled="delete_loading"
+                            @click="confirmDelete"
+                        >
+                            تأیید حذف
+                        </BaseButton>
+                    </v-card-actions>
+                </template>
             </v-card>
         </v-dialog>
     </div>
@@ -326,10 +378,6 @@ export default {
             type: String,
             default: 'primary'
         },
-        addButtonIcon: {
-            type: String,
-            default: 'mdi-plus'
-        },
         addButtonText: {
             type: String,
             default: 'جدید'
@@ -365,7 +413,9 @@ export default {
                 page: 1,
                 items_per_page: this.footerProps.itemsPerPage,
             },
-            server_total: 0
+            server_total: 0,
+            dialog_type: 'view',
+            delete_loading: false
         }
     },
 
@@ -467,7 +517,7 @@ export default {
                 text: '',
                 value: this.reloadColumnKey,
                 sortable: false,
-                width: '48px',
+                width: '100px',
                 align: 'center',
                 class: 'reload-column-header',
                 cellClass: 'reload-column-cell'
@@ -493,7 +543,7 @@ export default {
                 text: '',
                 value: this.addColumnKey,
                 sortable: false,
-                width: '56px',
+                width: '100px',
                 align: 'center',
                 class: 'add-column-header',
                 cellClass: 'add-column-cell'
@@ -580,12 +630,21 @@ export default {
         },
 
         closeAction() {
+            if (this.delete_loading) { return }
             this.action_dialog = false
             this.selected_item = null
+            this.dialog_type = 'view'
         },
 
         handleView(item) {
             this.selected_item = item
+            this.dialog_type = 'view'
+            this.action_dialog = true
+        },
+
+        handleDelete(item) {
+            this.selected_item = item
+            this.dialog_type = 'delete'
             this.action_dialog = true
         },
 
@@ -597,13 +656,6 @@ export default {
                     this.$router.push(route)
                 }
             }
-        },
-
-        handleDelete(item) {
-            const item_key = this.getItemKey(item)
-            if (item_key === undefined || item_key === null) { return }
-            this.internal_items = this.internal_items.filter(i => this.getItemKey(i) !== item_key)
-            this.$emit('items-loaded', this.internal_items)
         },
 
         handleFilterTypeChange({ columnKey, type }) {
@@ -744,6 +796,33 @@ export default {
             if (value.type === 'after') { return { value: `${day} 00:00:00`, op: '>=' } }
             if (value.type === 'before') { return { value: `${day} 00:00:00`, op: '<=' } }
             return { value: `${day}`, op: 'LIKE' }
+        },
+
+        confirmDelete() {
+            if (!this.selected_item || this.delete_loading) { return }
+
+            const item_key = this.getItemKey(this.selected_item)
+            if (item_key === undefined || item_key === null) { return }
+
+            this.delete_loading = true
+
+            return this.$reqAPI('/product/delete', { 
+                    data: { id: item_key }
+            }).then((response) => {
+                const result = response.data
+                if (result.status !== 200) {
+                    this.$toast.error(result.message || 'حذف اطلاعات ناموفق بود')
+                    return
+                }
+                this.$toast.success(result.message || 'اطلاعات با موفقیت حذف شد')
+
+            }).catch((err) => {
+                this.$toast.error(err.message || 'خطا در حذف اطلاعات')
+            }).finally(() => {
+                this.fetchItems()
+                this.delete_loading = false
+                this.closeAction()
+            })
         }
     }
 }
@@ -760,7 +839,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2px;
+    gap: 8px;
     width: 100%;
 }
 </style>

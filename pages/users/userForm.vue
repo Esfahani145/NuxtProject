@@ -1,351 +1,347 @@
 <template>
-    <AppBackground>
-        <div class="create-user-page pa-4 pa-md-6">
-            <div>
-                <BaseHero
-                    type="users"
-                    variant="animated"
-                    :title="edit_user ? 'ویرایش اطاعات' : 'ایجاد کاربر جدید'"
-                    badge-text="مدیریت کاربران"
-                    :subtitle="edit_user ? 'اطلاعات کاربر را ویرایش کنید' : 'اطلاعات مورد نیاز را وارد کنید تا حساب کاربری جدید ساخته شود'"
-                />
+    <div class="create-user-page pa-4 pa-md-6">
+        <div>
+            <BaseHero
+                type="users"
+                variant="animated"
+                :title="edit_user ? 'ویرایش اطاعات' : 'ایجاد کاربر جدید'"
+                badge-text="مدیریت کاربران"
+                :subtitle="edit_user ? 'اطلاعات کاربر را ویرایش کنید' : 'اطلاعات مورد نیاز را وارد کنید تا حساب کاربری جدید ساخته شود'"
+            />
 
-                <div class="page-intro mb-5">
-                    <div>
-                        <h2 class="primary--text font-weight-bold font-size-20 mb-1">
-                            فرم اطلاعات کاربر
-                        </h2>
-                        <p class="span--text mb-0">
-                            فیلدهای دارای علامت
-                            <span class="required-mark">*</span>
-                            الزامی هستند.
-                        </p>
+            <div class="page-intro mb-5">
+                <div>
+                    <h2 class="primary--text font-weight-bold font-size-20 mb-1">
+                        فرم اطلاعات کاربر
+                    </h2>
+                    <p class="span--text mb-0">
+                        فیلدهای دارای علامت
+                        <span class="required-mark">*</span>
+                        الزامی هستند.
+                    </p>
+                </div>
+
+                <div class="form-status">
+                    <span class="status-dot"></span>
+                        {{ edit_user ? 'آماده ویرایش اطلاعات' : 'آماده ثبت اطلات'}}                    
+                    </div>
+            </div>
+
+            <v-form ref="createUserForm" v-model="valid" lazy-validation @submit="handleSubmit">
+                <v-card class="form-section white-detail-card pa-5 pa-md-7 mb-5" flat>
+                    <div class="section-heading">
+                        <div class="section-icon">
+                            <v-icon color="accent" size="24">
+                                mdi-card-account-details-outline
+                            </v-icon>
+                        </div>
+
+                        <div>
+                            <h3 class="mb-1 primary--text font-size-16 font-weight-black">اطلاعات هویتی</h3>
+                            <p class="mb-0">
+                                مشخصات فردی و اطلاعات شناسایی کاربر
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="form-status">
-                        <span class="status-dot"></span>
-                            {{ edit_user ? 'آماده ویرایش اطلاعات' : 'آماده ثبت اطلات'}}                    
-                        </div>
-                </div>
+                    <v-divider class="my-5"></v-divider>
 
-                <v-form ref="createUserForm" v-model="valid" lazy-validation @submit="handleSubmit">
-                    <v-card class="form-section white-detail-card pa-5 pa-md-7 mb-5" flat>
-                        <div class="section-heading">
-                            <div class="section-icon">
-                                <v-icon color="accent" size="24">
-                                    mdi-card-account-details-outline
-                                </v-icon>
-                            </div>
+                    <v-row>
+                        <v-col cols="12" md="6">
+                            <label class="form-label">
+                                نام و نام خانوادگی
+                                <span class="required-mark">*</span>
+                            </label>
 
-                            <div>
-                                <h3 class="mb-1 primary--text font-size-16 font-weight-black">اطلاعات هویتی</h3>
-                                <p class="mb-0">
-                                    مشخصات فردی و اطلاعات شناسایی کاربر
-                                </p>
-                            </div>
-                        </div>
+                            <BaseInput
+                                v-model="credentials.full_name"
+                                placeholder="نام و نام خانوادگی را وارد کنید"
+                                prepend-inner-icon="mdi-account-outline"
+                                rules="required,persian"
+                                class="light-input"
+                            />
+                        </v-col>
 
-                        <v-divider class="my-5"></v-divider>
+                        <v-col cols="12" md="6">
+                            <label class="form-label">
+                                کد ملی
+                                <span class="required-mark">*</span>
+                            </label>
 
-                        <v-row>
-                            <v-col cols="12" md="6">
-                                <label class="form-label">
-                                    نام و نام خانوادگی
-                                    <span class="required-mark">*</span>
-                                </label>
+                            <BaseInput
+                                v-model="credentials.national_code"
+                                placeholder="کد ملی ۱۰ رقمی"
+                                prepend-inner-icon="mdi-card-account-details"
+                                type="tel"
+                                maxlength="10"
+                                dir="ltr"
+                                placeholder-align="right"
+                                rules="required,national_code"
+                                class="light-input"
+                            />
+                        </v-col>
 
-                                <BaseInput
-                                    v-model="credentials.full_name"
-                                    placeholder="نام و نام خانوادگی را وارد کنید"
-                                    prepend-inner-icon="mdi-account-outline"
-                                    rules="required,persian"
-                                    class="light-input"
-                                />
-                            </v-col>
+                        <v-col cols="12" md="6">
+                            <label class="form-label">
+                                تاریخ تولد
+                            </label>
 
-                            <v-col cols="12" md="6">
-                                <label class="form-label">
-                                    کد ملی
-                                    <span class="required-mark">*</span>
-                                </label>
+                            <BaseDatePicker
+                                v-model="credentials.birth_date"
+                                placeholder="تاریخ تولد را انتخاب کنید"
+                                clearable
+                                class="light-input"
+                            />
+                        </v-col>
 
-                                <BaseInput
-                                    v-model="credentials.national_code"
-                                    placeholder="کد ملی ۱۰ رقمی"
-                                    prepend-inner-icon="mdi-card-account-details"
-                                    type="tel"
-                                    maxlength="10"
-                                    dir="ltr"
-                                    placeholder-align="right"
-                                    rules="required,national_code"
-                                    class="light-input"
-                                />
-                            </v-col>
+                        <v-col cols="12" md="6">
+                            <label class="form-label">
+                                جنسیت
+                            </label>
 
-                            <v-col cols="12" md="6">
-                                <label class="form-label">
-                                    تاریخ تولد
-                                </label>
+                            <BaseSelect
+                                v-model="credentials.gender"
+                                :items="gender_options"
+                                placeholder="جنسیت را انتخاب کنید"
+                                prepend-inner-icon="mdi-human-male-female"
+                                :dense="false"
+                                dir="rtl"
+                                class="light-input"
+                            />
+                        </v-col>
+                    </v-row>
+                </v-card>
 
-                                <BaseDatePicker
-                                    v-model="credentials.birth_date"
-                                    placeholder="تاریخ تولد را انتخاب کنید"
-                                    clearable
-                                    class="light-input"
-                                />
-                            </v-col>
-
-                            <v-col cols="12" md="6">
-                                <label class="form-label">
-                                    جنسیت
-                                </label>
-
-                                <BaseSelect
-                                    v-model="credentials.gender"
-                                    :items="gender_options"
-                                    placeholder="جنسیت را انتخاب کنید"
-                                    prepend-inner-icon="mdi-human-male-female"
-                                    :dense="false"
-                                    dir="rtl"
-                                    class="light-input"
-                                />
-                            </v-col>
-                        </v-row>
-                    </v-card>
-
-                    <v-card class="form-section white-detail-card pa-5 pa-md-7 mb-5" flat>
-                        <div class="section-heading">
-                            <div class="section-icon section-icon">
-                                <v-icon color="green" size="24">
-                                    mdi-card-account-phone-outline
-                                </v-icon>
-                            </div>
-
-                            <div>
-                                <h3 class="mb-1 primary--text font-size-16 font-weight-black">اطلاعات تماس</h3>
-                                <p class="mb-0">راه‌های ارتباطی با کاربر</p>
-                            </div>
-                        </div>
-
-                        <v-divider class="my-5"></v-divider>
-
-                        <v-row>
-                            <v-col cols="12" md="6">
-                                <label class="form-label">
-                                    شماره موبایل
-                                    <span class="required-mark">*</span>
-                                </label>
-
-                                <BaseInput
-                                    v-model="credentials.phone"
-                                    placeholder="مثلاً 09123456789"
-                                    prepend-inner-icon="mdi-cellphone"
-                                    type="tel"
-                                    maxlength="11"
-                                    dir="ltr"
-                                    placeholder-align="right"
-                                    rules="required,phone"
-                                    class="light-input"
-                                />
-                            </v-col>
-
-                            <v-col cols="12" md="6">
-                                <label class="form-label">ایمیل</label>
-
-                                <BaseInput
-                                    v-model="credentials.email"
-                                    placeholder="example@domain.com"
-                                    prepend-inner-icon="mdi-email-outline"
-                                    type="email"
-                                    dir="ltr"
-                                    rules="email"
-                                    class="light-input"
-                                />
-                            </v-col>
-                        </v-row>
-                    </v-card>
-
-                    <v-card class="form-section white-detail-card pa-5 pa-md-7 mb-5" flat>
-                        <div class="section-heading">
-                            <div class="section-icon section-icon">
-                                <v-icon color="warning" size="24">
-                                    mdi-map-marker-radius-outline
-                                </v-icon>
-                            </div>
-
-                            <div>
-                                <h3 class="mb-1 primary--text font-size-16 font-weight-black">اطلاعات محل سکونت</h3>
-                                <p class="mb-0">استان، شهر و نشانی محل سکونت کاربر</p>
-                            </div>
-                        </div>
-
-                        <v-divider class="my-5"></v-divider>
-
-                        <v-row>
-                            <v-col cols="12" md="6">
-                                <label class="form-label">
-                                    استان
-                                </label>
-
-                                <BaseAutocomplete
-                                    v-model="credentials.province"
-                                    :items="provinces"
-                                    placeholder="استان را انتخاب کنید"
-                                    prepend-inner-icon="mdi-map-marker-outline"
-                                    class="light-input"
-                                    @input="handleProvinceChange"
-                                />
-                            </v-col>
-
-                            <v-col cols="12" md="6">
-                                <label class="form-label">
-                                    شهر
-                                </label>
-
-                                <BaseAutocomplete
-                                    v-model="credentials.city"
-                                    :items="filteredCities"
-                                    placeholder="ابتدا استان را انتخاب کنید"
-                                    prepend-inner-icon="mdi-city-variant-outline"
-                                    :disabled="!credentials.province"
-                                    class="light-input"
-                                />
-                            </v-col>
-
-                            <v-col cols="12">
-                                <label class="form-label">
-                                    نشانی محل سکونت
-                                </label>
-
-                                <BaseTextarea
-                                    v-model="credentials.address"
-                                    placeholder="نشانی کامل محل سکونت را وارد کنید"
-                                    rows="3"
-                                    rules="persian_address"
-                                    class="light-input"
-                                />
-                            </v-col>
-                        </v-row>
-                    </v-card>
-
-                    <v-card class="form-section white-detail-card pa-5 pa-md-7 mb-5" flat>
-                        <div class="section-heading">
-                            <div class="section-icon section-icon">
-                            <v-icon color="purple" size="24">
-                                mdi-shield-lock-outline
+                <v-card class="form-section white-detail-card pa-5 pa-md-7 mb-5" flat>
+                    <div class="section-heading">
+                        <div class="section-icon section-icon">
+                            <v-icon color="green" size="24">
+                                mdi-card-account-phone-outline
                             </v-icon>
-                            </div>
-
-                            <div>
-                                <h3 class="mb-1 primary--text font-size-16 font-weight-black">اطلاعات حساب کاربری</h3>
-                                <p class="mb-0 span--text font-size-13 ">اطلاعات ورود به سامانه</p>
-                            </div>
                         </div>
 
-                        <v-divider class="my-5"></v-divider>
+                        <div>
+                            <h3 class="mb-1 primary--text font-size-16 font-weight-black">اطلاعات تماس</h3>
+                            <p class="mb-0">راه‌های ارتباطی با کاربر</p>
+                        </div>
+                    </div>
 
-                        <v-row>
-                            <v-col cols="12" md="6">
-                                <label class="form-label">
-                                    رمز عبور
-                                    <span class="required-mark">*</span>
-                                </label>
+                    <v-divider class="my-5"></v-divider>
 
-                                <BaseInput
-                                    v-model="credentials.password"
-                                    placeholder="رمز عبور را وارد کنید"
-                                    type="password"
-                                    dir="ltr"
-                                    placeholder-align="right"
-                                    prepend-inner-icon="mdi-lock-outline"
-                                    rules="required,password"
-                                    class="light-input placeholder-dir"
-                                />
-                            </v-col>
+                    <v-row>
+                        <v-col cols="12" md="6">
+                            <label class="form-label">
+                                شماره موبایل
+                                <span class="required-mark">*</span>
+                            </label>
 
-                            <v-col cols="12" md="6">
-                                <label class="form-label">
-                                    تکرار رمز عبور
-                                    <span class="required-mark">*</span>
-                                </label>
+                            <BaseInput
+                                v-model="credentials.phone"
+                                placeholder="مثلاً 09123456789"
+                                prepend-inner-icon="mdi-cellphone"
+                                type="tel"
+                                maxlength="11"
+                                dir="ltr"
+                                placeholder-align="right"
+                                rules="required,phone"
+                                class="light-input"
+                            />
+                        </v-col>
 
-                                <BaseInput
-                                    v-model="credentials.confirm_password"
-                                    placeholder="تکرار رمز عبور را وارد کنید"
-                                    type="password"
-                                    dir="ltr"
-                                    placeholder-align="right"
-                                    prepend-inner-icon="mdi-lock-check-outline"
-                                    rules="required,confirm_password"
-                                    :rule-context="credentials"
-                                    class="light-input"
-                                />
-                            </v-col>
-                        </v-row>
+                        <v-col cols="12" md="6">
+                            <label class="form-label">ایمیل</label>
 
-                        <div class="security-note mt-4">
-                            <v-icon color="purple" size="20">
-                                mdi-information-outline
+                            <BaseInput
+                                v-model="credentials.email"
+                                placeholder="example@domain.com"
+                                prepend-inner-icon="mdi-email-outline"
+                                type="email"
+                                dir="ltr"
+                                rules="email"
+                                class="light-input"
+                            />
+                        </v-col>
+                    </v-row>
+                </v-card>
+
+                <v-card class="form-section white-detail-card pa-5 pa-md-7 mb-5" flat>
+                    <div class="section-heading">
+                        <div class="section-icon section-icon">
+                            <v-icon color="warning" size="24">
+                                mdi-map-marker-radius-outline
                             </v-icon>
-                            <span>
-                                برای حفظ امنیت حساب، رمز عبور را با دقت انتخاب کنید.
-                            </span>
-                        </div>
-                    </v-card>
-
-                    <v-card class="form-actions white-detail-card pa-4 pa-md-5" flat>
-                        <div class="actions-description">
-                            <v-icon color="span" size="20">
-                                mdi-clipboard-check-outline
-                            </v-icon>
-                            <span>پیش از ثبت، صحت اطلاعات را بررسی کنید.</span>
                         </div>
 
-                        <div class="actions-buttons">
-                            <BaseButton
-                                :disabled="loading"
-                                color="secondary"
-                                @click="$router.push('/users')"
-                            >
-                                <v-icon right small class="ml-2">mdi-arrow-right</v-icon>
-                                بازگشت به  جدول کاربران
-                            </BaseButton>
-
-                            <BaseButton
-                                type="submit"
-                                color="primary"
-                                class="create-submit-btn"
-                            >
-                                <v-icon center small class="ml-2">mdi-account-plus-outline</v-icon>
-                                {{ edit_user ? 'ذخیره تغیرات' : 'ثبت کاربر جدید'}}
-                            </BaseButton>
+                        <div>
+                            <h3 class="mb-1 primary--text font-size-16 font-weight-black">اطلاعات محل سکونت</h3>
+                            <p class="mb-0">استان، شهر و نشانی محل سکونت کاربر</p>
                         </div>
-                    </v-card>
-                </v-form>
+                    </div>
 
-                <div class="page-footer py-5">
-                    <v-icon small color="avatar">
-                        mdi-shield-check-outline
-                    </v-icon>
-                    <span>سامانه مدیریت کاربران</span>
-                    <span>•</span>
-                    <span>فرم ثبت اطلاعات</span>
-                </div>
+                    <v-divider class="my-5"></v-divider>
+
+                    <v-row>
+                        <v-col cols="12" md="6">
+                            <label class="form-label">
+                                استان
+                            </label>
+
+                            <BaseAutocomplete
+                                v-model="credentials.province"
+                                :items="provinces"
+                                placeholder="استان را انتخاب کنید"
+                                prepend-inner-icon="mdi-map-marker-outline"
+                                class="light-input"
+                                @input="handleProvinceChange"
+                            />
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                            <label class="form-label">
+                                شهر
+                            </label>
+
+                            <BaseAutocomplete
+                                v-model="credentials.city"
+                                :items="filteredCities"
+                                placeholder="ابتدا استان را انتخاب کنید"
+                                prepend-inner-icon="mdi-city-variant-outline"
+                                :disabled="!credentials.province"
+                                class="light-input"
+                            />
+                        </v-col>
+
+                        <v-col cols="12">
+                            <label class="form-label">
+                                نشانی محل سکونت
+                            </label>
+
+                            <BaseTextarea
+                                v-model="credentials.address"
+                                placeholder="نشانی کامل محل سکونت را وارد کنید"
+                                rows="3"
+                                rules="persian_address"
+                                class="light-input"
+                            />
+                        </v-col>
+                    </v-row>
+                </v-card>
+
+                <v-card class="form-section white-detail-card pa-5 pa-md-7 mb-5" flat>
+                    <div class="section-heading">
+                        <div class="section-icon section-icon">
+                        <v-icon color="purple" size="24">
+                            mdi-shield-lock-outline
+                        </v-icon>
+                        </div>
+
+                        <div>
+                            <h3 class="mb-1 primary--text font-size-16 font-weight-black">اطلاعات حساب کاربری</h3>
+                            <p class="mb-0 span--text font-size-13 ">اطلاعات ورود به سامانه</p>
+                        </div>
+                    </div>
+
+                    <v-divider class="my-5"></v-divider>
+
+                    <v-row>
+                        <v-col cols="12" md="6">
+                            <label class="form-label">
+                                رمز عبور
+                                <span class="required-mark">*</span>
+                            </label>
+
+                            <BaseInput
+                                v-model="credentials.password"
+                                placeholder="رمز عبور را وارد کنید"
+                                type="password"
+                                dir="ltr"
+                                placeholder-align="right"
+                                prepend-inner-icon="mdi-lock-outline"
+                                rules="required,password"
+                                class="light-input placeholder-dir"
+                            />
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                            <label class="form-label">
+                                تکرار رمز عبور
+                                <span class="required-mark">*</span>
+                            </label>
+
+                            <BaseInput
+                                v-model="credentials.confirm_password"
+                                placeholder="تکرار رمز عبور را وارد کنید"
+                                type="password"
+                                dir="ltr"
+                                placeholder-align="right"
+                                prepend-inner-icon="mdi-lock-check-outline"
+                                rules="required,confirm_password"
+                                :rule-context="credentials"
+                                class="light-input"
+                            />
+                        </v-col>
+                    </v-row>
+
+                    <div class="security-note mt-4">
+                        <v-icon color="purple" size="20">
+                            mdi-information-outline
+                        </v-icon>
+                        <span>
+                            برای حفظ امنیت حساب، رمز عبور را با دقت انتخاب کنید.
+                        </span>
+                    </div>
+                </v-card>
+
+                <v-card class="form-actions white-detail-card pa-4 pa-md-5" flat>
+                    <div class="actions-description">
+                        <v-icon color="span" size="20">
+                            mdi-clipboard-check-outline
+                        </v-icon>
+                        <span>پیش از ثبت، صحت اطلاعات را بررسی کنید.</span>
+                    </div>
+
+                    <div class="actions-buttons">
+                        <BaseButton
+                            :disabled="loading"
+                            color="secondary"
+                            @click="$router.push('/users')"
+                        >
+                            <v-icon right small class="ml-2">mdi-arrow-right</v-icon>
+                            بازگشت به  جدول کاربران
+                        </BaseButton>
+
+                        <BaseButton
+                            type="submit"
+                            color="primary"
+                            class="create-submit-btn"
+                        >
+                            <v-icon center small class="ml-2">mdi-account-plus-outline</v-icon>
+                            {{ edit_user ? 'ذخیره تغیرات' : 'ثبت کاربر جدید'}}
+                        </BaseButton>
+                    </div>
+                </v-card>
+            </v-form>
+
+            <div class="page-footer py-5">
+                <v-icon small color="avatar">
+                    mdi-shield-check-outline
+                </v-icon>
+                <span>سامانه مدیریت کاربران</span>
+                <span>•</span>
+                <span>فرم ثبت اطلاعات</span>
             </div>
         </div>
-    </AppBackground>
+    </div>
 </template>
 
 <script>
 import locations from '~/static/data/data.json'
 import BaseHero from '~/components/Hero/BaseHero.vue'
-import AppBackground from '~/components/Layout/AppBackground.vue'
 
 export default {
     name: 'CreateUserPage',
 
     components: {
-        AppBackground,
         BaseHero
     },
 
@@ -404,6 +400,7 @@ export default {
 
                 if (result.status !== 200) {
                     this.$toast.error(result.message || 'دریافت اطلاعات ناموفق بود')
+                    return
                 }
                 
                 const users = model.data || []
@@ -441,6 +438,7 @@ export default {
 
             //     if (result.status !== 200) {
             //         this.$toast.error(result.message || 'دریافت اطلاعات ناموفق بود')
+            //         return
             //     }
 
             // }).catch((err) => {

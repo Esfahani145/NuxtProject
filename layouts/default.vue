@@ -41,7 +41,7 @@ export default {
         },
 
         requiresAuth() {
-            return ['/productsTable', '/users'].includes(this.$route.path)
+            return ['/products', '/users'].includes(this.$route.path)
         }
     },
 

@@ -106,6 +106,7 @@ export default {
 
             if (result.status !== 200) {
                 this.$toast.error(result.message || 'دریافت محصول ناموفق بود')
+                return
             }
 
             const list = result.data.model.data || []

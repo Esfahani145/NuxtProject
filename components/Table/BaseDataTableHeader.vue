@@ -130,7 +130,7 @@
 
         <BaseInput
             v-else-if="column.filterable !== false && column.filterType === 'price'"
-            :value="price_input_value"
+            :value="value"
             rules="price"
             hide-details
             dense
@@ -190,7 +190,6 @@ export default {
             date_filter_type: 'equal',
             show_type_menu: false,
             type_menu_activator: null,
-            price_input_value: this.value || ''
         }
     },
 

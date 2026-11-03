@@ -29,7 +29,7 @@
                         </v-list-item-title>
                     </v-list-item>
 
-                    <v-list-item to="/products" exact active-class="blue lighten-5 blue--text text--darken-2">
+                    <v-list-item to="/productsPage" exact active-class="blue lighten-5 blue--text text--darken-2">
                         <v-list-item-icon>
                             <v-icon>mdi-store-outline</v-icon>
                         </v-list-item-icon>
@@ -38,14 +38,14 @@
                         </v-list-item-title>
                     </v-list-item>
 
-                    <v-list-group prepend-icon="mdi-table" :value="$route.path.startsWith('/productsTable')">
+                    <v-list-group prepend-icon="mdi-table" :value="$route.path.startsWith('/products')">
                         <template v-slot:activator>
                             <v-list-item-title class="font-weight-bold">
                                 جدول اطلاعات
                             </v-list-item-title>
                         </template>
 
-                        <v-list-item  to="/productsTable" exact active-class="blue lighten-5 blue--text text--darken-2">
+                        <v-list-item  to="/products" exact active-class="blue lighten-5 blue--text text--darken-2">
                             <v-list-item-icon>
                                 <v-icon>mdi-package-variant</v-icon>
                             </v-list-item-icon>
@@ -132,9 +132,9 @@
 
                     <BaseButton
                         text
-                        :class="{ 'active-link': $route.path.startsWith('/products') }"
+                        :class="{ 'active-link': $route.path === '/productsPage' }"
                         c-class="mx-1 rounded-lg"
-                        @click="$goTo('/products')"
+                        @click="$goTo('/productsPage')"
                     >
                         <v-icon right size="18" class="ml-1">
                             mdi-store-outline
@@ -147,7 +147,7 @@
                             <BaseButton
                                 text
                                 v-bind="attrs"
-                                :class="{ 'active-link': $route.path.startsWith('/productsTable') }"
+                                :class="{ 'active-link': $route.path === '/products' || $route.path === '/users' }"
                                 c-class="mx-1 rounded-lg"
                                 v-on="on"
                             >
@@ -162,7 +162,7 @@
                         </template>
 
                         <v-list dense>
-                            <v-list-item to="/productsTable" exact>
+                            <v-list-item to="/products" exact>
                                 <v-list-item-icon>
                                    <v-icon>mdi-package-variant</v-icon>
                                 </v-list-item-icon>

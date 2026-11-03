@@ -4,11 +4,12 @@
         :class="[variant === 'light' ? 'light-input' : 'glass-input', cClass]">
         <label v-if="label" class="form-label">
             {{ label }}
+            <span v-if="required" class="required-mark">*</span>
         </label>
 
         <v-text-field
             ref="input"
-            :value="value"
+            :value="displayValue"
             :dir="dir"
             :single-line="singleLine"
             :type="computedType"
@@ -41,7 +42,7 @@
             :dark="dark"
             :color="color"
             :class="[{'base-input--ltr': dir === 'ltr'}, {'base-input--rtl': dir === 'rtl'}, `placeholder-align--${placeholderAlign}`]"
-            @input="$emit('input', $event)"
+            @input="handleInput"
             @click:append="handleAppendClick"
             @click:prepend-inner="handlePrependInnerClick"
         />
@@ -69,9 +70,17 @@ export default {
             type: Boolean,
             default: false
         },
+        thousandSeparator: {
+            type: Boolean,
+            default: false
+        },
         label: {
             type: String,
             default: undefined
+        },
+        required: {
+            type: Boolean,
+            default: false
         },
         placeholder: {
             type: String,
@@ -238,6 +247,12 @@ export default {
 
         computedRules() {
             return this.$parseRules(this.rules, this.ruleContext)
+        },
+
+        displayValue() {
+            return this.thousandSeparator && this.value !== ''
+                ? this.$helper.formatPrice(this.value)
+                : this.value
         }
     },
 
@@ -256,6 +271,15 @@ export default {
 
         getInputElement() {
             return this.$refs.input.$el.querySelector('input')
+        },
+
+        handleInput(value) {
+            if (this.thousandSeparator) {
+                const numericValue = this.$helper.parseNumericPrice(value)
+                this.$emit('input', value === '' ? '' : numericValue)
+            } else {
+                this.$emit('input', value)
+            }
         },
     }
 }

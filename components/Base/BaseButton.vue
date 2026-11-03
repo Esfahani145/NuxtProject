@@ -36,6 +36,10 @@
         :class="[{ 'white--text': whiteText }, 'text-none', cClass]"
         @click="$emit('click', $event)"
     >
+        <v-icon v-if="iconName" small>
+            {{ iconName }}
+        </v-icon>
+        {{ buttonText }}
         <slot></slot>
     </v-btn>
 </template>
@@ -45,6 +49,14 @@ export default {
     name: 'BaseButton',
 
     props: {
+        iconName: {
+            type: String,
+            default: ''
+        },
+        buttonText: {
+            type: String,
+            default: ''
+        },
         absolute: {
             type: Boolean,
             default: false

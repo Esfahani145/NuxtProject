@@ -5,7 +5,14 @@
                 <AppNavbar />
                 <v-main class="flex-grow-1 main-content p">
                     <v-container fluid class="px-4 px-md-8 py-6">
-                        <Nuxt />
+                        <Nuxt v-if="!requiresAuth || isAuthenticated" />
+
+                        <div v-else class="text-center pa-6">
+                            برای مشاهده این صفحه ابتدا وارد حساب کاربری خود شوید.
+                            <BaseButton color="secondary" @click="$router.push('/login')">
+                                ورود به حساب کاربری
+                            </BaseButton>
+                        </div>
                     </v-container>
                 </v-main>
                 <AppFooter />
@@ -31,6 +38,10 @@ export default {
     computed: {
         isAuthenticated() {
             return this.$store.getters['auth/isAuthenticated']
+        },
+
+        requiresAuth() {
+            return ['/productsTable', '/users'].includes(this.$route.path)
         }
     },
 

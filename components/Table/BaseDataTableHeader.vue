@@ -128,6 +128,25 @@
             </div>
         </div>
 
+        <BaseInput
+            v-else-if="column.filterable !== false && column.filterType === 'price'"
+            :value="price_input_value"
+            rules="price"
+            hide-details
+            dense
+            flat
+            :placeholder="column.filterPlaceholder || column.text"
+            :disabled="column.filterDisabled"
+            :clearable="column.filterClearable !== false"
+            prepend-inner-icon="mdi-magnify"
+            type="text"
+            class="compact-field uniform-filter"
+            @click.stop
+            @input="$emit('input', $event)"
+            @keyup.enter.native="$emit('apply-filter')"
+            @click:prepend-inner="$emit('apply-filter')"
+        />
+
         <BaseSelect
             v-else-if="column.filterable !== false && column.filterType === 'select'"
             :value="value"
@@ -170,7 +189,8 @@ export default {
         return {
             date_filter_type: 'equal',
             show_type_menu: false,
-            type_menu_activator: null
+            type_menu_activator: null,
+            price_input_value: this.value || ''
         }
     },
 

@@ -122,7 +122,7 @@ export default {
                     type: 'price',
                     filterKey: 'base_price',
                     filterable: true,
-                    filterType: 'number',
+                    filterType: 'price',
                     filterPlaceholder: 'قیمت به تومان',
                     sortable: false,
                     align: 'right',

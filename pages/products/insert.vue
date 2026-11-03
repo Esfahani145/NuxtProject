@@ -76,7 +76,7 @@
                                     maxlength="10"
                                     dir="ltr"
                                     placeholder-align="right"
-                                    rules="required"
+                                    rules="required, price"
                                     class="light-input"
                                 />
                             </v-col>
@@ -93,7 +93,7 @@
                                     prepend-inner-icon="mdi-package-variant"
                                     :dense="false"
                                     dir="rtl"
-                                    rules="required"
+                                    rules="required, price"
                                     class="light-input"
                                 />
                             </v-col>
@@ -123,10 +123,10 @@
                                 <BaseInput
                                     v-model="credentials.code"
                                     placeholder="کد اختصاصی محصول را وارد کنید"
-                                    prepend-inner-icon="mdi-package-variant"
+                                    prepend-inner-icon="mdi-qrcode"
                                     :dense="false"
                                     dir="rtl"
-                                    rules="required"
+                                    rules="required, price"
                                     class="light-input"
                                 />
                             </v-col>
@@ -139,8 +139,9 @@
                                 <BaseInput
                                     v-model="credentials.sort"
                                     placeholder="ترتیب نمایش محصول را وارد کنید"
-                                    prepend-inner-icon="mdi-package-variant"
+                                    prepend-inner-icon="mdi-sort"
                                     :dense="false"
+                                    rules="price"
                                     dir="rtl"
                                     class="light-input"
                                 />
@@ -216,8 +217,6 @@ export default {
                 sort: '',
                 code: '',
                 // main_picture_path: '',
-                // status: 'active',
-                // sort: ''
             },
             image: null
         }

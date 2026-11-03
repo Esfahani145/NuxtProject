@@ -1,9 +1,0 @@
-$kind: http-request
-url: "{{host}}/payment/delete"
-method: POST
-headers:
-  Authorization: Bearer {{token}}
-body:
-  type: json
-  content: "{\r\n    \"id\": 5\r\n}"
-order: 9000

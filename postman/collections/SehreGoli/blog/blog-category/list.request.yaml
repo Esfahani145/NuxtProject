@@ -1,9 +1,0 @@
-$kind: http-request
-url: "{{host}}/blog-category"
-method: POST
-headers:
-  Authorization: Bearer {{token}}
-body:
-  type: json
-  content: ""
-order: 2000

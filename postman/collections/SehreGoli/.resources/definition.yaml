@@ -1,7 +1,0 @@
-$kind: collection
-description: ""
-variables:
-  token: ""
-  host1: https://api.nikaram.com/api/v1
-  host2: https://nikaram.siavosh.art/api/v1
-  host: http://l1.loc/api/v1

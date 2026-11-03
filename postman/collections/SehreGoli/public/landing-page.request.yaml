@@ -1,4 +1,0 @@
-$kind: http-request
-url: "{{host}}/landing-page"
-method: POST
-order: 1000

@@ -1,9 +1,0 @@
-$kind: http-request
-url: "{{host}}/report/unbound-baskets-report"
-method: POST
-headers:
-  Authorization: Bearer {{token}}
-body:
-  type: formdata
-  content: []
-order: 4000

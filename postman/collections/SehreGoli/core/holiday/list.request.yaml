@@ -1,6 +1,0 @@
-$kind: http-request
-url: "{{host}}/holiday"
-method: POST
-headers:
-  Authorization: Bearer {{token}}
-order: 1000

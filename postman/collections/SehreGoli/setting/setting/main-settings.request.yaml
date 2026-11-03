@@ -1,9 +1,0 @@
-$kind: http-request
-url: "{{host}}/setting/main"
-method: POST
-headers:
-  Authorization: Bearer {{token}}
-body:
-  type: json
-  content: ""
-order: 6000

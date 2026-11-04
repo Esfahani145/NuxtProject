@@ -15,11 +15,11 @@
 
             <div class="form-status">
                 <span class="status-dot"></span>
-                {{ isEdit ? 'آماده ویرایش اطلاعات' : 'آماده ثبت اطلاعات' }}
+                {{ edit_item ? 'آماده ویرایش اطلاعات' : 'آماده ثبت اطلاعات' }}
             </div>
         </div>
 
-        <v-form v-model="valid" @submit.prevent="submitForm">
+        <v-form v-model="valid" @submit.prevent="handleSubmit">
             <v-card class="form-section white-detail-card pa-5 pa-md-7 mb-5" flat>
                 <div class="section-heading">
                     <div class="section-icon">
@@ -40,7 +40,7 @@
                         <BaseInput
                             label="نام محصول"
                             required
-                            v-model="form_data.name"
+                            v-model="credentials.name"
                             placeholder="نام محصول را وارد کنید"
                             prepend-inner-icon="mdi-rename"
                             rules="required,persian"
@@ -52,7 +52,7 @@
                         <BaseInput
                             label="قیمت (تومان)"
                             required
-                            v-model="form_data.base_price"
+                            v-model="credentials.base_price"
                             placeholder="قیمت به تومان"
                             prepend-inner-icon="mdi-currency-usd"
                             type="tel"
@@ -68,7 +68,7 @@
                         <BaseInput
                             label="تعداد"
                             required
-                            v-model="form_data.has_stock_count"
+                            v-model="credentials.has_stock_count"
                             placeholder="تعداد محصولات موجود را وارد کنید"
                             prepend-inner-icon="mdi-package-variant"
                             :dense="false"
@@ -83,7 +83,7 @@
                         <label class="form-label">تصویر</label>
 
                         <v-file-input
-                            v-model="form_data.image"
+                            v-model="credentials.image"
                             placeholder="تصویر محصول را وارد کنید"
                             append-icon="mdi-image"
                             prepend-icon=""
@@ -95,7 +95,7 @@
 
                     <v-col cols="12" md="6">
                         <BaseInput
-                            v-model="form_data.code"
+                            v-model="credentials.code"
                             label="کد اختصاصی محصول"
                             required
                             placeholder="کد اختصاصی محصول را وارد کنید"
@@ -111,7 +111,7 @@
                     <v-col cols="12" md="6">
                         <BaseInput
                             label="ترتیب نمایش محصول"
-                            v-model="form_data.sort"
+                            v-model="credentials.sort"
                             placeholder="ترتیب نمایش محصول را وارد کنید"
                             prepend-inner-icon="mdi-sort"
                             :dense="false"
@@ -148,7 +148,7 @@
                         color="primary"
                         class="create-submit-btn"
                         icon-name="mdi-clipboard-text-multiple-outline"
-                        :button-text="isEdit ? 'ذخیره تغییرات' : 'ثبت محصول جدید'"
+                        :button-text="edit_item ? 'ذخیره تغییرات' : 'ثبت محصول جدید'"
                     />
                 </div>
             </v-card>
@@ -161,40 +161,101 @@ export default {
     name: 'ProductForm',
 
     props: {
-        value: {
-            type: Object,
-            default: () => ({})
-        },
-        isEdit: {
-            type: Boolean,
-            default: false
-        },
-        loading: {
-            type: Boolean,
-            default: false
+        productId: {
+            type: [String, Number],
+            default: null
         }
     },
 
     data() {
         return {
             valid: false,
-            form_data: { ...this.value }
+            edit_item: '',
+            loading: false,
+            credentials: {
+                name: '',
+                base_price: '',
+                has_stock_count: '',
+                sort: '',
+                code: '',
+                // main_picture_path: '',
+            },
+            image: null
         }
     },
 
-    watch: {
-        value: {
-            handler(value) {
-                this.form_data = { ...value }
-            },
-            deep: true
+    mounted() {
+        
+        if (this.productId) {
+            this.edit_item = String(this.productId)
+            this.fetchItem()
         }
     },
 
     methods: {
-        submitForm() {
-            if (!this.valid) return
-            this.$emit('submit', { ...this.form_data })
+        fetchItem() {
+            this.loading = true
+
+            return this.$reqAPI('/product', {
+                filters: {
+                    id: this.edit_item
+                }
+            }).then((response) => {
+                const result = response.data
+
+                if (result.status !== 200) {
+                    this.$toast.error(result.message || 'دریافت اطلاعات ناموفق بود')
+                    return
+                }
+                const products = result.data.model.data || []
+                const product = products.find(item => String(item.id) === this.edit_item)
+
+                if (!product) {
+                    this.$toast.error('محصول یافت نشد')
+                    return
+                }
+
+                this.credentials = { ...this.credentials, ...product}
+            
+            }).catch((err) => {
+                this.$toast.error(err.message || 'خطا در بارگذاری اطلاعات')
+                this.$router.replace('/products')
+            }).finally(() => {
+                this.loading = false
+            })
+        },
+
+        handleSubmit() {
+            this.loading = true
+
+            const form = this.credentials
+            form.main_picture_path = 'upload/126321/o9g7D1kZfaVC3tDme7Ih26QKnKMmhwrhdjHL5uzC.jpg'
+            form.status = 'active'
+            form.has_single_sell = 1
+            form.has_whole_sell = 1
+            form.mixturable = 0
+
+            if (this.edit_item) {
+                form.id = this.edit_item
+            }
+
+            
+            return this.$reqAPI('/product/insert', { data: form }).then((response) => {
+                const result = response.data
+
+                if (result.status !== 200) {
+                    this.$toast.error(result.message || 'ثبت ناموفق بود')
+                    return
+                }
+
+                this.$toast.success(this.edit_item ? 'اطلاعات محصول جدید با موفقیت به روزرسانی شد' : 'محصول جدید با موفقیت ثبت شد')
+                this.$router.push('/products')
+            }).catch((err) => {
+                this.$toast.error(err.message || 'ثبت محصول با خطا مواجه شد')
+                this.$router.replace('/products')
+            }).finally(() => {
+                this.loading = false
+            })
         }
     }
 }

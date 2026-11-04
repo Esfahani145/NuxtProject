@@ -139,30 +139,30 @@
                         {{ viewTitle }}
                     </v-card-title>
 
-                        <v-card-text>
-                            <v-img
-                                v-if="viewImage"
-                                :src="viewImage"
-                                max-height="200"
-                                contain
-                                class="mb-4"
-                            />
-                            <v-list dense class="pa-0">
-                                <v-list-item
-                                    v-for="row in viewRows"
-                                    :key="row.key"
-                                    class="px-0"
-                                >
-                                    <v-list-item-icon class="ml-2 mr-0">
-                                        <v-icon color="success" small>mdi-check-circle-outline</v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-content>
-                                        <v-list-item-subtitle> {{ row.label }}</v-list-item-subtitle>
-                                        <v-list-item-title class="font-weight-bold">{{ row.display }}</v-list-item-title>
-                                    </v-list-item-content>
-                                </v-list-item>
-                            </v-list>
-                        </v-card-text>
+                    <v-card-text>
+                        <v-img
+                            v-if="viewImage"
+                            :src="viewImage"
+                            max-height="200"
+                            contain
+                            class="mb-4"
+                        />
+                        <v-list dense class="pa-0">
+                            <v-list-item
+                                v-for="row in viewRows"
+                                :key="row.key"
+                                class="px-0"
+                            >
+                                <v-list-item-icon class="ml-2 mr-0">
+                                    <v-icon color="success" small>mdi-check-circle-outline</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-content>
+                                    <v-list-item-subtitle> {{ row.label }}</v-list-item-subtitle>
+                                    <v-list-item-title class="font-weight-bold">{{ row.display }}</v-list-item-title>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list>
+                    </v-card-text>
 
                     <v-card-actions class="px-4 pb-4">
                         <v-spacer />

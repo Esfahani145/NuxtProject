@@ -17,12 +17,9 @@
             <v-divider class="auth-section-divider" />
             <v-row dense>
                 <v-col cols="12" md="6" class="auth-field">
-                    <label class="form-label">
-                        نام و نام خانوادگی
-                        <span class="required--text">*</span>
-                    </label>
-
                     <BaseInput
+                        label="نام و نام خانوادگی"
+                        required
                         v-model="credentials.full_name"
                         placeholder="علی محمدی"
                         prepend-inner-icon="mdi-account-outline"
@@ -32,12 +29,9 @@
                 </v-col>
 
                 <v-col cols="12" md="6" class="auth-field">
-                    <label class="form-label">
-                        کد ملی
-                        <span class="required--text">*</span>
-                    </label>
-
                     <BaseInput
+                        required
+                        label="کد ملی"
                         v-model="credentials.national_code"
                         placeholder="۱۲۳۴۵۶۷۸۹۰"
                         type="tel"

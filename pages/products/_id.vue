@@ -1,168 +1,136 @@
+
 <template>
-    <v-container class="center-container rtl-dir py-6">
-        <v-row justify="center" align="center" class="w-100 ma-0">
-            <v-col cols="12" md="8">
-                <BaseButton
-                    color="primary"
-                    @click="$goTo('/products')"
-                >
-                    <v-icon>mdi-arrow-right</v-icon>
-                    بازگشت به فروشگاه
-                </BaseButton>
-        
-                <v-card class="pa-6 pa-md-8 rounded-xl mt-1 elevation-2 white">
-                    <div class="d-flex align-center mb-6">
-                        <v-avatar color="avatar" size="64" class="ml-4">
-                            <v-icon color="info" size="36">
-                                {{ product.icon || 'mdi-cube-outline' }}
-                            </v-icon>
-                        </v-avatar>
+    <div class="create-item-page pa-4 pa-md-6">
+        <BaseHero
+            type="users"
+            variant="animated"
+            title="ویرایش اطلاعات محصول"
+            badge-text="مدیریت محصولات"
+            icon="mdi-package-variant"
+            base-icon="mdi-text-box-multiple"
+            subtitle="اطلاعات محصول را ویرایش کنید"
+        />
 
-                        <div >
-                            <h1 class="font-weight-bold grey--text text--darken-3 mb-1">
-                                {{ product.name }}
-                            </h1>
+        <ProductForm
+            v-if="product_loaded"
+            :value="credentials"
+            :is-edit="true"
+            :loading="loading"
+            @submit="handleSubmit"
+            @cancel="$router.push('/products')"
+        />
 
-                            <v-chip color="info" label small dark class="font-weight-bold">
-                                {{ product.category || 'عمومی' }}
-                            </v-chip>
-                        </div>
-                    </div>
-
-                    <v-divider class="mb-6" />
-
-                    <div class="mb-6">
-                        <h3 class="font-weight-bold grey--text text--darken-3 mb-2">
-                            توضیحات محصول
-                        </h3>
-
-                        <p class="grey--text text--darken-2 text-justify line-height-lg">
-                            {{ product.description }}
-                        </p>
-                    </div>
-
-                    <v-divider class="mb-6" />
-
-                    <div class="d-flex align-center justify-space-between flex-wrap">
-                        <div class="d-flex align-center">
-                            <span class="grey--text text--darken-1 body-1 font-weight-medium ml-2">قیمت:</span>
-
-                            <span class="font-weight-bold success--text ml-2">
-                                {{ formattedPrice }}
-                            </span>
-
-                            <span class="grey--text text--darken-1 caption">تومان</span>
-                        </div>
-
-                        <div class="d-flex align-center mt-3 mt-sm-0">
-                            <BaseButton
-                                color="success"
-                                elevation="2"
-                                c-class="rounded-lg font-weight-bold px-6 ml-3"
-                                @click="handleAddToCart"
-                            >
-                                <v-icon right class="ml-1">mdi-cart-plus</v-icon>
-                                افزودن به سبد خرید
-                            </BaseButton>
-
-                            <BaseButton
-                                color="transparent"
-                                elevation="0"
-                                c-class="pa-0 min-w-0"
-                                @click="handleToggleFavorite"
-                            >
-                                <v-icon :color="isFavoriteProduct ? 'red' : 'grey darken-1'">
-                                    {{ isFavoriteProduct ? 'mdi-heart' : 'mdi-heart-outline' }}
-                                </v-icon>
-                            </BaseButton>
-                        </div>
-                    </div>
-                </v-card>
-            </v-col>
-        </v-row>
-    </v-container>
+        <div v-if="loading" class="text-center pa-8">
+            <v-progress-circular
+                indeterminate
+                color="primary"
+            />
+            <p class="mt-3">در حال دریافت اطلاعات محصول ...</p>
+        </div>
+    </div>
 </template>
 
 <script>
+import BaseHero from '~/components/Hero/BaseHero.vue'
+import ProductForm from '~/components/Products/ProductForm.vue'
+
 export default {
-    name: 'ProductDetailPage',
-    
-    asyncData({ $reqAPI, params, error }) {
-        const id = String(params.id)
+    name: 'EditProductPage',
 
-        try {
-            const json_data = require('~/static/data/data.json')
-            const product = (json_data.products || []).find((item) => String(item.id) === id)
-
-            if (product) {
-                return { product }
-            }
-        } catch (err) {
-            console.error(err)
-        }
-
-        return $reqAPI('/product', 'post').then((response) => {
-            const result = response.data
-
-            if (result.status !== 200) {
-                this.$toast.error(result.message || 'دریافت محصول ناموفق بود')
-                return
-            }
-
-            const list = result.data.model.data || []
-            const item = list.find((p) => String(p.id) === id)
-
-            if (!item) {
-                return error({ statusCode: 404, message: 'محصول یافت نشد' })
-            }
-
-            return { product: item }
-        }).catch((err) => {
-            console.error(err)
-            return error({ statusCode: 500, message: 'خطا در دریافت اطلاعات' })
-        })
+    components: {
+        BaseHero,
+        ProductForm
     },
 
-    computed: {
-        isFavoriteProduct() {
-            return this.$store.getters.isFavorite(this.product.id)
-        },
+    data() {
+        return {
+            loading: false,
+            product_loaded: false,
 
-        formattedPrice() {
-            const product_price = this.product.price || this.product.base_price
-            return this.$helper.formatPrice(product_price)
+            credentials: {
+                name: '',
+                base_price: '',
+                has_stock_count: '',
+                sort: '',
+                code: '',
+                image: null
+            }
         }
     },
 
     mounted() {
-        this.$store.dispatch('loadUserFavorites')
+        this.fetchItem()
     },
 
     methods: {
-        async handleAddToCart() {
-            try {
-                await this.$store.dispatch('addToCart', this.product)
+        fetchItem() {
+            const id = String(this.$route.params.id)
+            this.loading = true
 
-                this.$toast.success('محصول با موفقیت به سبد خرید اضافه شد')
-            } catch (error) {
-                this.$toast.error(error.message)
-            }
-        },
+            return this.$reqAPI('/product', {
+                filters: { id }
+            }).then((response) => {
+                const result = response.data
 
-        async handleToggleFavorite() {
-            try {
-                const was_favorite = this.isFavoriteProduct
-                await this.$store.dispatch('toggleFavorite', this.product)
-
-                if (!was_favorite) {
-                    this.$toast.info('محصول به علاقه مندی ها اضافه شد')
-                } else {
-                    this.$toast.info('محصول از علاقه مندی ها حذف شد')
+                if (result.status !== 200) {
+                    this.$toast.error( result.message || 'دریافت اطلاعات ناموفق بود' )
+                    return
                 }
-            } catch (error) {
-                this.$toast.error(error.message)
-            }
+
+                const products = result.data.model.data || []
+                const product = products.find(item => String(item.id) === id)
+
+                if (!product) {
+                    this.$toast.error('محصول یافت نشد')
+                    this.$router.replace('/products')
+                    return
+                }
+
+                this.credentials = {
+                    ...this.credentials,
+                    ...product
+                }
+
+                this.product_loaded = true
+
+            }).catch((err) => {
+                this.$toast.error(err.message || 'خطا در دریافت اطلاعات محصول')
+                this.$router.replace('/products')
+            }).finally(() => {
+                this.loading = false
+            })
         },
+
+        handleSubmit(form_data) {
+            this.loading = true
+
+            const form = {...form_data}
+
+            form.main_picture_path = 'upload/126321/o9g7D1kZfaVC3tDme7Ih26QKnKMmhwrhdjHL5uzC.jpg'
+            form.status = 'active'
+            form.has_single_sell = 1
+            form.has_whole_sell = 1
+            form.mixturable = 0
+
+            return this.$reqAPI('/product/insert', {
+                data: form
+            }).then((response) => {
+                const result = response.data
+
+                if (result.status !== 200) {
+                    this.$toast.error(result.message || 'ویرایش محصول ناموفق بود')
+                    return
+                }
+
+                this.$toast.success('اطلاعات محصول با موفقیت به‌روزرسانی شد')
+                this.$router.push('/products')
+
+            }).catch((err) => {
+                this.$toast.error(err.message || 'ویرایش محصول با خطا مواجه شد')
+            }).finally(() => {
+                this.loading = false
+            })
+        }
     }
 }
 </script>

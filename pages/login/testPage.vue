@@ -113,8 +113,8 @@
 </template>
 
 <script>
-import SignupForm from '~/components/Form/SignupForm.vue'
-import LoginForm from '~/components/Form/LoginForm.vue'
+import SignupForm from '~/components/LoginPage/SignupForm.vue'
+import LoginForm from '~/components/LoginPage/LoginForm.vue'
 
 export default {
     name: 'LoginPage',

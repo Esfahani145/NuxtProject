@@ -2,12 +2,8 @@
     <v-form ref="loginForm" v-model="valid" lazy-validation @submit.prevent="handleLogin">
         <v-row dense>
             <v-col cols="12" class="auth-field">
-                <label class="form-label">
-                    شماره همراه
-                    <span class="required-mark">*</span>
-                </label>
-
                 <BaseInput
+                    label="شماره همراه"
                     v-model="credentials.phone"
                     placeholder="۰۹۱۲۳۴۵۶۷۸۹"
                     type="tel"
@@ -24,7 +20,6 @@
                 <div class="d-flex align-center justify-space-between mb-2">
                     <label class="form-label mb-0">
                         رمز عبور
-                        <span class="required-mark">*</span>
                     </label>
 
                     <a href="#" class="auth-help-link font-size-12" @click.prevent="$toast.info('لطفاً با پشتیبانی سیستم تماس بگیرید')">

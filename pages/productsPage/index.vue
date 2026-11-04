@@ -68,7 +68,7 @@ export default {
             console.error('Error loading data.json:', err)
         }
 
-        return $reqAPI('/product', 'post').then((response) => {
+        return $reqAPI('/product').then((response) => {
             const result = response.data
 
             if (result.status !== 200) {

@@ -155,7 +155,7 @@ export default {
                     align: 'center',
                     width: '90px',
                     showEdit: true,
-                    editRoute: item => ({path: '/products/insert', query: { id: String(item.id) }})
+                    editRoute: item => ({path: `/products/${item.id}`})
                 }
             ]
         }

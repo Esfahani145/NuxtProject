@@ -8,7 +8,7 @@
                     </div>
 
                     <div class="d-flex align-center">
-                        <NuxtLink to="/productsPage" class="white--text text-decoration-none mx-2 hover-link">
+                        <NuxtLink to="/products2" class="white--text text-decoration-none mx-2 hover-link">
                             فروشگاه
                         </NuxtLink>
                         <span class="grey--text text--lighten-1">•</span>

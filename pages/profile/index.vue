@@ -488,7 +488,7 @@
 
 <script>
 import locations from '~/static/data/data.json'
-import SignupForm from '~/components/Form/SignupForm.vue'
+import SignupForm from '~/components/LoginPage/SignupForm.vue'
 
 export default {
     name: 'ProfilePage',

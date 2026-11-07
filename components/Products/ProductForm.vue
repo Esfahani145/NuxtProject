@@ -121,6 +121,19 @@
                             class="light-input"
                         />
                     </v-col>
+
+                    <v-col cols="12" md="6">
+                        <label class="form-label">تصویر</label>
+                        <BaseSelect
+                            label="وضعیت محصول"
+                            v-model="credentials.status"
+                            :items="status_items"
+                            :dense="false"
+                            placeholder="انتخاب وضعیت"
+                            prepend-inner-icon="mdi-list-status"
+                            class="light-input"
+                        />
+                    </v-col>
                 </v-row>
             </v-card>
 
@@ -178,8 +191,13 @@ export default {
                 has_stock_count: '',
                 sort: '',
                 code: '',
+                status: '',
                 // main_picture_path: '',
             },
+            status_items: [
+                { text: 'فعال', value: 'active' },
+                { text: 'غیر فعال', value: 'inactive' }
+            ],
             image: null
         }
     },
@@ -187,29 +205,51 @@ export default {
     mounted() {
         
         if (this.productId) {
-            this.edit_item = String(this.productId)
+            this.edit_item = this.productId
             this.fetchItem()
         }
     },
 
+
+
+    // "data": {
+    //     "filters": {
+    //         id : {
+    //             op : '=',
+    //             value : '03ea09c3-9dbb-4f6e-ab4f-88cfbd78f521'
+    //         }
+    //     },
+    //     "paginate": true,
+    //     "sortBy": "created_at",
+    //     "orderBy": "DESC",
+    //     "page": 1
+    // }
+
+
     methods: {
         fetchItem() {
             this.loading = true
-
-            return this.$reqAPI('/product', {
+        
+            return this.$reqApi('/product','POST' ,{ 
                 filters: {
-                    id: this.edit_item
+                    id : {
+                        op : '=',
+                        value : '03ea09c3-9dbb-4f6e-ab4f-88cfbd78f521'
+                    }
                 }
-            }).then((response) => {
+            }
+            ).then((response) => {
                 const result = response.data
+                console.log(2222)
 
                 if (result.status !== 200) {
                     this.$toast.error(result.message || 'دریافت اطلاعات ناموفق بود')
                     return
                 }
-                const products = result.data.model.data || []
-                const product = products.find(item => String(item.id) === this.edit_item)
-
+                // const products = result.data.model.data || []
+                // const product = products.find(item => String(item.id) === this.edit_item)
+                const product = result.data.model.data || []
+                console.log(product)
                 if (!product) {
                     this.$toast.error('محصول یافت نشد')
                     return
@@ -230,17 +270,19 @@ export default {
 
             const form = this.credentials
             form.main_picture_path = 'upload/126321/o9g7D1kZfaVC3tDme7Ih26QKnKMmhwrhdjHL5uzC.jpg'
-            form.status = 'active'
             form.has_single_sell = 1
             form.has_whole_sell = 1
             form.mixturable = 0
 
+            let url = '/product/insert'
             if (this.edit_item) {
                 form.id = this.edit_item
+                url = '/product/update'
             }
 
             
-            return this.$reqAPI('/product/insert', { data: form }).then((response) => {
+            
+            return this.$reqApi(url, { data: form }).then((response) => {
                 const result = response.data
 
                 if (result.status !== 200) {

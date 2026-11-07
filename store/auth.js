@@ -35,7 +35,7 @@ export const actions = {
     login({ commit }, credentials) {
         if (!process.client) return Promise.resolve()
 
-        return this.$reqAPI('/auth/login', {
+        return this.$reqApi('/auth/login', {
             data: {
                 username: String(credentials.phone).trim(),
                 password: credentials.password

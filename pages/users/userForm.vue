@@ -388,7 +388,7 @@ export default {
         fetchUser() {
             this.loading= true
 
-            return this.$reqAPI('/user', {
+            return this.$reqApi('/user', {
                 data: {
                     filters: {
                         id: this.edit_user
@@ -433,7 +433,7 @@ export default {
 
             // const data = this.edit_user ? {...payload, id: this.edit_user} : payload
 
-            // return this.$reqAPI('/user', { data }).then((response) => {
+            // return this.$reqApi('/user', { data }).then((response) => {
             //     const result = response.data
 
             //     if (result.status !== 200) {

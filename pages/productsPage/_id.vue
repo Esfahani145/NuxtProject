@@ -87,7 +87,7 @@
 export default {
     name: 'ProductDetailPage',
     
-    asyncData({ $reqAPI, params, error }) {
+    asyncData({ $reqApi, params, error }) {
         const id = String(params.id)
 
         try {
@@ -101,7 +101,7 @@ export default {
             console.error(err)
         }
 
-        return $reqAPI('/product').then((response) => {
+        return $reqApi('/product').then((response) => {
             const result = response.data
 
             if (result.status !== 200) {

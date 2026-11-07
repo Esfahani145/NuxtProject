@@ -732,8 +732,8 @@ export default {
             const config = this.method.toLowerCase() === 'get' ? {params: payload} : {data: payload}
             
             this.internal_loading = true
-
-            return this.$reqAPI(this.url, this.method, config).then((response) => {
+            console.log(config , 'jhgjjjjjjjjjjjjjjj')
+            return this.$reqApi(this.url, this.method, config).then((response) => {
                 const result = response.data
                 const model = result.data.model
                 if (result.status !== 200) {
@@ -806,7 +806,7 @@ export default {
 
             this.delete_loading = true
 
-            return this.$reqAPI('/product/delete', { 
+            return this.$reqApi('/product/delete', { 
                     data: { id: item_key }
             }).then((response) => {
                 const result = response.data

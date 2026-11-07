@@ -51,45 +51,45 @@ export default {
     },
 
     // mounted() {
-    //     this.$reqAPI('/product', 'post').then((res) => {
+    //     this.$reqApi('/product', 'post').then((res) => {
     //         console.log('POST:', JSON.stringify(res.data))
     //     })
     // },
 
-    asyncData({ $reqAPI }) {
-        let json_products = []
-        let stats = []
+    // asyncData({ $reqApi }) {
+    //     let json_products = []
+    //     let stats = []
 
-        try {
-            const json_data = require('~/static/data/data.json')
-            json_products = json_data.products || []
-            stats = json_data.stats || []
-        } catch (err) {
-            console.error('Error loading data.json:', err)
-        }
+    //     try {
+    //         const json_data = require('~/static/data/data.json')
+    //         json_products = json_data.products || []
+    //         stats = json_data.stats || []
+    //     } catch (err) {
+    //         console.error('Error loading data.json:', err)
+    //     }
 
-        return $reqAPI('/product').then((response) => {
-            const result = response.data
+    //     return $reqApi('/product').then((response) => {
+    //         const result = response.data
 
-            if (result.status !== 200) {
-                this.$toast.error(result.message || 'دریافت محصول ناموفق بود')
-                return
-            }
+    //         if (result.status !== 200) {
+    //             this.$toast.error(result.message || 'دریافت محصول ناموفق بود')
+    //             return
+    //         }
 
-            return result.data.model.data || []
-        }).catch((err) => {
-            console.error(err)
-            return []
-        }).then((api_products) => {
-            const products = [...json_products, ...api_products]
+    //         return result.data.model.data || []
+    //     }).catch((err) => {
+    //         console.error(err)
+    //         return []
+    //     }).then((api_products) => {
+    //         const products = [...json_products, ...api_products]
 
-            return {
-                all_products: products,
-                product_list: products,
-                stats
-            }
-        })
-    },
+    //         return {
+    //             all_products: products,
+    //             product_list: products,
+    //             stats
+    //         }
+    //     })
+    // },
 
     data() {
         return {

@@ -22,6 +22,12 @@ module.exports = {
     'vue/no-use-v-if-with-v-for': 'warn',
     'vue/no-v-for-template-key': 'off',
     'vue/v-slot-style': 'off',
-    'vue/require-v-for-key': 'warn'
-  }
+    'vue/require-v-for-key': 'warn',
+    'prefer-const': 'off',
+    'no-irregular-whitespace': 'off',
+    'dot-notation': 'off',
+    'prefer-promise-reject-errors': 'off',
+    'no-case-declarations': 'off',
+    'eqeqeq': 'off',
+}
 }

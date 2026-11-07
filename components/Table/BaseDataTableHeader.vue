@@ -135,6 +135,7 @@
             hide-details
             dense
             flat
+            thousand-separator
             :placeholder="column.filterPlaceholder || column.text"
             :disabled="column.filterDisabled"
             :clearable="column.filterClearable !== false"

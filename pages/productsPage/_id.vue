@@ -4,7 +4,7 @@
             <v-col cols="12" md="8">
                 <BaseButton
                     color="primary"
-                    @click="$goTo('/products')"
+                    @click="$goTo('/productsPage')"
                 >
                     <v-icon>mdi-arrow-right</v-icon>
                     بازگشت به فروشگاه
@@ -102,15 +102,7 @@ export default {
         }
 
         return $reqApi('/product').then((response) => {
-            const result = response.data
-
-            if (result.status !== 200) {
-                this.$toast.error(result.message || 'دریافت محصول ناموفق بود')
-                return
-
-            }
-
-            const list = result.data.model.data || []
+            const list = response.model.data || []
             const item = list.find((p) => String(p.id) === id)
 
             if (!item) {
@@ -121,6 +113,8 @@ export default {
         }).catch((err) => {
             console.error(err)
             return error({ statusCode: 500, message: 'خطا در دریافت اطلاعات' })
+        }).finally(() => {
+            console.log()
         })
     },
 

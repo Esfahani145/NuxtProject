@@ -123,9 +123,9 @@
                     </v-col>
 
                     <v-col cols="12" md="6">
-                        <label class="form-label">تصویر</label>
                         <BaseSelect
                             label="وضعیت محصول"
+                            required
                             v-model="credentials.status"
                             :items="status_items"
                             :dense="false"
@@ -210,55 +210,30 @@ export default {
         }
     },
 
-
-
-    // "data": {
-    //     "filters": {
-    //         id : {
-    //             op : '=',
-    //             value : '03ea09c3-9dbb-4f6e-ab4f-88cfbd78f521'
-    //         }
-    //     },
-    //     "paginate": true,
-    //     "sortBy": "created_at",
-    //     "orderBy": "DESC",
-    //     "page": 1
-    // }
-
-
     methods: {
         fetchItem() {
             this.loading = true
         
-            return this.$reqApi('/product','POST' ,{ 
-                filters: {
+            this.$reqApi('/product' ,{ 
+                filters:{
                     id : {
                         op : '=',
-                        value : '03ea09c3-9dbb-4f6e-ab4f-88cfbd78f521'
+                        value : this.edit_item
                     }
                 }
             }
             ).then((response) => {
-                const result = response.data
-                console.log(2222)
+                const list = response.model.data || []
+                const product = list[0]
 
-                if (result.status !== 200) {
-                    this.$toast.error(result.message || 'دریافت اطلاعات ناموفق بود')
-                    return
-                }
-                // const products = result.data.model.data || []
-                // const product = products.find(item => String(item.id) === this.edit_item)
-                const product = result.data.model.data || []
-                console.log(product)
                 if (!product) {
-                    this.$toast.error('محصول یافت نشد')
+                    this.$toast.error('محصولی یافت نشد')
+                    this.$router.replace('/products')
                     return
                 }
-
-                this.credentials = { ...this.credentials, ...product}
-            
+                this.credentials = { ...this.credentials, ...product }
             }).catch((err) => {
-                this.$toast.error(err.message || 'خطا در بارگذاری اطلاعات')
+                console.error(err)
                 this.$router.replace('/products')
             }).finally(() => {
                 this.loading = false
@@ -282,19 +257,11 @@ export default {
 
             
             
-            return this.$reqApi(url, { data: form }).then((response) => {
-                const result = response.data
-
-                if (result.status !== 200) {
-                    this.$toast.error(result.message || 'ثبت ناموفق بود')
-                    return
-                }
-
+            this.$reqApi(url, form ).then((response) => {
                 this.$toast.success(this.edit_item ? 'اطلاعات محصول جدید با موفقیت به روزرسانی شد' : 'محصول جدید با موفقیت ثبت شد')
                 this.$router.push('/products')
             }).catch((err) => {
-                this.$toast.error(err.message || 'ثبت محصول با خطا مواجه شد')
-                this.$router.replace('/products')
+                console.error(err)
             }).finally(() => {
                 this.loading = false
             })

@@ -29,7 +29,7 @@
                     md="4"
                     class="pa-2 pa-md-3 d-flex"
                 >
-                    <ProductCard :product="product" @product_click="$goTo(`/products/${$event}`)"/>
+                    <ProductCard :product="product" @product_click="$goTo(`/productsPage/${$event}`)"/>
                 </v-col>
             </v-row>
         </v-container>
@@ -50,46 +50,36 @@ export default {
         BaseHero
     },
 
-    // mounted() {
-    //     this.$reqApi('/product', 'post').then((res) => {
-    //         console.log('POST:', JSON.stringify(res.data))
-    //     })
-    // },
+    asyncData({ $reqApi }) {
+        let json_products = []
+        let stats = []
 
-    // asyncData({ $reqApi }) {
-    //     let json_products = []
-    //     let stats = []
+        try {
+            const json_data = require('~/static/data/data.json')
+            json_products = json_data.products || []
+            stats = json_data.stats || []
+        } catch (err) {
+            console.error('Error loading data.json:', err)
+        }
 
-    //     try {
-    //         const json_data = require('~/static/data/data.json')
-    //         json_products = json_data.products || []
-    //         stats = json_data.stats || []
-    //     } catch (err) {
-    //         console.error('Error loading data.json:', err)
-    //     }
+        return $reqApi('/product')
+            .then((response) => {
+                return response.model.data || []
+            })
+            .catch((err) => {
+                console.error(err)
+                return []
+            })
+            .then((api_products) => {
+                const products = [...json_products, ...api_products]
 
-    //     return $reqApi('/product').then((response) => {
-    //         const result = response.data
-
-    //         if (result.status !== 200) {
-    //             this.$toast.error(result.message || 'دریافت محصول ناموفق بود')
-    //             return
-    //         }
-
-    //         return result.data.model.data || []
-    //     }).catch((err) => {
-    //         console.error(err)
-    //         return []
-    //     }).then((api_products) => {
-    //         const products = [...json_products, ...api_products]
-
-    //         return {
-    //             all_products: products,
-    //             product_list: products,
-    //             stats
-    //         }
-    //     })
-    // },
+                return {
+                    all_products: products,
+                    product_list: products,
+                    stats
+                }
+            })
+    },
 
     data() {
         return {

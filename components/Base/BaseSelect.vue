@@ -2,6 +2,7 @@
     <div :class="[variant === 'light' ? 'light-input' : 'glass-input', cClass]">
         <label v-if="label" class="form-label">
             {{ label }}
+            <span v-if="required" class="required-mark">*</span>
         </label>
 
         <v-select
@@ -70,6 +71,10 @@ export default {
         placeholder: {
             type: String,
             default: 'انتخاب کنید'
+        },
+        required: {
+            type: Boolean,
+            default: false
         },
         prependInnerIcon: {
             type: String,

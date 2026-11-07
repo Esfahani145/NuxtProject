@@ -35,43 +35,27 @@ export const actions = {
     login({ commit }, credentials) {
         if (!process.client) return Promise.resolve()
 
-        return this.$reqApi('/auth/login', {
-            data: {
-                username: String(credentials.phone).trim(),
-                password: credentials.password
-            }
+        this.$reqApi('/auth/login', {
+            username: String(credentials.phone).trim(),
+            password: credentials.password
         }).then((response) => {
-            const result = response.data
-
-            if (result.status !== 200) {
-                const message = result.message === 'شماره در سامانه ثبت نام ندارید'
-                    ? 'شماره تلفن شما در سامانه ثبت نشده است'
-                    : result.message || 'ورود ناموفق'
-                this.$toast.error(message)
-            }
-            const token = result.data.Authorization
-            const user = result.data.user
+            const token = response.Authorization
+            const user = response.user
 
             if (!token) {
                 this.$toast.error('توکن وجود ندارد')
+                return
             }
 
             commit('SET_TOKEN', token)
             commit('SET_USER', user)
-
             localStorage.setItem('user_token', token)
             localStorage.setItem('user_info', JSON.stringify(user))
 
-            return result
+            return response
         }).catch((error) => {
             console.error(error)
-            const message = error.response.data.message ||
-                (error.message === 'Network Error'
-                    ? 'ارتباط با سرور برقرار نشد. لطفاً اتصال اینترنت خود را بررسی کنید.'
-                    : error.message) ||
-                'ورود ناموفق بود'
-            this.$toast.error(message)
-            }).finally(() => {
+        }).finally(() => {
             console.log('درخواست ورود انجام شد')
         })
     },

@@ -388,22 +388,15 @@ export default {
         fetchUser() {
             this.loading= true
 
-            return this.$reqApi('/user', {
-                data: {
-                    filters: {
-                        id: this.edit_user
+            this.$reqApi('/user', {
+                filters: {
+                    id: {
+                        op: '=',
+                        value: 'this.user_id'
                     }
                 }
             }).then((response) => {
-                const result = response.data
-                const model = result.data.model
-
-                if (result.status !== 200) {
-                    this.$toast.error(result.message || 'دریافت اطلاعات ناموفق بود')
-                    return
-                }
-                
-                const users = model.data || []
+                const users = response.model.data || []
 
                 this.handleEditUser(users)
             }).catch((err) => {
@@ -426,28 +419,6 @@ export default {
             if (!is_valid) { return }
             this.loading = true
             
-            // const payload = {
-            //     ...this.credentials,
-            //     birth_date: this.credentials.birth_date ? this.$toGregorian(this.credentials.birth_date) : ''
-            // }
-
-            // const data = this.edit_user ? {...payload, id: this.edit_user} : payload
-
-            // return this.$reqApi('/user', { data }).then((response) => {
-            //     const result = response.data
-
-            //     if (result.status !== 200) {
-            //         this.$toast.error(result.message || 'دریافت اطلاعات ناموفق بود')
-            //         return
-            //     }
-
-            // }).catch((err) => {
-            //     this.$toast.error(err.message || 'ثبت کاربر با خطا مواجه شد')
-            //     console.log(err)
-            // }).finally(() => {
-            //     this.loading = false
-            // })
-
             try {
                 const payload = {
                     ...this.credentials,

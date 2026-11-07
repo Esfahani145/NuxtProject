@@ -149,7 +149,7 @@ export default {
                     value: 'actions',
                     filterKey: 'actions',
                     type: 'actions',
-                    actions: item => item.active === false ? ['view'] : ['view', 'delete', 'edit'],
+                    actions: item => item.active === false ? ['view'] : ['edit', 'delete'],
                     filterable: false,
                     sortable: false,
                     align: 'center',

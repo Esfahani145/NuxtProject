@@ -729,16 +729,10 @@ export default {
                 row_number: this.table_options.items_per_page
             }
 
-            const config = this.method.toLowerCase() === 'get' ? {params: payload} : {data: payload}
             
             this.internal_loading = true
-            console.log(config , 'jhgjjjjjjjjjjjjjjj')
-            return this.$reqApi(this.url, this.method, config).then((response) => {
-                const result = response.data
-                const model = result.data.model
-                if (result.status !== 200) {
-                    this.$toast.error(result.message || 'دریافت اطلاعات ناموفق بود')
-                }
+            this.$reqApi(this.url, payload).then((response) => {
+                const model = response.model
 
                 this.internal_items = model.data || []
                 this.$emit('items-loaded', this.internal_items)
@@ -806,16 +800,8 @@ export default {
 
             this.delete_loading = true
 
-            return this.$reqApi('/product/delete', { 
-                    data: { id: item_key }
-            }).then((response) => {
-                const result = response.data
-                if (result.status !== 200) {
-                    this.$toast.error(result.message || 'حذف اطلاعات ناموفق بود')
-                    return
-                }
-                this.$toast.success(result.message || 'اطلاعات با موفقیت حذف شد')
-
+            this.$reqApi('/product/delete', {  id: item_key  }).then((response) => {
+                this.$toast.success(response.message || 'اطلاعات با موفقیت حذف شد')
             }).catch((err) => {
                 this.$toast.error(err.message || 'خطا در حذف اطلاعات')
             }).finally(() => {
